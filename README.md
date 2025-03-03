@@ -42,7 +42,6 @@
 │
 ├── /uploads/               # Directory for user-uploaded content (ensure security measures)
 │
-├── .htaccess               # URL rewriting and security settings (if using Apache)
 └── README.md               # Documentation about the project
 ```
 
