@@ -1,4 +1,4 @@
-# INF1005_WebSys
+# INF1005-WebSys-P4-Group5
 
 
 ## File Structure
