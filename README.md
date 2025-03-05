@@ -5,36 +5,30 @@
 ```
 /project-root  
 │── /backend  
-│   ├── database.sql             # MySQL database schema  
+│   ├── database.sql             # MySQL database schema with user authentication  
+│   ├── config.php              # Database connection & security settings  
 │   ├── api/  
-│   │   ├── auth.php             # Authentication endpoints  
-│   │   ├── products.php         # Product-related API endpoints  
-│   │   ├── users.php            # User-related API endpoints  
-│   ├── config.php               # Database connection & settings  
+│   │   ├── auth.php            # Authentication & user session endpoints  
+│   │   ├── products.php        # Blog posts & content API endpoints  
+│   │   ├── users.php           # User management API endpoints  
 │── /frontend  
-│   ├── index.html               # Landing page  
-│   ├── about.html               # About Us page  
-│   ├── products.html            # Products/Services page  
-│   ├── login.html               # Login/Registration page  
+│   ├── index.php              # Blog homepage  
+│   ├── about.php              # About Us page  
+│   ├── products.php           # Blog posts listing page  
+│   ├── login.php              # Login/Registration page  
 │   ├── /css  
-│   │   ├── styles.css           # Main stylesheet  
+│   │   ├── styles.css          # Main stylesheet with responsive design  
 │   ├── /js  
-│   │   ├── scripts.js           # JavaScript for frontend behavior  
-│── /cloud  
-│   ├── app.yaml                 # Google App Engine configuration  
-│   ├── storage-config.json       # Cloud storage settings  
-│── /tests  
-│   ├── security-tests.py        # Security testing scripts  
-│   ├── functionality-tests.py   # Automated functionality tests  
-│── .gitignore  
-│── README.md                    # Project documentation  
+│   │   ├── scripts.js          # Frontend functionality & API integration  
+│── .gitignore                  # Git version control exclusions  
+│── README.md                   # Project documentation  
 ```
 
 ## 👥 Team Roles and Responsibilities  
 
 ### **1️⃣ Backend Developer**  
-- Set up MySQL database on Google Cloud SQL  
-- Develop API endpoints (User authentication, Products, CRUD operations)  
+- Set up MySQL database with user authentication and blog functionality
+- Develop API endpoints (Authentication, Blog posts, User management)
 - Manage database schema and ensure proper data flow  
 
 ### **2️⃣ Frontend Developer (UI/UX Focus)**  
