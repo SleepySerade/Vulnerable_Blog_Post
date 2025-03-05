@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -15,7 +18,7 @@ $errors = [];
 
 // Handle login form submission
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once '../backend/api/auth.php';
+    require_once __DIR__ . '/../backend/api/auth.php';
     
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -62,7 +65,7 @@ if (isset($_SESSION['registration_success'])) {
     <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-    <?php include 'inlcude/navbar.php'; ?>
+    <?php include 'include/navbar.php'; ?>
 
     <div class="container my-5">
         <div class="row justify-content-center">
@@ -88,7 +91,7 @@ if (isset($_SESSION['registration_success'])) {
                             </div>
                         <?php endif; ?>
 
-                        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+                        <form method="POST" action="login.php">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="username" name="username" 
@@ -111,7 +114,7 @@ if (isset($_SESSION['registration_success'])) {
         </div>
     </div>
 
-    <?php include 'inlcude/footer.php'; ?>
+    <?php include 'include/footer.php'; ?>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
