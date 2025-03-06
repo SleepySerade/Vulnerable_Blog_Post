@@ -47,13 +47,13 @@ try {
     } else {
         // Redirect to home page if not admin
         $logger->warning("Non-admin user (ID: $user_id) attempted to access category management");
-        header('Location: /public/index.php');
+        header('Location: /index.php');
         exit();
     }
 } catch (Exception $e) {
     $logger->error("Error checking admin status: " . $e->getMessage());
     // Redirect to home page on error
-    header('Location: /public/index.php');
+    header('Location: /index.php');
     exit();
 }
 
