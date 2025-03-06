@@ -1,0 +1,39 @@
+# Deny access to backend files
+<Directory "/var/www/html/backend">
+    Require all denied
+</Directory>
+
+# OR for a more flexible rule (blocks direct access but allows inclusion)
+<FilesMatch "(config\.php|db\.php|auth\.php|functions\.php)">
+    Require all denied
+</FilesMatch>
+
+# Restrict access to the admin panel (Allow only specific IPs)
+<Directory "/var/www/html/admin">
+    Require ip 192.168.1.100  # Replace with your IP
+</Directory>
+
+# Prevent directory listing
+Options -Indexes
+
+# Protect .htaccess file itself
+<Files ".htaccess">
+    Require all denied
+</Files>
+
+# Prevent access to sensitive file types
+<FilesMatch "\.(sql|ini|log|sh|bat|bak|htaccess)$">
+    Require all denied
+</FilesMatch>
+
+# Secure uploads directory (allow only images & PDFs)
+<Directory "/var/www/html/uploads">
+    <FilesMatch "\.(php|exe|js|sh|bat)$">
+        Require all denied
+    </FilesMatch>
+</Directory>
+
+# Prevent PHP execution in uploads (if users upload files)
+<Directory "/var/www/html/uploads">
+    php_flag engine off
+</Directory>

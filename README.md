@@ -3,45 +3,49 @@
 ## 📁 Project File Structure
 
 ```
-/project-root  
-│── /backend  
-│   ├── database.sql             # MySQL database schema with user authentication  
-│   ├── config.php              # Database connection & security settings  
-│   ├── api/  
-│   │   ├── auth.php            # Authentication & user session endpoints  
-│   │   ├── products.php        # Blog posts & content API endpoints  
-│   │   ├── users.php           # User management API endpoints  
-│── /frontend  
-│   ├── index.php              # Blog homepage  
-│   ├── about.php              # About Us page  
-│   ├── products.php           # Blog posts listing page  
-│   ├── login.php              # Login/Registration page  
-│   ├── /css  
-│   │   ├── styles.css          # Main stylesheet with responsive design  
-│   ├── /js  
-│   │   ├── scripts.js          # Frontend functionality & API integration  
-│── .gitignore                  # Git version control exclusions  
-│── README.md                   # Project documentation  
+/var/www/html/
+│── public/            # Public-facing website
+│   ├── index.php      # Main entry point
+│   ├── assets/        # Static files (CSS, JS, images)
+│   │   ├── css/
+│   │   ├── js/
+│   │   ├── images/
+│   ├── pages/         # Public pages (about, contact, etc.)
+│   ├── login.php      # User login page
+│   ├── register.php      # User login page
+│── admin/             # Admin panel (restricted access)
+│   ├── index.php      # Admin dashboard
+│   ├── users.php      # Manage users
+│   ├── settings.php   # Admin settings
+│   ├── assets/        # Admin-specific CSS, JS, images
+│── backend/           # Backend logic (not web-accessible)
+│   ├── config.php     # Database config
+│   ├── db.php         # Database connection
+│   ├── auth.php       # Authentication logic
+│   ├── functions.php  # Helper functions
+│── uploads/           # User uploads (if needed)
+│── logs/              # Server logs
+│── .htaccess          # Security rules (if using Apache)
 ```
 
 ## 👥 Team Roles and Responsibilities  
 
-### **1️⃣ Backend Developer**  
-- Set up MySQL database with user authentication and blog functionality
-- Develop API endpoints (Authentication, Blog posts, User management)
+### **1️⃣ Backend Developer**  (Zachary Phoon)
+- Set up MySQL database on Google Cloud SQL  
+- Develop API endpoints (User authentication, Products, CRUD operations)  
 - Manage database schema and ensure proper data flow  
 
-### **2️⃣ Frontend Developer (UI/UX Focus)**  
+### **2️⃣ Frontend Developer (UI/UX Focus)**  (Zong Yang)
 - Design and implement the user interface using HTML5, Bootstrap, and CSS  
 - Ensure responsive and mobile-friendly design  
 - Optimize layout for usability and accessibility  
 
-### **3️⃣ Frontend Developer (JavaScript & Dynamic Features)**  
+### **3️⃣ Frontend Developer (JavaScript & Dynamic Features)**  (Ayesha)
 - Implement client-side dynamic features using JavaScript  
 - Manage user interactions and form validation  
 - Handle AJAX calls for smooth frontend-backend communication  
 
-### **4️⃣ Authentication & Security Developer**  
+### **4️⃣ Authentication & Security Developer** (Nicholas)   
 - Implement user authentication and session management  
 - Secure the system against SQL injection, XSS, and other vulnerabilities  
 - Ensure password hashing and proper access control  
@@ -68,3 +72,5 @@
 - **Authentication system requires a working backend** before implementation.
 - **Frontend UI can start early**, but JavaScript integration depends on backend API.
 - **Testing and documentation are team-wide responsibilities** before final deployment.
+
+
