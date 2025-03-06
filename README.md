@@ -71,6 +71,7 @@
 | `.gitignore` | Specifies files and directories to be ignored by Git version control |
 | `database.sql` | Contains SQL schema for creating and setting up the database |
 | `README.md` | Project documentation with team roles and work order |
+| `index.php` | Main entry point and homepage |
 | **admin/** | Admin panel with restricted access |
 | `admin/dashboard.php` | Main admin dashboard showing site statistics and overview |
 | `admin/manage_categories.php` | Interface for managing blog categories (CRUD operations) |
@@ -99,7 +100,6 @@
 | **public/** | Public-facing website files |
 | `public/create_logs_dir.php` | Utility to create logs directory |
 | `public/create-post.php` | Page for creating new blog posts |
-| `public/index.php` | Main entry point and homepage |
 | `public/log_viewer.php` | Interface for viewing application logs |
 | `public/login.php` | User login page |
 | `public/logout.php` | User logout page |
