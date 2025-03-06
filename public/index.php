@@ -1,33 +1,35 @@
 <?php
+// Configure session parameters
+ini_set('session.use_only_cookies', 1);
+ini_set('session.use_strict_mode', 1);
+
+// Set session cookie parameters
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '',
+    'secure' => false,
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+
+// Start the session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once '../backend/api/connect_db.php';
+// Debug session information
+error_log("Index.php - Session ID: " . session_id());
+error_log("Index.php - Session status: " . (session_status() === PHP_SESSION_ACTIVE ? 'active' : 'inactive'));
+error_log("Index.php - Session variables: " . print_r($_SESSION, true));
 
-// Get featured posts (latest 3 published posts)
-$featured_posts_query = "
-    SELECT p.*, u.username as author_name, c.name as category_name 
-    FROM blog_posts p
-    JOIN users u ON p.author_id = u.user_id
-    LEFT JOIN categories c ON p.category_id = c.category_id
-    WHERE p.status = 'published'
-    ORDER BY p.created_at DESC
-    LIMIT 3
-";
-$featured_posts = $conn->query($featured_posts_query)->fetch_all(MYSQLI_ASSOC);
+// Check if user is logged in
+$isLoggedIn = isset($_SESSION['user_id']);
+error_log("Index.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
 
-// Get recent posts (excluding featured ones)
-$recent_posts_query = "
-    SELECT p.*, u.username as author_name, c.name as category_name 
-    FROM blog_posts p
-    JOIN users u ON p.author_id = u.user_id
-    LEFT JOIN categories c ON p.category_id = c.category_id
-    WHERE p.status = 'published'
-    ORDER BY p.created_at DESC
-    LIMIT 6
-";
-$recent_posts = $conn->query($recent_posts_query)->fetch_all(MYSQLI_ASSOC);
+// Initialize empty arrays for posts
+$featured_posts = [];
+$recent_posts = [];
 ?>
 
 <!DOCTYPE html>
@@ -37,10 +39,10 @@ $recent_posts = $conn->query($recent_posts_query)->fetch_all(MYSQLI_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Our Blog</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="/public/assets/css/styles.css" rel="stylesheet">
 </head>
 <body>
-    <?php include 'inlcude/navbar.php'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
 
     <!-- Hero Section -->
     <div class="container-fluid bg-primary text-white py-5 mb-5">
@@ -50,7 +52,7 @@ $recent_posts = $conn->query($recent_posts_query)->fetch_all(MYSQLI_ASSOC);
                     <h1 class="display-4">Welcome to Our Blog</h1>
                     <p class="lead">Discover interesting stories, insights, and experiences from our community.</p>
                     <?php if (!isset($_SESSION['user_id'])): ?>
-                        <a href="register.php" class="btn btn-light btn-lg">Join Now</a>
+                        <a href="/public/register.php" class="btn btn-light btn-lg">Join Now</a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -79,7 +81,7 @@ $recent_posts = $conn->query($recent_posts_query)->fetch_all(MYSQLI_ASSOC);
                             <p class="card-text">
                                 <?php echo substr(htmlspecialchars($post['content']), 0, 150) . '...'; ?>
                             </p>
-                            <a href="post.php?id=<?php echo $post['post_id']; ?>" class="btn btn-primary">Read More</a>
+                            <a href="/public/post.php?id=<?php echo $post['post_id']; ?>" class="btn btn-primary">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -105,7 +107,7 @@ $recent_posts = $conn->query($recent_posts_query)->fetch_all(MYSQLI_ASSOC);
                             <p class="card-text">
                                 <?php echo substr(htmlspecialchars($post['content']), 0, 100) . '...'; ?>
                             </p>
-                            <a href="post.php?id=<?php echo $post['post_id']; ?>" class="btn btn-outline-primary">Read More</a>
+                            <a href="/public/post.php?id=<?php echo $post['post_id']; ?>" class="btn btn-outline-primary">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -119,15 +121,133 @@ $recent_posts = $conn->query($recent_posts_query)->fetch_all(MYSQLI_ASSOC);
             <h2>Share Your Story</h2>
             <p class="lead mb-4">Join our community and start sharing your experiences with the world.</p>
             <?php if (!isset($_SESSION['user_id'])): ?>
-                <a href="register.php" class="btn btn-primary btn-lg">Get Started</a>
+                <a href="/public/register.php" class="btn btn-primary btn-lg">Get Started</a>
             <?php else: ?>
-                <a href="create-post.php" class="btn btn-primary btn-lg">Create New Post</a>
+                <a href="/public/create-post.php" class="btn btn-primary btn-lg">Create New Post</a>
             <?php endif; ?>
         </div>
     </div>
 
-    <?php include 'inlcude/footer.php'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/footer.php'; ?>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch featured posts
+            fetch('/backend/api/posts.php?action=featured')
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success && result.data.length > 0) {
+                        displayFeaturedPosts(result.data);
+                    }
+                })
+                .catch(error => console.error('Error fetching featured posts:', error));
+            
+            // Fetch recent posts
+            fetch('/backend/api/posts.php?action=recent')
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success && result.data.length > 0) {
+                        displayRecentPosts(result.data);
+                    }
+                })
+                .catch(error => console.error('Error fetching recent posts:', error));
+            
+            // Function to display featured posts
+            function displayFeaturedPosts(posts) {
+                const container = document.querySelector('.container.mb-5:nth-of-type(1) .row');
+                
+                if (!container) return;
+                
+                // Clear loading or placeholder content
+                container.innerHTML = '';
+                
+                // Add posts to container
+                posts.forEach(post => {
+                    const postElement = createPostElement(post, true);
+                    container.appendChild(postElement);
+                });
+            }
+            
+            // Function to display recent posts
+            function displayRecentPosts(posts) {
+                const container = document.querySelector('.container.mb-5:nth-of-type(2) .row');
+                
+                if (!container) return;
+                
+                // Clear loading or placeholder content
+                container.innerHTML = '';
+                
+                // Add posts to container
+                posts.forEach(post => {
+                    const postElement = createPostElement(post, false);
+                    container.appendChild(postElement);
+                });
+            }
+            
+            // Function to create a post element
+            function createPostElement(post, isFeatured) {
+                const colDiv = document.createElement('div');
+                colDiv.className = 'col-md-4 mb-4';
+                
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card h-100';
+                
+                // Add featured image if available and it's a featured post
+                if (isFeatured && post.featured_image) {
+                    const img = document.createElement('img');
+                    img.src = post.featured_image;
+                    img.className = 'card-img-top';
+                    img.alt = post.title;
+                    cardDiv.appendChild(img);
+                }
+                
+                const cardBodyDiv = document.createElement('div');
+                cardBodyDiv.className = 'card-body';
+                
+                // Add title
+                const title = document.createElement('h5');
+                title.className = 'card-title';
+                title.textContent = post.title;
+                cardBodyDiv.appendChild(title);
+                
+                // Add metadata
+                const metadata = document.createElement('p');
+                metadata.className = 'card-text text-muted';
+                
+                const small = document.createElement('small');
+                if (isFeatured) {
+                    small.textContent = `By ${post.author_name} in ${post.category_name || 'Uncategorized'}`;
+                } else {
+                    const date = new Date(post.created_at);
+                    const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    small.textContent = `By ${post.author_name} • ${formattedDate}`;
+                }
+                
+                metadata.appendChild(small);
+                cardBodyDiv.appendChild(metadata);
+                
+                // Add excerpt
+                const excerpt = document.createElement('p');
+                excerpt.className = 'card-text';
+                const contentLength = isFeatured ? 150 : 100;
+                excerpt.textContent = post.content.substring(0, contentLength) + '...';
+                cardBodyDiv.appendChild(excerpt);
+                
+                // Add read more button
+                const link = document.createElement('a');
+                link.href = `/public/post.php?id=${post.post_id}`;
+                link.className = isFeatured ? 'btn btn-primary' : 'btn btn-outline-primary';
+                link.textContent = 'Read More';
+                cardBodyDiv.appendChild(link);
+                
+                cardDiv.appendChild(cardBodyDiv);
+                colDiv.appendChild(cardDiv);
+                
+                return colDiv;
+            }
+        });
+    </script>
 </body>
 </html>

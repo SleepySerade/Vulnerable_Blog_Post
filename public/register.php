@@ -2,13 +2,34 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Configure session parameters
+ini_set('session.use_only_cookies', 1);
+ini_set('session.use_strict_mode', 1);
+
+// Set session cookie parameters
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '',
+    'secure' => false,
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+
+// Start the session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Debug session information
+error_log("Register.php - Session ID: " . session_id());
+error_log("Register.php - Session status: " . (session_status() === PHP_SESSION_ACTIVE ? 'active' : 'inactive'));
+error_log("Register.php - Session variables: " . print_r($_SESSION, true));
+
 // If already logged in, redirect to home
 if (isset($_SESSION['user_id'])) {
-    header('Location: index.php');
+    // Use absolute path for redirection
+    header('Location: /public/index.php');
     exit();
 }
 
@@ -16,51 +37,7 @@ if (isset($_SESSION['user_id'])) {
 $username = '';
 $email = '';
 $errors = [];
-
-// Handle registration form submission
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once __DIR__ . '/../backend/api/auth.php';
-    
-    $username = trim($_POST['username'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $password = $_POST['password'] ?? '';
-    $confirm_password = $_POST['confirm_password'] ?? '';
-    
-    // Validate input
-    if (empty($username)) {
-        $errors[] = "Username is required";
-    } elseif (strlen($username) < 3) {
-        $errors[] = "Username must be at least 3 characters long";
-    }
-    
-    if (empty($email)) {
-        $errors[] = "Email is required";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Invalid email format";
-    }
-    
-    if (empty($password)) {
-        $errors[] = "Password is required";
-    } elseif (strlen($password) < 8) {
-        $errors[] = "Password must be at least 8 characters long";
-    }
-    
-    if ($password !== $confirm_password) {
-        $errors[] = "Passwords do not match";
-    }
-    
-    // If no validation errors, attempt registration
-    if (empty($errors)) {
-        $result = register($username, $email, $password);
-        if ($result['success']) {
-            $_SESSION['registration_success'] = true;
-            header('Location: login.php');
-            exit();
-        } else {
-            $errors[] = $result['message'];
-        }
-    }
-}
+$success = false;
 ?>
 
 <!DOCTYPE html>
@@ -70,10 +47,10 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Blog Website</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="/public/assets/css/styles.css" rel="stylesheet">
 </head>
 <body>
-    <?php include 'include/navbar.php'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
 
     <div class="container my-5">
         <div class="row justify-content-center">
@@ -93,16 +70,29 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
                             </div>
                         <?php endif; ?>
 
-                        <form method="POST" action="register.php">
+                        <div id="successAlert" class="alert alert-success d-none">
+                            Registration successful! Redirecting to login page...
+                        </div>
+                        
+                        <div id="loadingAlert" class="alert alert-info d-none loading-indicator">
+                            <div class="d-flex align-items-center">
+                                <div class="spinner-border spinner-border-sm me-2" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div>Processing registration, please wait...</div>
+                            </div>
+                        </div>
+
+                        <form id="registerForm">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" 
+                                <input type="text" class="form-control" id="username" name="username"
                                        value="<?php echo htmlspecialchars($username); ?>" required>
                                 <div class="form-text">Username must be at least 3 characters long.</div>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="email" name="email" 
+                                <input type="email" class="form-control" id="email" name="email"
                                        value="<?php echo htmlspecialchars($email); ?>" required>
                             </div>
                             <div class="mb-3">
@@ -115,20 +105,220 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
                                 <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                             </div>
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Register</button>
+                                <button type="submit" class="btn btn-primary" id="registerBtn">Register</button>
                             </div>
                         </form>
                     </div>
                     <div class="card-footer text-center">
-                        <p class="mb-0">Already have an account? <a href="login.php">Login here</a></p>
+                        <p class="mb-0">Already have an account? <a href="/public/login.php">Login here</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <?php include 'include/footer.php'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/footer.php'; ?>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('registerForm');
+            const errorContainer = document.querySelector('.alert-danger');
+            const successAlert = document.getElementById('successAlert');
+            
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Clear previous errors
+                if (errorContainer) {
+                    errorContainer.classList.add('d-none');
+                }
+                
+                // Get form data
+                const formData = new FormData(registerForm);
+                const data = {
+                    username: formData.get('username'),
+                    email: formData.get('email'),
+                    password: formData.get('password'),
+                    confirm_password: formData.get('confirm_password')
+                };
+                
+                // Client-side validation
+                const errors = [];
+                
+                if (!data.username || data.username.length < 3) {
+                    errors.push('Username must be at least 3 characters long');
+                }
+                
+                if (!data.email || !isValidEmail(data.email)) {
+                    errors.push('Please enter a valid email address');
+                }
+                
+                if (!data.password || data.password.length < 8) {
+                    errors.push('Password must be at least 8 characters long');
+                }
+                
+                if (data.password !== data.confirm_password) {
+                    errors.push('Passwords do not match');
+                }
+                
+                // If validation errors, display them
+                if (errors.length > 0) {
+                    displayErrors(errors);
+                    return;
+                }
+                
+                // Show loading indicator
+                const loadingAlert = document.getElementById('loadingAlert');
+                if (loadingAlert) {
+                    loadingAlert.classList.remove('d-none');
+                }
+                
+                // Submit form via AJAX
+                console.log('Submitting registration to:', '/backend/api/register.php');
+                console.log('Data:', data);
+                
+                fetch('/backend/api/register.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data),
+                    credentials: 'same-origin' // Include cookies in the request
+                })
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', response.headers);
+                    
+                    // Check if the response is JSON
+                    const contentType = response.headers.get('content-type');
+                    if (!contentType || !contentType.includes('application/json')) {
+                        throw new Error(`Expected JSON response but got ${contentType}`);
+                    }
+                    
+                    // Log the response text for debugging
+                    return response.text().then(text => {
+                        console.log('Response text:', text);
+                        try {
+                            return JSON.parse(text);
+                        } catch (e) {
+                            console.error('JSON parse error:', e);
+                            throw new Error('Invalid JSON response: ' + text);
+                        }
+                    });
+                })
+                .then(result => {
+                    console.log('Registration result:', result);
+                    
+                    // Hide loading indicator
+                    const loadingAlert = document.getElementById('loadingAlert');
+                    if (loadingAlert) {
+                        loadingAlert.classList.add('d-none');
+                    }
+                    
+                    if (result.success) {
+                        // Show success message
+                        successAlert.classList.remove('d-none');
+                        registerForm.reset();
+                        // Redirect to login page after a delay
+                        setTimeout(() => {
+                            // Use absolute path for redirection
+                            console.log('Redirecting to login page...');
+                            
+                            // Try different redirection methods
+                            try {
+                                // Method 1: window.location.href
+                                window.location.href = '/public/login.php';
+                                
+                                // Method 2: If the above doesn't work, try after a short delay
+                                setTimeout(() => {
+                                    console.log('Trying alternative redirection method...');
+                                    window.location.replace('/public/login.php');
+                                }, 500);
+                                
+                                // Method 3: As a last resort, create and click a link
+                                setTimeout(() => {
+                                    console.log('Trying final redirection method...');
+                                    const link = document.createElement('a');
+                                    link.href = '/public/login.php';
+                                    link.textContent = 'Click here if not redirected automatically';
+                                    link.style.display = 'block';
+                                    link.style.marginTop = '20px';
+                                    link.style.textAlign = 'center';
+                                    
+                                    // Add the link to the page
+                                    if (successAlert) {
+                                        successAlert.appendChild(link);
+                                    } else {
+                                        document.body.appendChild(link);
+                                    }
+                                    
+                                    // Try to click it programmatically
+                                    link.click();
+                                }, 1000);
+                            } catch (e) {
+                                console.error('Redirection error:', e);
+                                alert('Redirection failed. Please click the link to continue.');
+                            }
+                        }, 2000);
+                    } else {
+                        // Display error message
+                        displayErrors([result.message]);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    
+                    // Hide loading indicator if there is one
+                    const loadingIndicator = document.querySelector('.loading-indicator');
+                    if (loadingIndicator) {
+                        loadingIndicator.classList.add('d-none');
+                    }
+                    
+                    // Show more detailed error message
+                    let errorMessage = 'An error occurred: ' + error.message;
+                    console.error('Detailed error:', errorMessage);
+                    
+                    displayErrors([errorMessage]);
+                    
+                    // Log the error to the console with stack trace
+                    console.error('Error stack:', error.stack);
+                });
+            });
+            
+            // Helper function to validate email
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+            
+            // Helper function to display errors
+            function displayErrors(errors) {
+                // Create error container if it doesn't exist
+                let errorList;
+                
+                if (!errorContainer) {
+                    const newErrorContainer = document.createElement('div');
+                    newErrorContainer.className = 'alert alert-danger';
+                    errorList = document.createElement('ul');
+                    errorList.className = 'mb-0';
+                    newErrorContainer.appendChild(errorList);
+                    registerForm.parentNode.insertBefore(newErrorContainer, registerForm);
+                } else {
+                    errorContainer.classList.remove('d-none');
+                    errorList = errorContainer.querySelector('ul');
+                    errorList.innerHTML = '';
+                }
+                
+                // Add each error to the list
+                errors.forEach(error => {
+                    const li = document.createElement('li');
+                    li.textContent = error;
+                    errorList.appendChild(li);
+                });
+            }
+        });
+    </script>
 </body>
 </html>

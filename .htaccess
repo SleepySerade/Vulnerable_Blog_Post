@@ -8,10 +8,6 @@
     Require all denied
 </FilesMatch>
 
-# Restrict access to the admin panel (Allow only specific IPs)
-<Directory "/var/www/html/admin">
-    Require ip 192.168.1.100  # Replace with your IP
-</Directory>
 
 # Prevent directory listing
 Options -Indexes

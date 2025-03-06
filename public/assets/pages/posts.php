@@ -22,24 +22,25 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Debug session information
-error_log("About.php - Session ID: " . session_id());
-error_log("About.php - Session status: " . (session_status() === PHP_SESSION_ACTIVE ? 'active' : 'inactive'));
-error_log("About.php - Session variables: " . print_r($_SESSION, true));
+error_log("Posts.php - Session ID: " . session_id());
+error_log("Posts.php - Session status: " . (session_status() === PHP_SESSION_ACTIVE ? 'active' : 'inactive'));
+error_log("Posts.php - Session variables: " . print_r($_SESSION, true));
 
 // Check if user is logged in
 $isLoggedIn = isset($_SESSION['user_id']);
-error_log("About.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
+error_log("Posts.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
 
 // Initialize empty arrays for posts
 $featured_posts = [];
 $recent_posts = [];
+$all_posts = [];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Blog Website</title>
+    <title>All Posts - Blog Website</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
@@ -49,106 +50,9 @@ $recent_posts = [];
 
     <div class="container my-5">
         <header class="text-center mb-5">
-            <h1>Meet Our Team</h1>
-            <p class="lead">The talented individuals behind our blog platform</p>
+            <h1>All Blog Posts</h1>
+            <p class="lead">Discover interesting stories, insights, and experiences from our community</p>
         </header>
-
-        <div class="row g-4">
-            <!-- Backend Developer -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="text-center mb-4">
-                            <i class="bi bi-database text-primary" style="font-size: 2rem;"></i>
-                            <h3 class="mt-3">Backend Developer</h3>
-                        </div>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>MySQL database setup</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>API endpoint development</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Database schema management</li>
-                        </ul>
-                        <p class="card-text">Responsible for building and maintaining the robust backend infrastructure that powers our blog platform.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Frontend Developer (UI/UX) -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="text-center mb-4">
-                            <i class="bi bi-layout-text-window-reverse text-primary" style="font-size: 2rem;"></i>
-                            <h3 class="mt-3">UI/UX Developer</h3>
-                        </div>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Responsive design implementation</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>User interface optimization</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Accessibility improvements</li>
-                        </ul>
-                        <p class="card-text">Creates intuitive and beautiful user interfaces that make our blog a joy to use.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Frontend Developer (JavaScript) -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="text-center mb-4">
-                            <i class="bi bi-code-square text-primary" style="font-size: 2rem;"></i>
-                            <h3 class="mt-3">JavaScript Developer</h3>
-                        </div>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Dynamic feature implementation</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Form validation</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>AJAX integration</li>
-                        </ul>
-                        <p class="card-text">Brings the blog to life with interactive features and smooth user experiences.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Security Developer -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="text-center mb-4">
-                            <i class="bi bi-shield-lock text-primary" style="font-size: 2rem;"></i>
-                            <h3 class="mt-3">Security Expert</h3>
-                        </div>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Authentication system</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Security vulnerability prevention</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Access control management</li>
-                        </ul>
-                        <p class="card-text">Ensures the safety and security of our blog platform and user data.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cloud Engineer -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="text-center mb-4">
-                            <i class="bi bi-cloud text-primary" style="font-size: 2rem;"></i>
-                            <h3 class="mt-3">Cloud Engineer</h3>
-                        </div>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Cloud deployment</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Storage optimization</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Infrastructure management</li>
-                        </ul>
-                        <p class="card-text">Manages our cloud infrastructure to ensure reliable and scalable performance.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="text-center mt-5 mb-5">
-            <h2>Our Mission</h2>
-            <p class="lead">To create a secure, user-friendly, and feature-rich blogging platform that empowers writers and engages readers.</p>
-        </div>
 
         <!-- Featured Posts -->
         <div class="container mb-5">
@@ -158,14 +62,14 @@ $recent_posts = [];
                     <div class="col-md-4 mb-4">
                         <div class="card h-100">
                             <?php if ($post['featured_image']): ?>
-                                <img src="<?php echo htmlspecialchars($post['featured_image']); ?>"
+                                <img src="<?php echo htmlspecialchars($post['featured_image']); ?>" 
                                      class="card-img-top" alt="<?php echo htmlspecialchars($post['title']); ?>">
                             <?php endif; ?>
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($post['title']); ?></h5>
                                 <p class="card-text text-muted">
                                     <small>
-                                        By <?php echo htmlspecialchars($post['author_name']); ?> in
+                                        By <?php echo htmlspecialchars($post['author_name']); ?> in 
                                         <?php echo htmlspecialchars($post['category_name']); ?>
                                     </small>
                                 </p>
@@ -191,12 +95,45 @@ $recent_posts = [];
                                 <h5 class="card-title"><?php echo htmlspecialchars($post['title']); ?></h5>
                                 <p class="card-text text-muted">
                                     <small>
-                                        By <?php echo htmlspecialchars($post['author_name']); ?> •
+                                        By <?php echo htmlspecialchars($post['author_name']); ?> • 
                                         <?php echo date('M d, Y', strtotime($post['created_at'])); ?>
                                     </small>
                                 </p>
                                 <p class="card-text">
                                     <?php echo substr(htmlspecialchars($post['content']), 0, 100) . '...'; ?>
+                                </p>
+                                <a href="/public/post.php?id=<?php echo $post['post_id']; ?>" class="btn btn-outline-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- All Posts -->
+        <div class="container mb-5">
+            <h2 class="mb-4">All Posts</h2>
+            <div class="row">
+                <?php foreach ($all_posts as $post): ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <?php if ($post['featured_image']): ?>
+                                <img src="<?php echo htmlspecialchars($post['featured_image']); ?>" 
+                                     class="card-img-top" alt="<?php echo htmlspecialchars($post['title']); ?>">
+                            <?php endif; ?>
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo htmlspecialchars($post['title']); ?></h5>
+                                <p class="card-text text-muted">
+                                    <small>
+                                        By <?php echo htmlspecialchars($post['author_name']); ?> • 
+                                        <?php echo date('M d, Y', strtotime($post['created_at'])); ?>
+                                        <?php if ($post['category_name']): ?>
+                                            • <?php echo htmlspecialchars($post['category_name']); ?>
+                                        <?php endif; ?>
+                                    </small>
+                                </p>
+                                <p class="card-text">
+                                    <?php echo substr(htmlspecialchars($post['content']), 0, 120) . '...'; ?>
                                 </p>
                                 <a href="/public/post.php?id=<?php echo $post['post_id']; ?>" class="btn btn-outline-primary">Read More</a>
                             </div>
@@ -246,9 +183,19 @@ $recent_posts = [];
                 })
                 .catch(error => console.error('Error fetching recent posts:', error));
             
+            // Fetch all posts
+            fetch('/backend/api/posts.php?action=all')
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success && result.data.length > 0) {
+                        displayAllPosts(result.data);
+                    }
+                })
+                .catch(error => console.error('Error fetching all posts:', error));
+            
             // Function to display featured posts
             function displayFeaturedPosts(posts) {
-                const container = document.querySelector('.container.mb-5:nth-of-type(3) .row');
+                const container = document.querySelector('.container.mb-5:nth-of-type(1) .row');
                 
                 if (!container) return;
                 
@@ -264,7 +211,7 @@ $recent_posts = [];
             
             // Function to display recent posts
             function displayRecentPosts(posts) {
-                const container = document.querySelector('.container.mb-5:nth-of-type(4) .row');
+                const container = document.querySelector('.container.mb-5:nth-of-type(2) .row');
                 
                 if (!container) return;
                 
@@ -274,6 +221,22 @@ $recent_posts = [];
                 // Add posts to container
                 posts.forEach(post => {
                     const postElement = createPostElement(post, false);
+                    container.appendChild(postElement);
+                });
+            }
+            
+            // Function to display all posts
+            function displayAllPosts(posts) {
+                const container = document.querySelector('.container.mb-5:nth-of-type(3) .row');
+                
+                if (!container) return;
+                
+                // Clear loading or placeholder content
+                container.innerHTML = '';
+                
+                // Add posts to container
+                posts.forEach(post => {
+                    const postElement = createPostElement(post, post.featured_image ? true : false);
                     container.appendChild(postElement);
                 });
             }
@@ -309,14 +272,25 @@ $recent_posts = [];
                 metadata.className = 'card-text text-muted';
                 
                 const small = document.createElement('small');
-                if (isFeatured) {
-                    small.textContent = `By ${post.author_name} in ${post.category_name || 'Uncategorized'}`;
-                } else {
+                let metadataText = `By ${post.author_name}`;
+                
+                // Add date for non-featured posts
+                if (!isFeatured || post.created_at) {
                     const date = new Date(post.created_at);
                     const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                    small.textContent = `By ${post.author_name} • ${formattedDate}`;
+                    metadataText += ` • ${formattedDate}`;
                 }
                 
+                // Add category for featured posts
+                if (post.category_name) {
+                    if (isFeatured) {
+                        metadataText += ` in ${post.category_name}`;
+                    } else {
+                        metadataText += ` • ${post.category_name}`;
+                    }
+                }
+                
+                small.textContent = metadataText;
                 metadata.appendChild(small);
                 cardBodyDiv.appendChild(metadata);
                 

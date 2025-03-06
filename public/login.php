@@ -1,53 +1,41 @@
 <?php
-include '../backend/auth.php'; 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Configure session parameters
+ini_set('session.use_only_cookies', 1);
+ini_set('session.use_strict_mode', 1);
+
+// Set session cookie parameters
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '',
+    'secure' => false,
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+
+// Start the session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Debug session information
+error_log("Session ID: " . session_id());
+error_log("Session status: " . (session_status() === PHP_SESSION_ACTIVE ? 'active' : 'inactive'));
+error_log("Session variables: " . print_r($_SESSION, true));
+
 // If already logged in, redirect to home
 if (isset($_SESSION['user_id'])) {
-    header('Location: index.php');
+    // Use absolute path for redirection
+    header('Location: /public/index.php');
     exit();
 }
 
 // Initialize variables
 $username = '';
 $errors = [];
-
-// Handle login form submission
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    
-    $username = trim($_POST['username'] ?? '');
-    $password = $_POST['password'] ?? '';
-    
-    // Validate input
-    if (empty($username)) {
-        $errors[] = "Username is required";
-    }
-    if (empty($password)) {
-        $errors[] = "Password is required";
-    }
-    
-    // If no validation errors, attempt login
-    if (empty($errors)) {
-        $result = login($username, $password);
-        if ($result['success']) {
-            // Redirect based on user role
-            if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
-                header('Location: admin/dashboard.php');
-            } else {
-                header('Location: index.php');
-            }
-            exit();
-        } else {
-            $errors[] = $result['message'];
-        }
-    }
-}
 
 // Check for registration success message
 if (isset($_SESSION['registration_success'])) {
@@ -63,10 +51,10 @@ if (isset($_SESSION['registration_success'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Blog Website</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="/public/assets/css/styles.css" rel="stylesheet">
 </head>
 <body>
-    <?php include 'include/navbar.php'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
 
     <div class="container my-5">
         <div class="row justify-content-center">
@@ -91,11 +79,24 @@ if (isset($_SESSION['registration_success'])) {
                                 <?php echo htmlspecialchars($success_message); ?>
                             </div>
                         <?php endif; ?>
+                        
+                        <div id="successAlert" class="alert alert-success d-none">
+                            Login successful! Redirecting...
+                        </div>
+                        
+                        <div id="loadingAlert" class="alert alert-info d-none">
+                            <div class="d-flex align-items-center">
+                                <div class="spinner-border spinner-border-sm me-2" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div>Logging in, please wait...</div>
+                            </div>
+                        </div>
 
-                        <form method="POST" action="login.php">
+                        <form id="loginForm">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" 
+                                <input type="text" class="form-control" id="username" name="username"
                                        value="<?php echo htmlspecialchars($username); ?>" required>
                             </div>
                             <div class="mb-3">
@@ -103,20 +104,212 @@ if (isset($_SESSION['registration_success'])) {
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Login</button>
+                                <button type="submit" class="btn btn-primary" id="loginBtn">Login</button>
                             </div>
                         </form>
                     </div>
                     <div class="card-footer text-center">
-                        <p class="mb-0">Don't have an account? <a href="register.php">Register here</a></p>
+                        <p class="mb-0">Don't have an account? <a href="/public/register.php">Register here</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <?php include 'include/footer.php'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/footer.php'; ?>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const errorContainer = document.querySelector('.alert-danger');
+            
+            loginForm.addEventListener('submit', function(e) {
+                // Prevent default form submission
+                e.preventDefault();
+                
+                // Clear previous errors
+                if (errorContainer) {
+                    errorContainer.classList.add('d-none');
+                }
+                
+                // Get form data
+                const formData = new FormData(loginForm);
+                const data = {
+                    username: formData.get('username'),
+                    password: formData.get('password')
+                };
+                
+                // Client-side validation
+                const errors = [];
+                
+                if (!data.username) {
+                    errors.push('Username is required');
+                }
+                
+                if (!data.password) {
+                    errors.push('Password is required');
+                }
+                
+                // If validation errors, display them
+                if (errors.length > 0) {
+                    displayErrors(errors);
+                    return;
+                }
+                
+                // Show loading indicator
+                const loadingAlert = document.getElementById('loadingAlert');
+                if (loadingAlert) {
+                    loadingAlert.classList.remove('d-none');
+                }
+                
+                // Submit form via AJAX
+                console.log('Submitting login to:', '/backend/api/login.php');
+                console.log('Data:', data);
+                
+                fetch('/backend/api/login.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data),
+                    credentials: 'same-origin' // Include cookies in the request
+                })
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', response.headers);
+                    
+                    // Check if the response is JSON
+                    const contentType = response.headers.get('content-type');
+                    if (!contentType || !contentType.includes('application/json')) {
+                        throw new Error(`Expected JSON response but got ${contentType}`);
+                    }
+                    
+                    return response.json();
+                })
+                .then(result => {
+                    console.log('Login result:', result);
+                    console.log('Login success:', result.success);
+                    console.log('User data:', result.user);
+                    
+                    // Hide loading indicator
+                    if (loadingAlert) {
+                        loadingAlert.classList.add('d-none');
+                    }
+                    
+                    if (result.success) {
+                        // Show success message
+                        const successAlert = document.getElementById('successAlert');
+                        if (successAlert) {
+                            successAlert.classList.remove('d-none');
+                            successAlert.textContent = 'Login successful! Redirecting to ' +
+                                (result.user && result.user.is_admin ? '/admin/dashboard.php' : '/public/index.php');
+                        }
+                        
+                        // Redirect after a short delay to show the success message
+                        setTimeout(() => {
+                            // Redirect based on user role
+                            const redirectUrl = (result.user && result.user.is_admin) ?
+                                '/admin/dashboard.php' : '/public/index.php';
+                            
+                            console.log('Redirecting to:', redirectUrl);
+                            
+                            // Try different redirection methods
+                            try {
+                                // Method 1: window.location.href
+                                window.location.href = redirectUrl;
+                                
+                                // Method 2: If the above doesn't work, try after a short delay
+                                setTimeout(() => {
+                                    console.log('Trying alternative redirection method...');
+                                    window.location.replace(redirectUrl);
+                                }, 500);
+                                
+                                // Method 3: As a last resort, create and click a link
+                                setTimeout(() => {
+                                    console.log('Trying final redirection method...');
+                                    const link = document.createElement('a');
+                                    link.href = redirectUrl;
+                                    link.textContent = 'Click here if not redirected automatically';
+                                    link.style.display = 'block';
+                                    link.style.marginTop = '20px';
+                                    link.style.textAlign = 'center';
+                                    
+                                    // Add the link to the page
+                                    const successAlert = document.getElementById('successAlert');
+                                    if (successAlert) {
+                                        successAlert.appendChild(link);
+                                    } else {
+                                        document.body.appendChild(link);
+                                    }
+                                    
+                                    // Try to click it programmatically
+                                    link.click();
+                                }, 1000);
+                            } catch (e) {
+                                console.error('Redirection error:', e);
+                                alert('Redirection failed. Please click the link to continue.');
+                            }
+                        }, 2000); // Increased delay to 2 seconds for better visibility
+                    } else {
+                        // Display error message
+                        console.error('Login failed:', result.message);
+                        
+                        // Show more detailed error message
+                        let errorMessage = result.message;
+                        if (result.errors && Array.isArray(result.errors)) {
+                            errorMessage += ': ' + result.errors.join(', ');
+                        }
+                        
+                        displayErrors([errorMessage]);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    
+                    // Hide loading indicator
+                    if (loadingAlert) {
+                        loadingAlert.classList.add('d-none');
+                    }
+                    
+                    // Show more detailed error message
+                    let errorMessage = 'An error occurred: ' + error.message;
+                    console.error('Detailed error:', errorMessage);
+                    
+                    displayErrors([errorMessage]);
+                    
+                    // Log the error to the console with stack trace
+                    console.error('Error stack:', error.stack);
+                });
+            });
+            
+            // Helper function to display errors
+            function displayErrors(errors) {
+                // Create error container if it doesn't exist
+                let errorList;
+                
+                if (!errorContainer) {
+                    const newErrorContainer = document.createElement('div');
+                    newErrorContainer.className = 'alert alert-danger';
+                    errorList = document.createElement('ul');
+                    errorList.className = 'mb-0';
+                    newErrorContainer.appendChild(errorList);
+                    loginForm.parentNode.insertBefore(newErrorContainer, loginForm);
+                } else {
+                    errorContainer.classList.remove('d-none');
+                    errorList = errorContainer.querySelector('ul');
+                    errorList.innerHTML = '';
+                }
+                
+                // Add each error to the list
+                errors.forEach(error => {
+                    const li = document.createElement('li');
+                    li.textContent = error;
+                    errorList.appendChild(li);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
