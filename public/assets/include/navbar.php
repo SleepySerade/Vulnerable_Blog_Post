@@ -68,6 +68,9 @@ if ($isLoggedIn) {
                         <li><a class="dropdown-item" href="/admin/manage_posts.php">
                             <i class="bi bi-file-earmark-post"></i> Manage Posts
                         </a></li>
+                        <li><a class="dropdown-item" href="/admin/manage_categories.php">
+                            <i class="bi bi-tag"></i> Manage Categories
+                        </a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/public/log_viewer.php">
                             <i class="bi bi-journal-text"></i> View Logs
