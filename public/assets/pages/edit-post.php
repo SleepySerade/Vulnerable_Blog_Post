@@ -38,7 +38,7 @@ if (!$isLoggedIn) {
 
 // Check if post ID is provided
 if (!isset($_GET['id'])) {
-    header('Location: /public/index.php');
+    header('Location: /index.php');
     exit();
 }
 
@@ -83,7 +83,7 @@ $post = null;
                     <p id="errorMessage">An error occurred while loading the post.</p>
                     <hr>
                     <p class="mb-0">
-                        <a href="/public/index.php" class="alert-link">Return to Home</a>
+                        <a href="/index.php" class="alert-link">Return to Home</a>
                     </p>
                 </div>
 

@@ -29,7 +29,7 @@ error_log("Register.php - Session variables: " . print_r($_SESSION, true));
 // If already logged in, redirect to home
 if (isset($_SESSION['user_id'])) {
     // Use absolute path for redirection
-    header('Location: /public/index.php');
+    header('Location: /index.php');
     exit();
 }
 
