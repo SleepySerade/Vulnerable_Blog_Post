@@ -44,6 +44,12 @@ if ($isLoggedIn) {
                 <li class="nav-item">
                     <a class="nav-link" href="/public/assets/pages/posts.php"><i class="bi bi-newspaper"></i> Blog Posts</a>
                 </li>
+                <li class="nav-item">
+                    <button id="dark-mode-toggle" class="btn btn-outline-light">
+                        🌙 Dark Mode
+                    </button>
+                </li>
+
                 
                 <?php if ($isLoggedIn): ?>
                 <li class="nav-item">
