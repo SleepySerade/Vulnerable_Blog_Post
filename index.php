@@ -1,4 +1,4 @@
-+<?php
+<?php
 // Configure session parameters
 ini_set('session.use_only_cookies', 1);
 ini_set('session.use_strict_mode', 1);
@@ -40,20 +40,26 @@ $recent_posts = [];
     <title>Welcome to Our Blog</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
 
     <!-- Hero Section -->
-    <div class="container-fluid bg-primary text-white py-5 mb-5">
+    <div class="container-fluid bg-moving-gradient text-white py-5 mb-5">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <h1 class="display-4">Welcome to Our Blog</h1>
                     <p class="lead">Discover interesting stories, insights, and experiences from our community.</p>
-                    <?php if (!isset($_SESSION['user_id'])): ?>
-                        <a href="/public/register.php" class="btn btn-light btn-lg">Join Now</a>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <p class="lead">Welcome back, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
+                        <a href="/public/profile.php" class="btn btn-primary">Go to Profile</a>
+                    <?php else: ?>
+                        <a href="/public/register.php" class="btn btn-primary">Join Now</a>
                     <?php endif; ?>
+
                 </div>
             </div>
         </div>
