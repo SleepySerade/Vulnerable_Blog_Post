@@ -27,7 +27,7 @@ if ($isLoggedIn) {
 }
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav id="navbar" class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" href="/index"><i class="bi bi-journal-richtext"></i> Blog Website</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
