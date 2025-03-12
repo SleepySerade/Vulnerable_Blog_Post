@@ -79,7 +79,11 @@ $recent_posts = [];
                                 </small>
                             </p>
                             <p class="card-text">
-                                <?php echo substr(htmlspecialchars($post['content']), 0, 150) . '...'; ?>
+                                <?php
+                                // Strip HTML tags for excerpt
+                                $plain_content = strip_tags($post['content']);
+                                echo substr($plain_content, 0, 150) . '...';
+                                ?>
                             </p>
                             <a href="/public/post.php?id=<?php echo $post['post_id']; ?>" class="btn btn-primary">Read More</a>
                         </div>
@@ -105,7 +109,11 @@ $recent_posts = [];
                                 </small>
                             </p>
                             <p class="card-text">
-                                <?php echo substr(htmlspecialchars($post['content']), 0, 100) . '...'; ?>
+                                <?php
+                                // Strip HTML tags for excerpt
+                                $plain_content = strip_tags($post['content']);
+                                echo substr($plain_content, 0, 100) . '...';
+                                ?>
                             </p>
                             <a href="/public/post.php?id=<?php echo $post['post_id']; ?>" class="btn btn-outline-primary">Read More</a>
                         </div>
@@ -232,7 +240,12 @@ $recent_posts = [];
                 const excerpt = document.createElement('p');
                 excerpt.className = 'card-text';
                 const contentLength = isFeatured ? 150 : 100;
-                excerpt.textContent = post.content.substring(0, contentLength) + '...';
+                
+                // Strip HTML tags for excerpt
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = post.content;
+                const plainText = tempDiv.textContent || tempDiv.innerText;
+                excerpt.textContent = plainText.substring(0, contentLength) + '...';
                 cardBodyDiv.appendChild(excerpt);
                 
                 // Add read more button
