@@ -88,17 +88,18 @@ $success = false;
                                 <label for="username" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="username" name="username"
                                        value="<?php echo htmlspecialchars($username); ?>" required>
-                                <div class="form-text">Username must be at least 3 characters long.</div>
+                                <div class="form-text">Username must be 3–20 characters. Allowed: letters, numbers, spaces, dots, and underscores. Must not start or end with a space, dot, or underscore, and cannot contain consecutive dots or underscores</div>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email address</label>
                                 <input type="email" class="form-control" id="email" name="email"
                                        value="<?php echo htmlspecialchars($email); ?>" required>
+                                       <div class="form-text">Please use a valid email format with no spaces</div>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
-                                <div class="form-text">Password must be at least 8 characters long.</div>
+                                <div class="form-text">Password must be at least 8 characters, including one lowercase letter, one uppercase letter, one number, and one special character</div>
                             </div>
                             <div class="mb-3">
                                 <label for="confirm_password" class="form-label">Confirm Password</label>
