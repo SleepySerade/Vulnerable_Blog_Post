@@ -53,6 +53,11 @@ function jsonExceptionHandler($exception) {
     exit;
 }
 
+//sanitize output function
+function sanitizeOutput($data) {
+    return htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
 // Set the exception handler
 set_exception_handler('jsonExceptionHandler');
 
@@ -372,8 +377,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     throw new Exception('Title and content are required');
                 }
                 
-                $title = $data['title'];
-                $content = $data['content'];
+                $title = sanitizeOutput($data['title']);
+                $content = sanitizeOutput($data['content']);
                 $category_id = isset($data['category_id']) ? intval($data['category_id']) : null;
                 $featured_image = isset($data['featured_image']) ? $data['featured_image'] : null;
                 $status = isset($data['status']) ? $data['status'] : 'draft';
