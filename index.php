@@ -176,55 +176,101 @@ $recent_posts = [];
             });
 
             // Fetch featured posts
+            console.log("Fetching featured posts...");
             fetch('/backend/api/posts.php?action=featured')
-                .then(response => response.json())
+                .then(response => {
+                    console.log("Featured posts response status:", response.status);
+                    return response.json();
+                })
                 .then(result => {
-                    if (result.success && result.data.length > 0) {
+                    console.log("Featured posts API result:", result);
+                    if (result.success && result.data && result.data.length > 0) {
                         displayFeaturedPosts(result.data);
+                    } else {
+                        console.warn("No featured posts found or API returned error:", result);
                     }
                 })
                 .catch(error => console.error('Error fetching featured posts:', error));
             
             // Fetch recent posts
+            console.log("Fetching recent posts...");
             fetch('/backend/api/posts.php?action=recent')
-                .then(response => response.json())
+                .then(response => {
+                    console.log("Recent posts response status:", response.status);
+                    return response.json();
+                })
                 .then(result => {
-                    if (result.success && result.data.length > 0) {
+                    console.log("Recent posts API result:", result);
+                    if (result.success && result.data && result.data.length > 0) {
                         displayRecentPosts(result.data);
+                    } else {
+                        console.warn("No recent posts found or API returned error:", result);
                     }
                 })
                 .catch(error => console.error('Error fetching recent posts:', error));
             
             // Function to display featured posts
             function displayFeaturedPosts(posts) {
-                const container = document.querySelector('.container.mb-5:nth-of-type(1) .row');
+                // Find all h2 headings with class mb-4
+                const headings = document.querySelectorAll('h2.mb-4');
+                let featuredPostsContainer = null;
                 
-                if (!container) return;
+                // Find the one with text "Featured Posts"
+                for (const heading of headings) {
+                    if (heading.textContent.trim() === "Featured Posts") {
+                        // Find the container and row
+                        featuredPostsContainer = heading.closest('.container').querySelector('.row');
+                        break;
+                    }
+                }
+                
+                if (!featuredPostsContainer) {
+                    console.error("Could not find Featured Posts container");
+                    return;
+                }
                 
                 // Clear loading or placeholder content
-                container.innerHTML = '';
+                featuredPostsContainer.innerHTML = '';
                 
                 // Add posts to container
                 posts.forEach(post => {
                     const postElement = createPostElement(post, true);
-                    container.appendChild(postElement);
+                    featuredPostsContainer.appendChild(postElement);
                 });
+                
+                console.log("Displayed", posts.length, "featured posts");
             }
             
             // Function to display recent posts
             function displayRecentPosts(posts) {
-                const container = document.querySelector('.container.mb-5:nth-of-type(2) .row');
+                // Find all h2 headings with class mb-4
+                const headings = document.querySelectorAll('h2.mb-4');
+                let recentPostsContainer = null;
                 
-                if (!container) return;
+                // Find the one with text "Recent Posts"
+                for (const heading of headings) {
+                    if (heading.textContent.trim() === "Recent Posts") {
+                        // Find the container and row
+                        recentPostsContainer = heading.closest('.container').querySelector('.row');
+                        break;
+                    }
+                }
+                
+                if (!recentPostsContainer) {
+                    console.error("Could not find Recent Posts container");
+                    return;
+                }
                 
                 // Clear loading or placeholder content
-                container.innerHTML = '';
+                recentPostsContainer.innerHTML = '';
                 
                 // Add posts to container
                 posts.forEach(post => {
                     const postElement = createPostElement(post, false);
-                    container.appendChild(postElement);
+                    recentPostsContainer.appendChild(postElement);
                 });
+                
+                console.log("Displayed", posts.length, "recent posts");
             }
             
             // Function to create a post element
