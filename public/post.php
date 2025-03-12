@@ -134,7 +134,7 @@ $post = null;
                                 <p>${result.message}</p>
                                 <hr>
                                 <p class="mb-0">
-                                    <a href="/index.php" class="alert-link">Return to Home</a>
+                                    <a href="/index" class="alert-link">Return to Home</a>
                                 </p>
                             </div>
                         `;
@@ -148,7 +148,7 @@ $post = null;
                             <p>An error occurred while fetching the post. Please try again later.</p>
                             <hr>
                             <p class="mb-0">
-                                <a href="/index.php" class="alert-link">Return to Home</a>
+                                <a href="/index" class="alert-link">Return to Home</a>
                             </p>
                         </div>
                     `;
@@ -171,7 +171,7 @@ $post = null;
                                     day: 'numeric' 
                                 })} by ${post.author_name}
                             </div>
-                            ${post.category_name ? `<a class="badge bg-secondary text-decoration-none link-light" href="/public/assets/pages/posts.php?category=${post.category_id}">${post.category_name}</a>` : ''}
+                            ${post.category_name ? `<a class="badge bg-secondary text-decoration-none link-light" href="/public/assets/pages/posts?category=${post.category_id}">${post.category_name}</a>` : ''}
                         </header>
                 `;
                 
@@ -196,7 +196,7 @@ $post = null;
                             <i class="bi bi-eye me-1"></i> ${post.views_count} views
                         </div>
                         <div>
-                            <a href="/index.php" class="btn btn-outline-primary">Back to Posts</a>
+                            <a href="/index" class="btn btn-outline-primary">Back to Posts</a>
                         </div>
                     </div>
                 `;
@@ -286,7 +286,7 @@ $post = null;
                                     </small>
                                 </p>
                                 <p class="card-text">${post.content.substring(0, 100)}...</p>
-                                <a href="/public/post.php?id=${post.post_id}" class="btn btn-outline-primary">Read More</a>
+                                <a href="/public/post?id=${post.post_id}" class="btn btn-outline-primary">Read More</a>
                             </div>
                         </div>
                     `;

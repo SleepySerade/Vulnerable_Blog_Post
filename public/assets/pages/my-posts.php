@@ -55,7 +55,7 @@ $archived_posts = [];
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 <body>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
 
     <div class="container my-5">
         <header class="mb-5">
