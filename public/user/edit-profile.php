@@ -32,7 +32,7 @@ error_log("EditProfile.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no')
 
 // Redirect to login if not logged in
 if (!$isLoggedIn) {
-    header('Location: /public/login.php');
+    header('Location: /public/login');
     exit();
 }
 
@@ -62,7 +62,7 @@ try {
         $user = $result->fetch_assoc();
     } else {
         // User not found (should not happen since we're using session user_id)
-        header('Location: /public/logout.php');
+        header('Location: /public/logout');
         exit();
     }
 } catch (Exception $e) {
@@ -264,7 +264,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a href="/public/user/profile.php" class="btn btn-outline-secondary me-md-2">Cancel</a>
+                                <a href="/public/user/profile" class="btn btn-outline-secondary me-md-2">Cancel</a>
                                 <button type="submit" class="btn btn-primary">Save Changes</button>
                             </div>
                         </form>

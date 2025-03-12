@@ -111,7 +111,7 @@ $success = false;
                         </form>
                     </div>
                     <div class="card-footer text-center">
-                        <p class="mb-0">Already have an account? <a href="/public/login.php">Login here</a></p>
+                        <p class="mb-0">Already have an account? <a href="/public/login">Login here</a></p>
                     </div>
                 </div>
             </div>
@@ -177,7 +177,7 @@ $success = false;
                 }
                 
                 // Submit form via AJAX
-                console.log('Submitting registration to:', '/backend/api/register.php');
+                console.log('Submitting registration to:', '/backend/api/register');
                 console.log('Data:', data);
                 
                 fetch('/backend/api/register.php', {
@@ -230,19 +230,19 @@ $success = false;
                             // Try different redirection methods
                             try {
                                 // Method 1: window.location.href
-                                window.location.href = '/public/login.php';
+                                window.location.href = '/public/login';
                                 
                                 // Method 2: If the above doesn't work, try after a short delay
                                 setTimeout(() => {
                                     console.log('Trying alternative redirection method...');
-                                    window.location.replace('/public/login.php');
+                                    window.location.replace('/public/login');
                                 }, 500);
                                 
                                 // Method 3: As a last resort, create and click a link
                                 setTimeout(() => {
                                     console.log('Trying final redirection method...');
                                     const link = document.createElement('a');
-                                    link.href = '/public/login.php';
+                                    link.href = '/public/login';
                                     link.textContent = 'Click here if not redirected automatically';
                                     link.style.display = 'block';
                                     link.style.marginTop = '20px';

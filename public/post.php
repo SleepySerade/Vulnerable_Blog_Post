@@ -32,7 +32,7 @@ error_log("Post.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
 
 // Check if post ID is provided
 if (!isset($_GET['id'])) {
-    header('Location: /index.php');
+    header('Location: /index');
     exit();
 }
 
@@ -86,7 +86,7 @@ $post = null;
                 </div>
             <?php else: ?>
                 <div class="alert alert-info mt-4">
-                    <p class="mb-0">Please <a href="/public/login.php">login</a> to leave a comment.</p>
+                    <p class="mb-0">Please <a href="/public/login">login</a> to leave a comment.</p>
                 </div>
             <?php endif; ?>
         </div>

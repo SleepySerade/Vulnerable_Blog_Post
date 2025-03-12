@@ -32,7 +32,7 @@ error_log("Profile.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
 
 // Redirect to login if not logged in
 if (!$isLoggedIn) {
-    header('Location: /public/login.php');
+    header('Location: /public/login');
     exit();
 }
 
@@ -82,7 +82,7 @@ try {
         }
     } else {
         // User not found (should not happen since we're using session user_id)
-        header('Location: /public/logout.php');
+        header('Location: /public/logout');
         exit();
     }
 } catch (Exception $e) {
@@ -137,7 +137,7 @@ try {
                                 </div>
                             <?php endif; ?>
                             
-                            <a href="/public/user/edit-profile.php" class="btn btn-primary">
+                            <a href="/public/user/edit-profile" class="btn btn-primary">
                                 <i class="bi bi-pencil-square"></i> Edit Profile
                             </a>
                         </div>
@@ -161,7 +161,7 @@ try {
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">Recent Posts</h4>
-                            <a href="/public/assets/pages/my-posts.php" class="btn btn-sm btn-outline-primary">
+                            <a href="/public/assets/pages/my-posts" class="btn btn-sm btn-outline-primary">
                                 View All
                             </a>
                         </div>
@@ -169,14 +169,14 @@ try {
                             <?php if (empty($recent_posts)): ?>
                                 <p class="text-center text-muted">You haven't created any posts yet.</p>
                                 <div class="text-center">
-                                    <a href="/public/assets/pages/create-post.php" class="btn btn-primary">
+                                    <a href="/public/assets/pages/create-post" class="btn btn-primary">
                                         <i class="bi bi-plus-circle"></i> Create Your First Post
                                     </a>
                                 </div>
                             <?php else: ?>
                                 <div class="list-group">
                                     <?php foreach ($recent_posts as $post): ?>
-                                        <a href="/public/post.php?id=<?php echo $post['post_id']; ?>" 
+                                        <a href="/public/post?id=<?php echo $post['post_id']; ?>" 
                                            class="list-group-item list-group-item-action">
                                             <div class="d-flex w-100 justify-content-between">
                                                 <h5 class="mb-1"><?php echo htmlspecialchars($post['title']); ?></h5>
@@ -196,7 +196,7 @@ try {
                                                     <?php endif; ?>
                                                 </div>
                                                 <div>
-                                                    <a href="/public/assets/pages/edit-post.php?id=<?php echo $post['post_id']; ?>" 
+                                                    <a href="/public/assets/pages/edit-post?id=<?php echo $post['post_id']; ?>" 
                                                        class="btn btn-sm btn-outline-primary">
                                                         <i class="bi bi-pencil"></i> Edit
                                                     </a>
@@ -207,7 +207,7 @@ try {
                                 </div>
                                 
                                 <div class="text-center mt-3">
-                                    <a href="/public/assets/pages/create-post.php" class="btn btn-primary">
+                                    <a href="/public/assets/pages/create-post" class="btn btn-primary">
                                         <i class="bi bi-plus-circle"></i> Create New Post
                                     </a>
                                 </div>
