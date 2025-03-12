@@ -2,22 +2,26 @@
 :root {
     --background-color: #ffffff;
     --text-color: #333;
-    --header-bg: #FF4500;
-    --navbar-bg: white;
-    --card-bg: #f8f9fa;
-    --button-bg: #FF4500;
-    --button-hover-bg: #e63e00;
+    --header-bg: #FF9800;
+    --navbar-bg: #FF9800;
+    --card-bg: #FFF3E0; /* Light orange-tinted background */
+    --button-bg: #FF9800;
+    --button-hover-bg: #F57C00;
+    --muted-text-color: #333;
+    --button-text-color: #ffffff; /* Button text color */
 }
 
 /* Dark Mode */
 .dark-mode {
     --background-color: #121212;
     --text-color: #f5f5f5;
-    --header-bg: #222;
-    --navbar-bg: #1a1a1a;
-    --card-bg: #222;
-    --button-bg: #FF5722;
-    --button-hover-bg: #e64a19;
+    --header-bg: #1A1A1A;
+    --navbar-bg: #1A1A1A;
+    --card-bg: #222; /* Darker contrast for readability */
+    --button-bg: #E65100; /* Deep orange */
+    --button-hover-bg: #BF360C; /* Darker orange */
+    --muted-text-color: #f5f5f5; /* Muted text color for dark mode */
+    --button-text-color: #ffffff; /* Button text color */
 }
 
 /* Apply Theme */
@@ -39,21 +43,114 @@ header {
     color: var(--text-color);
 }
 
-.btn-primary {
-    background-color: var(--button-bg);
+/* Muted Text */
+.card .card-text.text-muted,
+.card .card-text.text-muted small {
+    color: var(--muted-text-color); /* Use the muted text color */
 }
 
-.btn-primary:hover {
+/* Buttons */
+button,
+.btn-primary,
+.btn-secondary,
+.btn-outline-primary,
+.btn-outline-secondary {
+    background-color: var(--button-bg);
+    color: var(--button-text-color);
+    border: none;
+}
+
+button:hover,
+.btn-primary:hover,
+.btn-secondary:hover,
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover {
     background-color: var(--button-hover-bg);
+    color: var(--button-text-color);
 }
+
 .dark-mode .bg-light {
-    background-color: #333 !important; /* Dark background */
-    color: #fff !important; /* Light text */
+    background-color: #333 !important;
+    color: #fff !important;
 }
+
 body {
     opacity: 0;
     animation: fadeIn 1s forwards;
 }
+
+/* Add this to your CSS file */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.bg-moving-gradient {
+    background: linear-gradient(45deg, #bb3f0e, #eb2907);
+    background-size: 400% 400%;
+    animation: gradientAnimation 10s ease infinite;
+}
+
+
+
+
+/* Footer Styles */
+footer {
+    background-color: #212529; /* Dark background */
+    color: #fff;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+footer h5 {
+    font-weight: bold;
+}
+
+footer ul {
+    padding-left: 0;
+}
+
+footer ul li {
+    margin-bottom: 0.5rem;
+}
+
+footer ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease, background-color 0.3s ease, padding-left 0.2s ease;
+    padding-left: 0;
+}
+
+/* Hover effect with background color and slight padding */
+footer ul li a:hover {
+    color: #FF9800; /* Highlight color */
+    background-color: rgba(255, 152, 0, 0.2); /* Light orange background on hover */
+    padding-left: 5px; /* Slight padding for emphasis */
+    border-radius: 3px; /* Optional: rounded corners for a smoother look */
+}
+
+/* Social Media Icons */
+footer .fab {
+    margin-right: 0.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    footer .row {
+        text-align: center;
+    }
+    footer .col-md-4 {
+        margin-bottom: 1.5rem;
+    }
+}
+
 
 @keyframes fadeIn {
     to {

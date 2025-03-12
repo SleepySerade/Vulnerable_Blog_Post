@@ -276,7 +276,13 @@ $post = null;
                 const title = document.getElementById('title').value;
                 const category_id = document.getElementById('category').value || null;
                 const featured_image = document.getElementById('featuredImage').value || null;
-                const content = quill.root.innerHTML;
+                
+                // Get the text content from Quill (without HTML)
+                let content = quill.getText();
+                
+                // Trim any extra whitespace
+                content = content.trim();
+                
                 const status = document.querySelector('input[name="status"]:checked').value;
                 
                 // Set content to hidden input
