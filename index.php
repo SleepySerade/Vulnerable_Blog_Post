@@ -49,7 +49,7 @@ $recent_posts = [];
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h1 class="display-4">Welcome to Our Blog</h1>
+                    <h1 class="display-4"><span id="typing-text"></span><span class="cursor">|</span></h1>
                     <p class="lead">Discover interesting stories, insights, and experiences from our community.</p>
                     <?php if (!isset($_SESSION['user_id'])): ?>
                         <a href="/public/register" class="btn btn-light btn-lg">Join Now</a>
@@ -64,7 +64,7 @@ $recent_posts = [];
         <h2 class="mb-4">Featured Posts</h2>
         <div class="row">
             <?php foreach ($featured_posts as $post): ?>
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-4 fade-in">
                     <div class="card h-100">
                         <?php if ($post['featured_image']): ?>
                             <img src="<?php echo htmlspecialchars($post['featured_image']); ?>" 
@@ -98,7 +98,7 @@ $recent_posts = [];
         <h2 class="mb-4">Recent Posts</h2>
         <div class="row">
             <?php foreach ($recent_posts as $post): ?>
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-4 fade-in">
                     <div class="card h-100">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo htmlspecialchars($post['title']); ?></h5>
@@ -142,56 +142,135 @@ $recent_posts = [];
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            //Fade in effect
+            const fadeElements = document.querySelectorAll(".fade-in");
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                    }
+                });
+            }, {threshold: 0.3 });
+
+            fadeElements.forEach(element => observer.observe(element));
+            
+            // Typing effect
+            const textElement = document.getElementById("typing-text");
+            const cursorElement = document.querySelector(".cursor");
+
+            const textArray = ["Welcome to Our Blog", "Discover Great Stories", "Join Our Community"];
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            // Navbar scroll effect
+            const navbar = document.getElementById("navbar");
+
+            window.addEventListener("scroll", function () {
+                if (window.scrollY > 50) {
+                    navbar.classList.add("scrolled"); // Add dark background
+                } else {
+                    navbar.classList.remove("scrolled"); // Keep it transparent
+                }
+            });
+
             // Fetch featured posts
+            console.log("Fetching featured posts...");
             fetch('/backend/api/posts.php?action=featured')
-                .then(response => response.json())
+                .then(response => {
+                    console.log("Featured posts response status:", response.status);
+                    return response.json();
+                })
                 .then(result => {
-                    if (result.success && result.data.length > 0) {
+                    console.log("Featured posts API result:", result);
+                    if (result.success && result.data && result.data.length > 0) {
                         displayFeaturedPosts(result.data);
+                    } else {
+                        console.warn("No featured posts found or API returned error:", result);
                     }
                 })
                 .catch(error => console.error('Error fetching featured posts:', error));
             
             // Fetch recent posts
+            console.log("Fetching recent posts...");
             fetch('/backend/api/posts.php?action=recent')
-                .then(response => response.json())
+                .then(response => {
+                    console.log("Recent posts response status:", response.status);
+                    return response.json();
+                })
                 .then(result => {
-                    if (result.success && result.data.length > 0) {
+                    console.log("Recent posts API result:", result);
+                    if (result.success && result.data && result.data.length > 0) {
                         displayRecentPosts(result.data);
+                    } else {
+                        console.warn("No recent posts found or API returned error:", result);
                     }
                 })
                 .catch(error => console.error('Error fetching recent posts:', error));
             
             // Function to display featured posts
             function displayFeaturedPosts(posts) {
-                const container = document.querySelector('.container.mb-5:nth-of-type(1) .row');
+                // Find all h2 headings with class mb-4
+                const headings = document.querySelectorAll('h2.mb-4');
+                let featuredPostsContainer = null;
                 
-                if (!container) return;
+                // Find the one with text "Featured Posts"
+                for (const heading of headings) {
+                    if (heading.textContent.trim() === "Featured Posts") {
+                        // Find the container and row
+                        featuredPostsContainer = heading.closest('.container').querySelector('.row');
+                        break;
+                    }
+                }
+                
+                if (!featuredPostsContainer) {
+                    console.error("Could not find Featured Posts container");
+                    return;
+                }
                 
                 // Clear loading or placeholder content
-                container.innerHTML = '';
+                featuredPostsContainer.innerHTML = '';
                 
                 // Add posts to container
                 posts.forEach(post => {
                     const postElement = createPostElement(post, true);
-                    container.appendChild(postElement);
+                    featuredPostsContainer.appendChild(postElement);
                 });
+                
+                console.log("Displayed", posts.length, "featured posts");
             }
             
             // Function to display recent posts
             function displayRecentPosts(posts) {
-                const container = document.querySelector('.container.mb-5:nth-of-type(2) .row');
+                // Find all h2 headings with class mb-4
+                const headings = document.querySelectorAll('h2.mb-4');
+                let recentPostsContainer = null;
                 
-                if (!container) return;
+                // Find the one with text "Recent Posts"
+                for (const heading of headings) {
+                    if (heading.textContent.trim() === "Recent Posts") {
+                        // Find the container and row
+                        recentPostsContainer = heading.closest('.container').querySelector('.row');
+                        break;
+                    }
+                }
+                
+                if (!recentPostsContainer) {
+                    console.error("Could not find Recent Posts container");
+                    return;
+                }
                 
                 // Clear loading or placeholder content
-                container.innerHTML = '';
+                recentPostsContainer.innerHTML = '';
                 
                 // Add posts to container
                 posts.forEach(post => {
                     const postElement = createPostElement(post, false);
-                    container.appendChild(postElement);
+                    recentPostsContainer.appendChild(postElement);
                 });
+                
+                console.log("Displayed", posts.length, "recent posts");
             }
             
             // Function to create a post element
@@ -260,6 +339,37 @@ $recent_posts = [];
                 
                 return colDiv;
             }
+
+            function typeEffect() {
+                const currentText = textArray[textIndex];
+                const speed = isDeleting ? 50 : 100;
+
+                if (!isDeleting) {
+                    textElement.textContent = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                } else {
+                    textElement.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                }
+
+                if (!isDeleting && charIndex === currentText.length) {
+                    isDeleting = true;
+                    setTimeout(typeEffect, 1500); // Wait before deleting
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % textArray.length;
+                    setTimeout(typeEffect, 500); // Pause before next word
+                } else {
+                    setTimeout(typeEffect, speed);
+                }
+            }
+
+            typeEffect(); // Start typing effect
+
+            // Blinking Cursor
+            setInterval(() => {
+                cursorElement.classList.toggle("hidden");
+            }, 500);
         });
     </script>
 </body>
