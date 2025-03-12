@@ -138,7 +138,7 @@ function login($username, $password) {
                 $response['message'] = 'Login successful';
                 $response['data'] = [
                     'user_id' => $user['user_id'],
-                    'username' => sanitizeOutput($user['username'])
+                    'username' => $user['username']
                 ];
             } else {
                 $logger->warning("Invalid password for user: " . sanitizeOutput($username));
