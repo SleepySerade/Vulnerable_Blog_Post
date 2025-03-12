@@ -29,31 +29,39 @@ if ($isLoggedIn) {
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="/index.php"><i class="bi bi-journal-richtext"></i> Blog Website</a>
+        <a class="navbar-brand" href="/index"><i class="bi bi-journal-richtext"></i> Blog Website</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/index.php"><i class="bi bi-house"></i> Home</a>
+                    <a class="nav-link" href="/index"><i class="bi bi-house"></i> Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/public/assets/pages/about.php"><i class="bi bi-info-circle"></i> About</a>
+                    <a class="nav-link" href="/public/assets/pages/about"><i class="bi bi-info-circle"></i> About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/public/assets/pages/posts.php"><i class="bi bi-newspaper"></i> Blog Posts</a>
+                    <a class="nav-link" href="/public/assets/pages/posts"><i class="bi bi-newspaper"></i> Blog Posts</a>
                 </li>
+                
+                <!-- Search Bar -->
+                <li class="nav-item">
+                    <form class="d-flex" id="search-form">
+                        <input class="form-control me-2" type="search" placeholder="Search..." id="search-input">
+                        <button class="btn btn-outline-light" type="button" id="search-button">🔍</button>
+                    </form>
+                </li>
+
                 <li class="nav-item">
                     <button id="dark-mode-toggle" class="btn btn-outline-light">
                         🌙 Dark Mode
                     </button>
                 </li>
 
-                
                 <?php if ($isLoggedIn): ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="/public/assets/pages/create-post.php"><i class="bi bi-pencil-square"></i> Create Post</a>
+                    <a class="nav-link" href="/public/assets/pages/create-post"><i class="bi bi-pencil-square"></i> Create Post</a>
                 </li>
                 <?php endif; ?>
                 
@@ -64,21 +72,21 @@ if ($isLoggedIn) {
                         <i class="bi bi-shield-lock"></i> Admin Panel
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/admin/dashboard.php">
+                        <li><a class="dropdown-item" href="/admin/dashboard">
                             <i class="bi bi-speedometer2"></i> Dashboard
                         </a></li>
-                        <li><a class="dropdown-item" href="/admin/manage_user.php">
+                        <li><a class="dropdown-item" href="/admin/manage_user">
                             <i class="bi bi-people"></i> Manage Users
                         </a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/admin/manage_posts.php">
+                        <li><a class="dropdown-item" href="/admin/manage_posts">
                             <i class="bi bi-file-earmark-post"></i> Manage Posts
                         </a></li>
-                        <li><a class="dropdown-item" href="/admin/manage_categories.php">
+                        <li><a class="dropdown-item" href="/admin/manage_categories">
                             <i class="bi bi-tag"></i> Manage Categories
                         </a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/public/log_viewer.php">
+                        <li><a class="dropdown-item" href="/public/log_viewer">
                             <i class="bi bi-journal-text"></i> View Logs
                         </a></li>
                     </ul>
@@ -97,17 +105,17 @@ if ($isLoggedIn) {
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><span class="dropdown-item-text text-muted">Signed in as <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong></span></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/public/user/profile.php">
+                            <li><a class="dropdown-item" href="/public/user/profile">
                                 <i class="bi bi-person"></i> My Profile
                             </a></li>
-                            <li><a class="dropdown-item" href="/public/assets/pages/my-posts.php">
+                            <li><a class="dropdown-item" href="/public/assets/pages/my-posts">
                                 <i class="bi bi-file-earmark-text"></i> My Posts
                             </a></li>
-                            <li><a class="dropdown-item" href="/public/assets/pages/create-post.php">
+                            <li><a class="dropdown-item" href="/public/assets/pages/create-post">
                                 <i class="bi bi-pencil-square"></i> Create New Post
                             </a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="/public/logout.php">
+                            <li><a class="dropdown-item text-danger" href="/public/logout">
                                 <i class="bi bi-box-arrow-right"></i> Logout
                             </a></li>
                         </ul>
@@ -115,10 +123,10 @@ if ($isLoggedIn) {
                 <?php else: ?>
                     <!-- Not logged in -->
                     <li class="nav-item">
-                        <a class="nav-link" href="/public/login.php"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                        <a class="nav-link" href="/public/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/public/register.php"><i class="bi bi-person-plus"></i> Register</a>
+                        <a class="nav-link" href="/public/register"><i class="bi bi-person-plus"></i> Register</a>
                     </li>
                 <?php endif; ?>
             </ul>

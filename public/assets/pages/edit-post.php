@@ -32,13 +32,13 @@ error_log("EditPost.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
 
 // Redirect to login if not logged in
 if (!$isLoggedIn) {
-    header('Location: /public/login.php');
+    header('Location: /public/login');
     exit();
 }
 
 // Check if post ID is provided
 if (!isset($_GET['id'])) {
-    header('Location: /index.php');
+    header('Location: /index');
     exit();
 }
 
@@ -83,7 +83,7 @@ $post = null;
                     <p id="errorMessage">An error occurred while loading the post.</p>
                     <hr>
                     <p class="mb-0">
-                        <a href="/index.php" class="alert-link">Return to Home</a>
+                        <a href="/index" class="alert-link">Return to Home</a>
                     </p>
                 </div>
 
@@ -151,7 +151,7 @@ $post = null;
                             </div>
 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <button type="button" class="btn btn-outline-secondary me-md-2" onclick="window.location.href='/public/post.php?id=<?php echo $post_id; ?>'">Cancel</button>
+                                <button type="button" class="btn btn-outline-secondary me-md-2" onclick="window.location.href='/public/post?id=<?php echo $post_id; ?>'">Cancel</button>
                                 <button type="submit" class="btn btn-primary">Update Post</button>
                             </div>
                         </form>
@@ -335,7 +335,7 @@ $post = null;
                         
                         // Redirect to the post after a delay
                         setTimeout(() => {
-                            window.location.href = `/public/post.php?id=${postId}`;
+                            window.location.href = `/public/post?id=${postId}`;
                         }, 2000);
                     } else {
                         // Show error message

@@ -22,7 +22,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $isLoggedIn = isset($_SESSION['user_id']);
 if (!$isLoggedIn) {
     // Redirect to login page if not logged in
-    header('Location: /public/login.php');
+    header('Location: /public/login');
     exit();
 }
 
@@ -47,13 +47,13 @@ try {
     } else {
         // Redirect to home page if not admin
         $logger->warning("Non-admin user (ID: $user_id) attempted to access admin dashboard");
-        header('Location: /index.php');
+        header('Location: /index');
         exit();
     }
 } catch (Exception $e) {
     $logger->error("Error checking admin status: " . $e->getMessage());
     // Redirect to home page on error
-    header('Location: /index.php');
+    header('Location: /index');
     exit();
 }
 
@@ -161,7 +161,7 @@ try {
                         <p class="card-text">Total Users</p>
                     </div>
                     <div class="card-footer bg-transparent border-0 text-center">
-                        <a href="/admin/manage_user.php" class="btn btn-sm btn-light">Manage Users</a>
+                        <a href="/admin/manage_user" class="btn btn-sm btn-light">Manage Users</a>
                     </div>
                 </div>
             </div>
@@ -174,7 +174,7 @@ try {
                         <p class="card-text">Total Posts</p>
                     </div>
                     <div class="card-footer bg-transparent border-0 text-center">
-                        <a href="/admin/manage_posts.php" class="btn btn-sm btn-light">Manage Posts</a>
+                        <a href="/admin/manage_posts" class="btn btn-sm btn-light">Manage Posts</a>
                     </div>
                 </div>
             </div>
@@ -200,7 +200,7 @@ try {
                         <p class="card-text">Categories</p>
                     </div>
                     <div class="card-footer bg-transparent border-0 text-center">
-                        <a href="/admin/manage_categories.php" class="btn btn-sm btn-dark">Manage Categories</a>
+                        <a href="/admin/manage_categories" class="btn btn-sm btn-dark">Manage Categories</a>
                     </div>
                 </div>
             </div>
@@ -212,7 +212,7 @@ try {
                 <div class="card h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0"><i class="bi bi-people"></i> Recent Users</h5>
-                        <a href="/admin/manage_user.php" class="btn btn-sm btn-outline-primary">View All</a>
+                        <a href="/admin/manage_user" class="btn btn-sm btn-outline-primary">View All</a>
                     </div>
                     <div class="card-body">
                         <?php if (empty($stats['recent_users'])): ?>
@@ -235,7 +235,7 @@ try {
                                                 <td><?php echo htmlspecialchars($user['email']); ?></td>
                                                 <td><?php echo date('M d, Y', strtotime($user['created_at'])); ?></td>
                                                 <td>
-                                                    <a href="/admin/manage_user.php?action=edit&id=<?php echo $user['user_id']; ?>" class="btn btn-sm btn-outline-primary">
+                                                    <a href="/admin/manage_user?action=edit&id=<?php echo $user['user_id']; ?>" class="btn btn-sm btn-outline-primary">
                                                         <i class="bi bi-pencil"></i>
                                                     </a>
                                                 </td>
@@ -254,7 +254,7 @@ try {
                 <div class="card h-100">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0"><i class="bi bi-file-earmark-post"></i> Recent Posts</h5>
-                        <a href="/admin/manage_posts.php" class="btn btn-sm btn-outline-primary">View All</a>
+                        <a href="/admin/manage_posts" class="btn btn-sm btn-outline-primary">View All</a>
                     </div>
                     <div class="card-body">
                         <?php if (empty($stats['recent_posts'])): ?>
@@ -283,7 +283,7 @@ try {
                                                 </td>
                                                 <td><?php echo date('M d, Y', strtotime($post['created_at'])); ?></td>
                                                 <td>
-                                                    <a href="/admin/manage_posts.php?action=edit&id=<?php echo $post['post_id']; ?>" class="btn btn-sm btn-outline-primary">
+                                                    <a href="/admin/manage_posts?action=edit&id=<?php echo $post['post_id']; ?>" class="btn btn-sm btn-outline-primary">
                                                         <i class="bi bi-pencil"></i>
                                                     </a>
                                                 </td>

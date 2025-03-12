@@ -32,7 +32,7 @@ error_log("MyPosts.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
 
 // Redirect to login if not logged in
 if (!$isLoggedIn) {
-    header('Location: /public/login.php');
+    header('Location: /public/login');
     exit();
 }
 
@@ -61,7 +61,7 @@ $archived_posts = [];
         <header class="mb-5">
             <h1>My Posts</h1>
             <p class="lead">Manage your blog posts</p>
-            <a href="/public/assets/pages/create-post.php" class="btn btn-primary">
+            <a href="/public/assets/pages/create-post" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> Create New Post
             </a>
         </header>
@@ -82,7 +82,7 @@ $archived_posts = [];
         <!-- No Posts Alert -->
         <div id="noPostsAlert" class="alert alert-info d-none">
             <i class="bi bi-info-circle-fill"></i> You haven't created any posts yet. 
-            <a href="/public/assets/pages/create-post.php" class="alert-link">Create your first post</a>.
+            <a href="/public/assets/pages/create-post" class="alert-link">Create your first post</a>.
         </div>
 
         <!-- Tabs for different post statuses -->
@@ -276,7 +276,7 @@ $archived_posts = [];
                     // Title cell
                     const titleCell = document.createElement('td');
                     const titleLink = document.createElement('a');
-                    titleLink.href = `/public/post.php?id=${post.post_id}`;
+                    titleLink.href = `/public/post?id=${post.post_id}`;
                     titleLink.textContent = post.title;
                     titleCell.appendChild(titleLink);
                     row.appendChild(titleCell);
@@ -303,7 +303,7 @@ $archived_posts = [];
                     
                     // Edit button
                     const editBtn = document.createElement('a');
-                    editBtn.href = `/public/assets/pages/edit-post.php?id=${post.post_id}`;
+                    editBtn.href = `/public/assets/pages/edit-post?id=${post.post_id}`;
                     editBtn.className = 'btn btn-sm btn-outline-primary me-2';
                     editBtn.innerHTML = '<i class="bi bi-pencil"></i> Edit';
                     actionsCell.appendChild(editBtn);

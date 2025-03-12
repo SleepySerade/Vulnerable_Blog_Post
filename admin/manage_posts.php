@@ -22,7 +22,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $isLoggedIn = isset($_SESSION['user_id']);
 if (!$isLoggedIn) {
     // Redirect to login page if not logged in
-    header('Location: /public/login.php');
+    header('Location: /public/login');
     exit();
 }
 
@@ -47,13 +47,13 @@ try {
     } else {
         // Redirect to home page if not admin
         $logger->warning("Non-admin user (ID: $user_id) attempted to access post management");
-        header('Location: /index.php');
+        header('Location: /index');
         exit();
     }
 } catch (Exception $e) {
     $logger->error("Error checking admin status: " . $e->getMessage());
     // Redirect to home page on error
-    header('Location: /index.php');
+    header('Location: /index');
     exit();
 }
 
@@ -270,7 +270,7 @@ try {
     <div class="container my-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1><i class="bi bi-file-earmark-post"></i> Manage Posts</h1>
-            <a href="/admin/dashboard.php" class="btn btn-outline-primary">
+            <a href="/admin/dashboard" class="btn btn-outline-primary">
                 <i class="bi bi-arrow-left"></i> Back to Dashboard
             </a>
         </div>
@@ -351,7 +351,7 @@ try {
                         </div>
                         
                         <div class="d-flex justify-content-between">
-                            <a href="/admin/manage_posts.php" class="btn btn-secondary">
+                            <a href="/admin/manage_posts" class="btn btn-secondary">
                                 <i class="bi bi-x"></i> Cancel
                             </a>
                             
@@ -434,7 +434,7 @@ try {
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-filter"></i> Apply Filters
                         </button>
-                        <a href="/admin/manage_posts.php" class="btn btn-outline-secondary">
+                        <a href="/admin/manage_posts" class="btn btn-outline-secondary">
                             <i class="bi bi-x-circle"></i> Clear Filters
                         </a>
                     </div>
@@ -482,7 +482,7 @@ try {
                                         <td><?php echo $post['views_count']; ?></td>
                                         <td>
                                             <div class="btn-group">
-                                                <a href="/admin/manage_posts.php?action=edit&id=<?php echo $post['post_id']; ?>" class="btn btn-sm btn-outline-primary">
+                                                <a href="/admin/manage_posts?action=edit&id=<?php echo $post['post_id']; ?>" class="btn btn-sm btn-outline-primary">
                                                     <i class="bi bi-pencil"></i> Edit
                                                 </a>
                                                 <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
@@ -490,7 +490,7 @@ try {
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <a class="dropdown-item" href="/public/post.php?id=<?php echo $post['post_id']; ?>" target="_blank">
+                                                        <a class="dropdown-item" href="/public/post?id=<?php echo $post['post_id']; ?>" target="_blank">
                                                             <i class="bi bi-eye"></i> View
                                                         </a>
                                                     </li>

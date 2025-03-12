@@ -22,7 +22,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $isLoggedIn = isset($_SESSION['user_id']);
 if (!$isLoggedIn) {
     // Redirect to login page if not logged in
-    header('Location: /public/login.php');
+    header('Location: /public/login');
     exit();
 }
 
@@ -47,13 +47,13 @@ try {
     } else {
         // Redirect to home page if not admin
         $logger->warning("Non-admin user (ID: $user_id) attempted to access user management");
-        header('Location: /index.php');
+        header('Location: /index');
         exit();
     }
 } catch (Exception $e) {
     $logger->error("Error checking admin status: " . $e->getMessage());
     // Redirect to home page on error
-    header('Location: /index.php');
+    header('Location: /index');
     exit();
 }
 
@@ -225,7 +225,7 @@ try {
     <div class="container my-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1><i class="bi bi-people"></i> Manage Users</h1>
-            <a href="/admin/dashboard.php" class="btn btn-outline-primary">
+            <a href="/admin/dashboard" class="btn btn-outline-primary">
                 <i class="bi bi-arrow-left"></i> Back to Dashboard
             </a>
         </div>
@@ -338,7 +338,7 @@ try {
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="/admin/manage_user.php" class="btn btn-secondary">
+                    <a href="/admin/manage_user" class="btn btn-secondary">
                         <i class="bi bi-x"></i> Cancel
                     </a>
                 </div>
@@ -387,7 +387,7 @@ try {
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <a href="/admin/manage_user.php?action=edit&id=<?php echo $u['user_id']; ?>" class="btn btn-sm btn-outline-primary">
+                                            <a href="/admin/manage_user?action=edit&id=<?php echo $u['user_id']; ?>" class="btn btn-sm btn-outline-primary">
                                                 <i class="bi bi-pencil"></i> Edit
                                             </a>
                                         </td>

@@ -52,7 +52,7 @@ $recent_posts = [];
                     <h1 class="display-4">Welcome to Our Blog</h1>
                     <p class="lead">Discover interesting stories, insights, and experiences from our community.</p>
                     <?php if (!isset($_SESSION['user_id'])): ?>
-                        <a href="/public/register.php" class="btn btn-light btn-lg">Join Now</a>
+                        <a href="/public/register" class="btn btn-light btn-lg">Join Now</a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -85,7 +85,7 @@ $recent_posts = [];
                                 echo substr($plain_content, 0, 150) . '...';
                                 ?>
                             </p>
-                            <a href="/public/post.php?id=<?php echo $post['post_id']; ?>" class="btn btn-primary">Read More</a>
+                            <a href="/public/post?id=<?php echo $post['post_id']; ?>" class="btn btn-primary">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@ $recent_posts = [];
                                 echo substr($plain_content, 0, 100) . '...';
                                 ?>
                             </p>
-                            <a href="/public/post.php?id=<?php echo $post['post_id']; ?>" class="btn btn-outline-primary">Read More</a>
+                            <a href="/public/post?id=<?php echo $post['post_id']; ?>" class="btn btn-outline-primary">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -129,9 +129,9 @@ $recent_posts = [];
             <h2>Share Your Story</h2>
             <p class="lead mb-4">Join our community and start sharing your experiences with the world.</p>
             <?php if (!isset($_SESSION['user_id'])): ?>
-                <a href="/public/register.php" class="btn btn-primary btn-lg">Get Started</a>
+                <a href="/public/register" class="btn btn-primary btn-lg">Get Started</a>
             <?php else: ?>
-                <a href="/public/create-post.php" class="btn btn-primary btn-lg">Create New Post</a>
+                <a href="/public/create-post" class="btn btn-primary btn-lg">Create New Post</a>
             <?php endif; ?>
         </div>
     </div>
@@ -250,7 +250,7 @@ $recent_posts = [];
                 
                 // Add read more button
                 const link = document.createElement('a');
-                link.href = `/public/post.php?id=${post.post_id}`;
+                link.href = `/public/post?id=${post.post_id}`;
                 link.className = isFeatured ? 'btn btn-primary' : 'btn btn-outline-primary';
                 link.textContent = 'Read More';
                 cardBodyDiv.appendChild(link);

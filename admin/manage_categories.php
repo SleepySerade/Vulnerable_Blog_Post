@@ -22,7 +22,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $isLoggedIn = isset($_SESSION['user_id']);
 if (!$isLoggedIn) {
     // Redirect to login page if not logged in
-    header('Location: /public/login.php');
+    header('Location: /public/login');
     exit();
 }
 
@@ -47,13 +47,13 @@ try {
     } else {
         // Redirect to home page if not admin
         $logger->warning("Non-admin user (ID: $user_id) attempted to access category management");
-        header('Location: /index.php');
+        header('Location: /index');
         exit();
     }
 } catch (Exception $e) {
     $logger->error("Error checking admin status: " . $e->getMessage());
     // Redirect to home page on error
-    header('Location: /index.php');
+    header('Location: /index');
     exit();
 }
 
@@ -223,7 +223,7 @@ try {
     <div class="container my-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1><i class="bi bi-tag"></i> Manage Categories</h1>
-            <a href="/admin/dashboard.php" class="btn btn-outline-primary">
+            <a href="/admin/dashboard" class="btn btn-outline-primary">
                 <i class="bi bi-arrow-left"></i> Back to Dashboard
             </a>
         </div>
@@ -273,7 +273,7 @@ try {
                                 </button>
                                 
                                 <?php if ($edit_category): ?>
-                                    <a href="/admin/manage_categories.php" class="btn btn-outline-secondary">
+                                    <a href="/admin/manage_categories" class="btn btn-outline-secondary">
                                         <i class="bi bi-x-circle"></i> Cancel
                                     </a>
                                 <?php endif; ?>
@@ -319,7 +319,7 @@ try {
                                                 </td>
                                                 <td>
                                                     <?php if ($category['post_count'] > 0): ?>
-                                                        <a href="/admin/manage_posts.php?category=<?php echo $category['category_id']; ?>">
+                                                        <a href="/admin/manage_posts?category=<?php echo $category['category_id']; ?>">
                                                             <?php echo $category['post_count']; ?> post<?php echo $category['post_count'] !== 1 ? 's' : ''; ?>
                                                         </a>
                                                     <?php else: ?>
@@ -329,7 +329,7 @@ try {
                                                 <td><?php echo date('M d, Y', strtotime($category['created_at'])); ?></td>
                                                 <td>
                                                     <div class="btn-group">
-                                                        <a href="/admin/manage_categories.php?action=edit&id=<?php echo $category['category_id']; ?>" class="btn btn-sm btn-outline-primary">
+                                                        <a href="/admin/manage_categories?action=edit&id=<?php echo $category['category_id']; ?>" class="btn btn-sm btn-outline-primary">
                                                             <i class="bi bi-pencil"></i> Edit
                                                         </a>
                                                         

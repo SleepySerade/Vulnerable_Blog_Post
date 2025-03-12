@@ -29,7 +29,7 @@ error_log("Session variables: " . print_r($_SESSION, true));
 // If already logged in, redirect to home
 if (isset($_SESSION['user_id'])) {
     // Use absolute path for redirection
-    header('Location: /index.php');
+    header('Location: /index');
     exit();
 }
 
@@ -109,7 +109,7 @@ if (isset($_SESSION['registration_success'])) {
                         </form>
                     </div>
                     <div class="card-footer text-center">
-                        <p class="mb-0">Don't have an account? <a href="/public/register.php">Register here</a></p>
+                        <p class="mb-0">Don't have an account? <a href="/public/register">Register here</a></p>
                     </div>
                 </div>
             </div>
@@ -210,7 +210,7 @@ if (isset($_SESSION['registration_success'])) {
                         setTimeout(() => {
                             // Redirect based on user role
                             const redirectUrl = (result.user && result.user.is_admin) ?
-                                '/admin/dashboard.php' : '/index.php';
+                                '/admin/dashboard' : '/index';
                             
                             console.log('Redirecting to:', redirectUrl);
                             

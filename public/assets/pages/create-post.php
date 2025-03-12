@@ -32,7 +32,7 @@ error_log("CreatePost.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'))
 
 // Redirect to login if not logged in
 if (!$isLoggedIn) {
-    header('Location: /public/login.php');
+    header('Location: /public/login');
     exit();
 }
 
@@ -118,7 +118,7 @@ $categories = [];
                             </div>
 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <button type="button" class="btn btn-outline-secondary me-md-2" onclick="window.location.href='/public/index.php'">Cancel</button>
+                                <button type="button" class="btn btn-outline-secondary me-md-2" onclick="window.location.href='/public/index'">Cancel</button>
                                 <button type="submit" class="btn btn-primary">Create Post</button>
                             </div>
                         </form>
@@ -244,7 +244,7 @@ $categories = [];
                         
                         // Redirect to the new post after a delay
                         setTimeout(() => {
-                            window.location.href = `/public/post.php?id=${result.data.post_id}`;
+                            window.location.href = `/public/post?id=${result.data.post_id}`;
                         }, 2000);
                     } else {
                         // Show error message
