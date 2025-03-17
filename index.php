@@ -45,9 +45,9 @@ $recent_posts = [];
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
 
     <!-- Hero Section -->
-    <div class="container-fluid bg-primary text-white py-5 mb-5">
+    <div class="container-fluid bg-secondary text-white py-5 mb-5">
         <div class="container">
-            <div class="row align-items-center">
+            <div class="row align-items-center mt-5">
                 <div class="col-md-8">
                     <h1 class="display-4"><span id="typing-text"></span><span class="cursor">|</span></h1>
                     <p class="lead">Discover interesting stories, insights, and experiences from our community.</p>
@@ -159,7 +159,7 @@ $recent_posts = [];
             const textElement = document.getElementById("typing-text");
             const cursorElement = document.querySelector(".cursor");
 
-            const textArray = ["Welcome to Our Blog", "Discover Great Stories", "Join Our Community"];
+            const textArray = ["Welcome to Our Blog!", "Discover Great Stories", "Reflect Your Personality"];
             let textIndex = 0;
             let charIndex = 0;
             let isDeleting = false;
