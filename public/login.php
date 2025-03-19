@@ -29,7 +29,7 @@ error_log("Session variables: " . print_r($_SESSION, true));
 // If already logged in, redirect to home
 if (isset($_SESSION['user_id'])) {
     // Use absolute path for redirection
-    header('Location: /index');
+    header('Location: /');
     exit();
 }
 
@@ -210,7 +210,7 @@ if (isset($_SESSION['registration_success'])) {
                         setTimeout(() => {
                             // Redirect based on user role
                             const redirectUrl = (result.user && result.user.is_admin) ?
-                                '/admin/dashboard' : '/index';
+                                '/admin/dashboard' : '/';
                             
                             console.log('Redirecting to:', redirectUrl);
                             
