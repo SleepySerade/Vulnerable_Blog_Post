@@ -2,22 +2,26 @@
 :root {
     --background-color: #ffffff;
     --text-color: #333;
-    --header-bg: #FF4500;
-    --navbar-bg: white;
-    --card-bg: #f8f9fa;
-    --button-bg: #FF4500;
-    --button-hover-bg: #e63e00;
+    --header-bg: #f4ece1;
+    --navbar-bg: #FF9800;
+    --card-bg: #FFF3E0; /* Light orange-tinted background */
+    --button-bg: #FF9800;
+    --button-hover-bg: #F57C00;
+    --muted-text-color: #333;
+    --button-text-color: #ffffff; /* Button text color */
 }
 
 /* Dark Mode */
 .dark-mode {
     --background-color: #121212;
     --text-color: #f5f5f5;
-    --header-bg: #222;
-    --navbar-bg: #1a1a1a;
-    --card-bg: #222;
-    --button-bg: #FF5722;
-    --button-hover-bg: #e64a19;
+    --header-bg: #1A1A1A;
+    --navbar-bg: #1A1A1A;
+    --card-bg: #222; /* Darker contrast for readability */
+    --button-bg: #E65100; /* Deep orange */
+    --button-hover-bg: #BF360C; /* Darker orange */
+    --muted-text-color: #f5f5f5; /* Muted text color for dark mode */
+    --button-text-color: #ffffff; /* Button text color */
 }
 
 /* Apply Theme */
@@ -28,6 +32,10 @@ body {
 
 header {
     background-color: var(--header-bg);
+}
+
+.navbar {
+    background-color: var(--navbar-bg);
 }
 
 .card {
@@ -91,6 +99,8 @@ body {
 }
 
 
+
+
 /* Footer Styles */
 footer {
     background-color: #212529; /* Dark background */
@@ -152,14 +162,25 @@ footer .fab {
     opacity: 0;
     transition: opacity 1s ease-out;
 }
-/* Default Transparent Navbar */
-#navbar {
-    background-color: transparent;
-    transition: background-color 0.5s ease-in-out;
+.dark-mode .form-text {
+    color: #ffffff !important;
+}
+/* Ensure the edit button is blue in dark mode */
+.btn-edit {
+    background-color: #007bff !important; /* Blue */
+    color: #ffffff !important;
+    border: none;
+}
+/* Optional: Hover state for edit button in dark mode */
+.btn-edit:hover {
+    background-color: #0069d9 !important;
 }
 
-/* When scrolled, change to dark */
-#navbar.scrolled {
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
+.btn-newPost{
+    background-color: #ff9500d0 !important; 
+    color: #ffffff !important;
+    border: none;
+}
+.btn-newPost:hover{
+    background-color: #ff9500d0 !important; 
 }

@@ -32,7 +32,7 @@ error_log("MyPosts.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
 
 // Redirect to login if not logged in
 if (!$isLoggedIn) {
-    header('Location: /public/login');
+    header('Location: /public/login.php');
     exit();
 }
 
@@ -61,7 +61,7 @@ $archived_posts = [];
         <header class="mb-5">
             <h1>My Posts</h1>
             <p class="lead">Manage your blog posts</p>
-            <a href="/public/assets/pages/create-post" class="btn btn-primary">
+            <a href="/public/assets/pages/create-post.php" class="btn btn-newPost">
                 <i class="bi bi-plus-circle"></i> Create New Post
             </a>
         </header>
@@ -82,7 +82,7 @@ $archived_posts = [];
         <!-- No Posts Alert -->
         <div id="noPostsAlert" class="alert alert-info d-none">
             <i class="bi bi-info-circle-fill"></i> You haven't created any posts yet. 
-            <a href="/public/assets/pages/create-post" class="alert-link">Create your first post</a>.
+            <a href="/public/assets/pages/create-post.php" class="alert-link">Create your first post</a>.
         </div>
 
         <!-- Tabs for different post statuses -->
@@ -273,12 +273,9 @@ $archived_posts = [];
                 posts.forEach(post => {
                     const row = document.createElement('tr');
                     
-                    // Title cell
+                    // Title cell as plain text
                     const titleCell = document.createElement('td');
-                    const titleLink = document.createElement('a');
-                    titleLink.href = `/public/post?id=${post.post_id}`;
-                    titleLink.textContent = post.title;
-                    titleCell.appendChild(titleLink);
+                    titleCell.textContent = post.title;
                     row.appendChild(titleCell);
                     
                     // Date cell
@@ -298,20 +295,27 @@ $archived_posts = [];
                         row.appendChild(viewsCell);
                     }
                     
-                    // Actions cell
+                    // Actions cell with 3 buttons: View, Edit, Delete
                     const actionsCell = document.createElement('td');
                     
-                    // Edit button
+                    // View button (green)
+                    const viewBtn = document.createElement('a');
+                    viewBtn.href = `/public/post.php?id=${post.post_id}`;
+                    viewBtn.className = 'btn btn-sm btn-success me-2';
+                    viewBtn.innerHTML = '<i class="bi bi-eye"></i> View';
+                    actionsCell.appendChild(viewBtn);
+                    
+                    // Edit button (blue)
                     const editBtn = document.createElement('a');
-                    editBtn.href = `/public/assets/pages/edit-post?id=${post.post_id}`;
-                    editBtn.className = 'btn btn-sm btn-outline-primary me-2';
+                    editBtn.href = `/public/assets/pages/edit-post.php?id=${post.post_id}`;
+                    editBtn.className = 'btn btn-sm btn-edit me-2';
                     editBtn.innerHTML = '<i class="bi bi-pencil"></i> Edit';
                     actionsCell.appendChild(editBtn);
                     
-                    // Delete button
+                    // Delete button (red)
                     const deleteBtn = document.createElement('button');
                     deleteBtn.type = 'button';
-                    deleteBtn.className = 'btn btn-sm btn-outline-danger';
+                    deleteBtn.className = 'btn btn-sm btn-danger';
                     deleteBtn.innerHTML = '<i class="bi bi-trash"></i> Delete';
                     deleteBtn.addEventListener('click', () => {
                         // Set post to delete
