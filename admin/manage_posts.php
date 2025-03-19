@@ -336,13 +336,19 @@ try {
                         </div>
                         
                         <div class="mb-3">
-                            <label for="featured_image" class="form-label">Featured Image URL</label>
-                            <input type="url" class="form-control" id="featured_image" name="featured_image" value="<?php echo htmlspecialchars($edit_post['featured_image'] ?? ''); ?>">
-                            <?php if (!empty($edit_post['featured_image'])): ?>
-                                <div class="mt-2">
-                                    <img src="<?php echo htmlspecialchars($edit_post['featured_image']); ?>" alt="Featured Image" class="img-thumbnail" style="max-height: 200px;">
-                                </div>
-                            <?php endif; ?>
+                            <label for="featured_image" class="form-label">Featured Image</label>
+                            <div class="input-group mb-3">
+                                <input type="file" class="form-control" id="imageUpload" accept="image/*">
+                                <button class="btn btn-outline-secondary" type="button" id="uploadButton">Upload</button>
+                            </div>
+                            <input type="hidden" id="featured_image" name="featured_image" value="<?php echo htmlspecialchars($edit_post['featured_image'] ?? ''); ?>">
+                            <div class="form-text">Upload an image for your post (max 5MB, JPEG, PNG, GIF, or WebP).</div>
+                            <div id="uploadProgress" class="progress mt-2 d-none">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                            </div>
+                            <div id="imagePreview" class="mt-2 <?php echo empty($edit_post['featured_image']) ? 'd-none' : ''; ?>">
+                                <img src="<?php echo htmlspecialchars($edit_post['featured_image'] ?? ''); ?>" alt="Featured Image" class="img-thumbnail" style="max-height: 200px;">
+                            </div>
                         </div>
                         
                         <div class="mb-3">
@@ -556,5 +562,97 @@ try {
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/footer.php'; ?>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <?php if ($edit_post): ?>
+    <script>
+        // Handle image upload
+        const imageUpload = document.getElementById('imageUpload');
+        const uploadButton = document.getElementById('uploadButton');
+        const featuredImageInput = document.getElementById('featured_image');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const progressBar = uploadProgress.querySelector('.progress-bar');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImage = imagePreview.querySelector('img');
+        
+        uploadButton.addEventListener('click', function() {
+            if (!imageUpload.files.length) {
+                alert('Please select an image to upload');
+                return;
+            }
+            
+            const file = imageUpload.files[0];
+            
+            // Check file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File size exceeds the maximum allowed size (5MB)');
+                return;
+            }
+            
+            // Check file type
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Invalid file type. Allowed types: JPEG, PNG, GIF, WebP');
+                return;
+            }
+            
+            // Create form data
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            // Show progress bar
+            uploadProgress.classList.remove('d-none');
+            progressBar.style.width = '0%';
+            
+            // Upload file
+            const xhr = new XMLHttpRequest();
+            
+            xhr.upload.addEventListener('progress', function(e) {
+                if (e.lengthComputable) {
+                    const percentComplete = (e.loaded / e.total) * 100;
+                    progressBar.style.width = percentComplete + '%';
+                }
+            });
+            
+            xhr.addEventListener('load', function() {
+                if (xhr.status === 200) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        
+                        if (response.success) {
+                            // Set featured image URL
+                            featuredImageInput.value = response.data.url;
+                            
+                            // Show image preview
+                            previewImage.src = response.data.url;
+                            imagePreview.classList.remove('d-none');
+                            
+                            // Hide progress bar after a delay
+                            setTimeout(() => {
+                                uploadProgress.classList.add('d-none');
+                            }, 1000);
+                        } else {
+                            alert('Upload failed: ' + response.message);
+                            uploadProgress.classList.add('d-none');
+                        }
+                    } catch (error) {
+                        alert('Error parsing response: ' + error.message);
+                        uploadProgress.classList.add('d-none');
+                    }
+                } else {
+                    alert('Upload failed with status: ' + xhr.status);
+                    uploadProgress.classList.add('d-none');
+                }
+            });
+            
+            xhr.addEventListener('error', function() {
+                alert('Upload failed. Please try again.');
+                uploadProgress.classList.add('d-none');
+            });
+            
+            xhr.open('POST', '/backend/api/upload.php', true);
+            xhr.send(formData);
+        });
+    </script>
+    <?php endif; ?>
 </body>
 </html>

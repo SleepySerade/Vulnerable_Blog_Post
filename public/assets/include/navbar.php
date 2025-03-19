@@ -82,6 +82,9 @@ if ($isLoggedIn) {
                         <li><a class="dropdown-item" href="/admin/manage_posts">
                             <i class="bi bi-file-earmark-post"></i> Manage Posts
                         </a></li>
+                        <li><a class="dropdown-item" href="/admin/manage_comments">
+                            <i class="bi bi-chat-left-text"></i> Manage Comments
+                        </a></li>
                         <li><a class="dropdown-item" href="/admin/manage_categories">
                             <i class="bi bi-tag"></i> Manage Categories
                         </a></li>

@@ -131,7 +131,7 @@ $recent_posts = [];
             <?php if (!isset($_SESSION['user_id'])): ?>
                 <a href="/public/register" class="btn btn-primary btn-lg">Get Started</a>
             <?php else: ?>
-                <a href="/public/create-post" class="btn btn-primary btn-lg">Create New Post</a>
+                <a href="/public/assets/pages/create-post" class="btn btn-primary btn-lg">Create New Post</a>
             <?php endif; ?>
         </div>
     </div>

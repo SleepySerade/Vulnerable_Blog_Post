@@ -12,10 +12,10 @@
             <div class="col-md-4 mb-3">
                 <h5>Quick Links</h5>
                 <ul class="list-unstyled">
-                    <li><a href="/public/assets/pages/about.php" class="text-light">About</a></li>
-                    <li><a href="/contact.php" class="text-light">Contact</a></li>
-                    <li><a href="/privacy.php" class="text-light">Privacy Policy</a></li>
-                    <li><a href="/terms.php" class="text-light">Terms of Service</a></li>
+                    <li><a href="/public/assets/pages/about" class="text-light">About</a></li>
+                    <li><a href="/contact" class="text-light">Contact</a></li>
+                    <li><a href="/privacy" class="text-light">Privacy Policy</a></li>
+                    <li><a href="/terms" class="text-light">Terms of Service</a></li>
                 </ul>
             </div>
 
