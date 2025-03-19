@@ -61,7 +61,7 @@ $archived_posts = [];
         <header class="mb-5">
             <h1>My Posts</h1>
             <p class="lead">Manage your blog posts</p>
-            <a href="/public/assets/pages/create-post" class="btn btn-primary">
+            <a href="/public/assets/pages/create-post" class="btn btn-newPost">
                 <i class="bi bi-plus-circle"></i> Create New Post
             </a>
         </header>
@@ -273,12 +273,9 @@ $archived_posts = [];
                 posts.forEach(post => {
                     const row = document.createElement('tr');
                     
-                    // Title cell
+                    // Title cell as plain text
                     const titleCell = document.createElement('td');
-                    const titleLink = document.createElement('a');
-                    titleLink.href = `/public/post?id=${post.post_id}`;
-                    titleLink.textContent = post.title;
-                    titleCell.appendChild(titleLink);
+                    titleCell.textContent = post.title;
                     row.appendChild(titleCell);
                     
                     // Date cell
@@ -298,20 +295,27 @@ $archived_posts = [];
                         row.appendChild(viewsCell);
                     }
                     
-                    // Actions cell
+                    // Actions cell with 3 buttons: View, Edit, Delete
                     const actionsCell = document.createElement('td');
                     
-                    // Edit button
+                    // View button (green)
+                    const viewBtn = document.createElement('a');
+                    viewBtn.href = `/public/post?id=${post.post_id}`;
+                    viewBtn.className = 'btn btn-sm btn-success me-2';
+                    viewBtn.innerHTML = '<i class="bi bi-eye"></i> View';
+                    actionsCell.appendChild(viewBtn);
+                    
+                    // Edit button (blue)
                     const editBtn = document.createElement('a');
                     editBtn.href = `/public/assets/pages/edit-post?id=${post.post_id}`;
-                    editBtn.className = 'btn btn-sm btn-outline-primary me-2';
+                    editBtn.className = 'btn btn-sm btn-edit me-2';
                     editBtn.innerHTML = '<i class="bi bi-pencil"></i> Edit';
                     actionsCell.appendChild(editBtn);
                     
-                    // Delete button
+                    // Delete button (red)
                     const deleteBtn = document.createElement('button');
                     deleteBtn.type = 'button';
-                    deleteBtn.className = 'btn btn-sm btn-outline-danger';
+                    deleteBtn.className = 'btn btn-sm btn-danger';
                     deleteBtn.innerHTML = '<i class="bi bi-trash"></i> Delete';
                     deleteBtn.addEventListener('click', () => {
                         // Set post to delete
