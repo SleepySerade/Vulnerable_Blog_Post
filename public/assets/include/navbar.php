@@ -29,14 +29,14 @@ if ($isLoggedIn) {
 
 <nav id="navbar" class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="/index"><i class="bi bi-journal-richtext"></i> Blog Website</a>
+        <a class="navbar-brand" href="/"><i class="bi bi-journal-richtext"></i> Blog Website</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/index"><i class="bi bi-house"></i> Home</a>
+                    <a class="nav-link" href="/"><i class="bi bi-house"></i> Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/public/assets/pages/about"><i class="bi bi-info-circle"></i> About</a>

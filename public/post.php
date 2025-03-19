@@ -134,7 +134,7 @@ $post = null;
                                 <p>${result.message}</p>
                                 <hr>
                                 <p class="mb-0">
-                                    <a href="/index" class="alert-link">Return to Home</a>
+                                    <a href="/" class="alert-link">Return to Home</a>
                                 </p>
                             </div>
                         `;
@@ -148,7 +148,7 @@ $post = null;
                             <p>An error occurred while fetching the post. Please try again later.</p>
                             <hr>
                             <p class="mb-0">
-                                <a href="/index" class="alert-link">Return to Home</a>
+                                <a href="/" class="alert-link">Return to Home</a>
                             </p>
                         </div>
                     `;
@@ -196,7 +196,7 @@ $post = null;
                             <i class="bi bi-eye me-1"></i> ${post.views_count} views
                         </div>
                         <div>
-                            <a href="/index" class="btn btn-outline-primary">Back to Posts</a>
+                            <a href="/" class="btn btn-outline-primary">Back to Posts</a>
                         </div>
                     </div>
                 `;

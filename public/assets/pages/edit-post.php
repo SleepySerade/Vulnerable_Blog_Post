@@ -83,7 +83,7 @@ $post = null;
                     <p id="errorMessage">An error occurred while loading the post.</p>
                     <hr>
                     <p class="mb-0">
-                        <a href="/index" class="alert-link">Return to Home</a>
+                        <a href="/" class="alert-link">Return to Home</a>
                     </p>
                 </div>
 
