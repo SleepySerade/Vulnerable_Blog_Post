@@ -423,9 +423,15 @@ $categories = [];
                         postForm.reset();
                         quill.root.innerHTML = '';
                         
-                        // Redirect to the new post after a delay
+                        // Redirect to the appropriate page based on post status
                         setTimeout(() => {
-                            window.location.href = `/public/post?id=${result.data.post_id}`;
+                            if (status === 'draft') {
+                                // Redirect to draft preview page
+                                window.location.href = `/public/preview-draft?id=${result.data.post_id}`;
+                            } else {
+                                // Redirect to published post page
+                                window.location.href = `/public/post?id=${result.data.post_id}`;
+                            }
                         }, 2000);
                     } else {
                         // Show error message
