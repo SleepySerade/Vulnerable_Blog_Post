@@ -37,9 +37,38 @@ $recent_posts = [];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Our Blog</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Welcome to Our Blog - Discover Great Stories</title>
+    <meta name="title" content="Welcome to Our Blog - Discover Great Stories">
+    <meta name="description" content="Discover interesting stories, insights, and experiences from our community. Join us and start sharing your voice with the world.">
+    <meta name="keywords" content="blog, stories, community, writing, articles">
+    <meta name="author" content="Blog Website">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
+    <meta property="og:title" content="Welcome to Our Blog - Discover Great Stories">
+    <meta property="og:description" content="Discover interesting stories, insights, and experiences from our community. Join us and start sharing your voice with the world.">
+    <meta property="og:image" content="/public/assets/images/favicon.svg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<?php echo (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
+    <meta property="twitter:title" content="Welcome to Our Blog - Discover Great Stories">
+    <meta property="twitter:description" content="Discover interesting stories, insights, and experiences from our community. Join us and start sharing your voice with the world.">
+    <meta property="twitter:image" content="/public/assets/images/favicon.svg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<?php echo (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
+    
+    <!-- Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/public/assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="shortcut icon" href="/public/assets/images/favicon.svg" type="image/svg+xml">
 </head>
 <body>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
@@ -67,7 +96,8 @@ $recent_posts = [];
                 <div class="col-md-4 mb-4 fade-in">
                     <div class="card h-100">
                         <?php if ($post['featured_image']): ?>
-                            <img src="<?php echo htmlspecialchars($post['featured_image']); ?>" 
+                            <img data-src="<?php echo htmlspecialchars($post['featured_image']); ?>"
+                                 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3C/svg%3E"
                                  class="card-img-top" alt="<?php echo htmlspecialchars($post['title']); ?>">
                         <?php endif; ?>
                         <div class="card-body">
@@ -284,7 +314,8 @@ $recent_posts = [];
                 // Add featured image if available and it's a featured post
                 if (isFeatured && post.featured_image) {
                     const img = document.createElement('img');
-                    img.src = post.featured_image;
+                    img.dataset.src = post.featured_image; // Use data-src for lazy loading
+                    img.src = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 3 2\'%3E%3C/svg%3E'; // Tiny placeholder
                     img.className = 'card-img-top';
                     img.alt = post.title;
                     cardDiv.appendChild(img);

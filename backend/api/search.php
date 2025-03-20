@@ -12,7 +12,9 @@ function jsonErrorHandler($errno, $errstr, $errfile, $errline) {
     // Only handle fatal errors that would normally stop execution
     if (in_array($errno, [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR])) {
         // Clear any output that might have been sent
-        ob_clean();
+        if (ob_get_length()) {
+            ob_clean();
+        }
         
         // Send JSON error response
         header('Content-Type: application/json');
@@ -39,7 +41,9 @@ function jsonExceptionHandler($exception) {
     error_log("Uncaught Exception: " . $exception->getMessage() . " in " . $exception->getFile() . " on line " . $exception->getLine());
     
     // Clear any output that might have been sent
-    ob_clean();
+    if (ob_get_length()) {
+        ob_clean();
+    }
     
     // Send JSON error response
     header('Content-Type: application/json');
@@ -58,9 +62,6 @@ set_exception_handler('jsonExceptionHandler');
 
 // Start output buffering to catch any unexpected output
 ob_start();
-
-// Disable output buffering
-ob_end_clean();
 
 // Ensure no output has been sent before headers
 if (!headers_sent()) {
@@ -112,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             FROM blog_posts p
             JOIN users u ON p.author_id = u.user_id
             LEFT JOIN categories c ON p.category_id = c.category_id
-            WHERE p.title LIKE ? OR p.content LIKE ?
+            WHERE (p.title LIKE ? OR p.content LIKE ?)
             AND p.status = 'published'
             ORDER BY p.created_at DESC
         ");

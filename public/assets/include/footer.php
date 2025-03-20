@@ -40,5 +40,13 @@
 
 <!-- Dark Mode Script -->
 <script src="/public/assets/js/script.js"></script>
+<!-- Lazy Loading Script -->
+<script src="/public/assets/js/lazyload.js"></script>
+<!-- Back to Top Button Script -->
+<script src="/public/assets/js/back-to-top.js"></script>
+<!-- Reading Time Estimator -->
+<script src="/public/assets/js/reading-time.js"></script>
+<!-- Social Sharing Buttons -->
+<script src="/public/assets/js/social-share.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
