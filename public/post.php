@@ -47,6 +47,22 @@ $post = null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Post - Blog Website</title>
+    
+    <!-- Basic meta tags -->
+    <meta name="description" content="Read our latest blog post">
+    
+    <!-- Open Graph meta tags for social sharing -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Blog Post - Blog Website">
+    <meta property="og:description" content="Read our latest blog post">
+    <meta property="og:url" content="<?php echo (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
+    
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Blog Post - Blog Website">
+    <meta name="twitter:description" content="Read our latest blog post">
+    
+    <!-- Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
@@ -156,19 +172,36 @@ $post = null;
             
             // Function to display post
             function displayPost(post) {
-                // Update page title
+                // Update page title - this is important for social sharing
                 document.title = `${post.title} - Blog Website`;
+                
+                // Also update meta tags for better social sharing
+                // Create or update Open Graph meta tags
+                updateMetaTag('og:title', post.title);
+                updateMetaTag('og:description', post.content.substring(0, 150) + '...');
+                updateMetaTag('og:url', window.location.href);
+                if (post.featured_image) {
+                    updateMetaTag('og:image', post.featured_image);
+                }
+                
+                // Create or update Twitter Card meta tags
+                updateMetaTag('twitter:card', 'summary_large_image');
+                updateMetaTag('twitter:title', post.title);
+                updateMetaTag('twitter:description', post.content.substring(0, 150) + '...');
+                if (post.featured_image) {
+                    updateMetaTag('twitter:image', post.featured_image);
+                }
                 
                 // Create post HTML
                 let postHTML = `
-                    <article>
+                    <article class="post-content">
                         <header class="mb-4">
                             <h1 class="fw-bolder mb-1">${post.title}</h1>
                             <div class="text-muted fst-italic mb-2">
-                                Posted on ${new Date(post.created_at).toLocaleDateString('en-US', { 
-                                    year: 'numeric', 
-                                    month: 'long', 
-                                    day: 'numeric' 
+                                Posted on ${new Date(post.created_at).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
                                 })} by ${post.author_name}
                             </div>
                             ${post.category_name ? `<a class="badge bg-secondary text-decoration-none link-light" href="/public/assets/pages/posts?category=${post.category_id}">${post.category_name}</a>` : ''}
@@ -600,6 +633,27 @@ $post = null;
                             relatedPosts.style.display = 'none';
                         });
                 }
+            }
+            
+            // Helper function to update or create meta tags
+            function updateMetaTag(name, content) {
+                // First, try to find an existing meta tag
+                let metaTag = document.querySelector(`meta[property="${name}"], meta[name="${name}"]`);
+                
+                // If it doesn't exist, create it
+                if (!metaTag) {
+                    metaTag = document.createElement('meta');
+                    // Determine if this is an Open Graph tag or a regular meta tag
+                    if (name.startsWith('og:')) {
+                        metaTag.setAttribute('property', name);
+                    } else {
+                        metaTag.setAttribute('name', name);
+                    }
+                    document.head.appendChild(metaTag);
+                }
+                
+                // Set the content
+                metaTag.setAttribute('content', content);
             }
             
             // Function to display related posts
