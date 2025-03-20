@@ -126,6 +126,7 @@
 | `public/log_viewer.php` | Interface for viewing application logs |
 | `public/login.php` | User login page |
 | `public/logout.php` | User logout page |
+| `public/preview-draft.php`| Preview Draft Post |
 | `public/post.php` | Page for viewing individual blog posts |
 | `public/profile.php` | Redirect to user profile page |
 | `public/register.php` | User registration page |
