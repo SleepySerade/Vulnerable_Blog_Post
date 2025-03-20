@@ -47,16 +47,19 @@ if ($isLoggedIn) {
                 
                 <!-- Search Bar -->
                 <li class="nav-item">
-                    <form class="d-flex" id="search-form">
-                        <input class="form-control me-2" type="search" placeholder="Search..." id="search-input">
-                        <button class="btn btn-outline-light" type="button" id="search-button">🔍</button>
+                    <form class="d-flex" action="/public/assets/pages/search" method="GET" id="search-form" onsubmit="return validateSearch()">
+                        <input class="form-control me-2"
+                               type="search"
+                               name="query"
+                               placeholder="Search..."
+                               id="search-input"
+                               minlength="2"
+                               maxlength="50"
+                               pattern="[A-Za-z0-9\s\-_.,]+"
+                               title="Search term must contain only letters, numbers, spaces, and basic punctuation"
+                               required />
+                        <button class="btn btn-outline-light" type="submit" id="search-button">🔍</button>
                     </form>
-                </li>
-
-                <li class="nav-item">
-                    <button id="dark-mode-toggle" class="btn btn-outline-light">
-                        🌙 Dark Mode
-                    </button>
                 </li>
 
                 <?php if ($isLoggedIn): ?>
@@ -95,6 +98,12 @@ if ($isLoggedIn) {
                     </ul>
                 </li>
                 <?php endif; ?>
+
+                <li class="nav-item">
+                    <button id="dark-mode-toggle" class="btn btn-outline-light">
+                        🌙 Dark Mode
+                    </button>
+                </li>
             </ul>
             
             <ul class="navbar-nav">
@@ -136,3 +145,48 @@ if ($isLoggedIn) {
         </div>
     </div>
 </nav>
+
+<script>
+    // Search form validation function
+    function validateSearch() {
+        const searchInput = document.getElementById('search-input');
+        const searchQuery = searchInput.value.trim();
+        
+        // Check if search query is empty
+        if (searchQuery === '') {
+            alert('Please enter a search term');
+            return false;
+        }
+        
+        // Check minimum length
+        if (searchQuery.length < 2) {
+            alert('Search term must be at least 2 characters long');
+            return false;
+        }
+        
+        // Check maximum length
+        if (searchQuery.length > 50) {
+            alert('Search term must be no more than 50 characters long');
+            return false;
+        }
+        
+        // Check for valid characters using regex
+        const validPattern = /^[A-Za-z0-9\s\-_.,]+$/;
+        if (!validPattern.test(searchQuery)) {
+            alert('Search term must contain only letters, numbers, spaces, and basic punctuation');
+            return false;
+        }
+        
+        // Sanitize the input (basic client-side sanitization)
+        searchInput.value = searchQuery
+            .replace(/</g, '')
+            .replace(/>/g, '')
+            .replace(/&/g, '')
+            .replace(/"/g, '')
+            .replace(/'/g, '')
+            .replace(/\\/g, '')
+            .replace(/\//g, '');
+        
+        return true;
+    }
+</script>
