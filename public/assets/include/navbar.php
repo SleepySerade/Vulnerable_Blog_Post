@@ -57,7 +57,7 @@ if ($isLoggedIn) {
                                maxlength="50"
                                pattern="[A-Za-z0-9\s\-_.,]+"
                                title="Search term must contain only letters, numbers, spaces, and basic punctuation"
-                               required />
+                               required>
                         <button class="btn btn-outline-light" type="submit" id="search-button">🔍</button>
                     </form>
                 </li>
