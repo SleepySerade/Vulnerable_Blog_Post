@@ -77,7 +77,7 @@ try {
         $stmt->execute();
         $result = $stmt->get_result();
         
-        while ($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) { 
             $recent_posts[] = $row;
         }
     } else {
@@ -156,65 +156,83 @@ try {
                     </div>
                 </div>
                 
-                <!-- Recent Activity -->
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0">Recent Posts</h4>
-                            <a href="/public/assets/pages/my-posts" class="btn btn-sm btn-outline-primary">
-                                View All
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <?php if (empty($recent_posts)): ?>
-                                <p class="text-center text-muted">You haven't created any posts yet.</p>
-                                <div class="text-center">
-                                    <a href="/public/assets/pages/create-post" class="btn btn-primary">
-                                        <i class="bi bi-plus-circle"></i> Create Your First Post
-                                    </a>
-                                </div>
-                            <?php else: ?>
-                                <div class="list-group">
-                                    <?php foreach ($recent_posts as $post): ?>
-                                        <a href="/public/post?id=<?php echo $post['post_id']; ?>" 
-                                           class="list-group-item list-group-item-action">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1"><?php echo htmlspecialchars($post['title']); ?></h5>
-                                                <small class="text-muted">
-                                                    <?php echo date('M d, Y', strtotime($post['created_at'])); ?>
-                                                </small>
-                                            </div>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <span class="badge bg-<?php echo $post['status'] === 'published' ? 'success' : ($post['status'] === 'draft' ? 'warning' : 'secondary'); ?>">
-                                                        <?php echo ucfirst($post['status']); ?>
-                                                    </span>
-                                                    <?php if ($post['status'] === 'published'): ?>
-                                                        <small class="text-muted ms-2">
-                                                            <i class="bi bi-eye"></i> <?php echo $post['views_count']; ?> views
-                                                        </small>
-                                                    <?php endif; ?>
-                                                </div>
-                                                <div>
-                                                    <a href="/public/assets/pages/edit-post?id=<?php echo $post['post_id']; ?>" 
-                                                       class="btn btn-sm btn-outline-primary">
-                                                        <i class="bi bi-pencil"></i> Edit
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    <?php endforeach; ?>
-                                </div>
-                                
-                                <div class="text-center mt-3">
-                                    <a href="/public/assets/pages/create-post" class="btn btn-primary">
-                                        <i class="bi bi-plus-circle"></i> Create New Post
-                                    </a>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-                    </div>
+            <!-- Recent Activity -->
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Recent Posts</h4>
+            <a href="/public/assets/pages/my-posts" class="btn btn-sm btn-outline-primary">
+                View All
+            </a>
+        </div>
+        <div class="card-body">
+            <?php if (empty($recent_posts)): ?>
+                <p class="text-center text-muted">You haven't created any posts yet.</p>
+                <div class="text-center">
+                    <a href="/public/assets/pages/create-post" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Create Your First Post
+                    </a>
                 </div>
+            <?php else: ?>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered align-middle">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Views</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($recent_posts as $post): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($post['title']); ?></td>
+                                    <td><?php echo date('M d, Y', strtotime($post['created_at'])); ?></td>
+                                    <td>
+                                        <span class="badge bg-<?php 
+                                            echo $post['status'] === 'published' ? 'success' : 
+                                                 ($post['status'] === 'draft' ? 'warning' : 'secondary'); 
+                                        ?>">
+                                            <?php echo ucfirst($post['status']); ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <?php if ($post['status'] === 'published'): ?>
+                                            <?php echo $post['views_count']; ?>
+                                        <?php else: ?>
+                                            -
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <!-- Green 'View' button with eye icon -->
+                                        <a href="/public/post?id=<?php echo $post['post_id']; ?>" 
+                                           class="btn btn-success btn-sm">
+                                            <i class="bi bi-eye"></i> View
+                                        </a>
+                                        <!-- Edit button -->
+                                        <a href="/public/assets/pages/edit-post?id=<?php echo $post['post_id']; ?>" 
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-pencil"></i> Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="/public/assets/pages/create-post" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Create New Post
+                    </a>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+
             </div>
         <?php endif; ?>
     </div>
