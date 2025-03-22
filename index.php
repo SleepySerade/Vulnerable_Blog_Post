@@ -96,8 +96,7 @@ $recent_posts = [];
                 <div class="col-md-4 mb-4 fade-in">
                     <div class="card h-100">
                         <?php if ($post['featured_image']): ?>
-                            <img data-src="<?php echo htmlspecialchars($post['featured_image']); ?>"
-                                 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3C/svg%3E"
+                            <img src="<?php echo htmlspecialchars($post['featured_image']); ?>"
                                  class="card-img-top" alt="<?php echo htmlspecialchars($post['title']); ?>">
                         <?php endif; ?>
                         <div class="card-body">
@@ -314,8 +313,7 @@ $recent_posts = [];
                 // Add featured image if available and it's a featured post
                 if (isFeatured && post.featured_image) {
                     const img = document.createElement('img');
-                    img.dataset.src = post.featured_image; // Use data-src for lazy loading
-                    img.src = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 3 2\'%3E%3C/svg%3E'; // Tiny placeholder
+                    img.src = post.featured_image; // Directly use the image URL
                     img.className = 'card-img-top';
                     img.alt = post.title;
                     cardDiv.appendChild(img);
