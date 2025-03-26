@@ -52,7 +52,60 @@ $success = false;
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        /* .auth-container {
+            max-width: 400px;
+            width: 100%;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        } */
 
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            top: 1rem;
+            left: 0;
+            right: 0;
+            padding: 0 1rem;
+        }
+
+        .back-btn {
+            font-family: "Courier Prime", monospace;
+            font-weight: 300;
+            top: 1rem;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: rgb(0, 0, 0);
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            border-bottom: 2px solid transparent; /* Initially no underline */
+        }
+
+        /* Hover effect */
+        .back-btn:hover {
+            border-bottom: 2px solid rgb(0, 0, 0); /* Underline effect on hover */
+        }
+
+        /* Login Button Styles */
+        .login-btn {
+            font-family: "Courier Prime", monospace;
+            font-weight: 300;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color:rgb(0, 0, 0);
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            border-bottom: 2px solid transparent; /* Initially no underline */
+        }
+
+        /* Hover effect */
+        .login-btn:hover {
+            border-bottom: 2px solid rgb(0, 0, 0); /* Underline effect on hover */
+}
+
+    </style>
 </head>
 <body>
 
@@ -130,9 +183,7 @@ $success = false;
                              <!-- Submit button -->
                             <div class="d-grid">
                             <button type="submit" class="btn btn-primary" id="registerBtn" disabled>Register</button>
-                             </div>
-                        <
-                            
+                             </div>                          
                         </form>
                     </div>
                     <div class="card-footer text-center">
@@ -143,7 +194,6 @@ $success = false;
         </div>
     </div>
 
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/footer.php'; ?>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
