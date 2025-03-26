@@ -195,10 +195,12 @@ $success = false;
                     errors.push('Passwords do not match');
                 }
                 
+                // Get the reCAPTCHA response
                 const recaptchaResponse = grecaptcha.getResponse();
                 if (recaptchaResponse.length === 0) {
                     errors.push('Please complete the reCAPTCHA.');
                 }
+                // Add reCAPTCHA response to data object
                 if (errors.length === 0) {
                     data.recaptcha_response = recaptchaResponse;
                 }
