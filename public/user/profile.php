@@ -145,11 +145,11 @@ try {
                             <div class="d-flex justify-content-around">
                                 <div class="text-center">
                                     <h5><?php echo $post_count; ?></h5>
-                                    <small class="text-muted">Posts</small>
+                                    <small class="text-center">Posts</small>
                                 </div>
                                 <div class="text-center">
                                     <h5>0</h5>
-                                    <small class="text-muted">Comments</small>
+                                    <small class="text-center">Comments</small>
                                 </div>
                             </div>
                         </div>
