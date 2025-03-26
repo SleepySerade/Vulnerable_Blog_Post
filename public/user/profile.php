@@ -127,7 +127,7 @@ try {
                             <?php endif; ?>
                             
                             <h3 class="card-title"><?php echo htmlspecialchars($user['username']); ?></h3>
-                            <p class="text-muted">
+                            <p class="text-center">
                                 Member since <?php echo date('F Y', strtotime($user['created_at'])); ?>
                             </p>
                             
