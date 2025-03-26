@@ -332,3 +332,26 @@ footer .fab {
     background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
 }
+
+#back-to-top-btn {
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    z-index: 999;
+    display: none;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px 14px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#back-to-top-btn.show {
+    display: inline-block;
+}
+#back-to-top-btn:hover {
+    background-color: #0056b3;
+}

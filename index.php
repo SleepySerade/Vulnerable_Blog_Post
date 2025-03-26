@@ -66,6 +66,7 @@ $recent_posts = [];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Favicon -->
     <link rel="icon" href="/public/assets/images/favicon.svg" type="image/svg+xml">
     <link rel="shortcut icon" href="/public/assets/images/favicon.svg" type="image/svg+xml">
@@ -151,6 +152,10 @@ $recent_posts = [];
             <?php endforeach; ?>
         </div>
     </div>
+    <!-- Back to Top Button -->
+        <button id="back-to-top-btn" aria-label="Back to top" title="Back to top">
+        <i class="fas fa-arrow-up"></i>
+        </button>
 
     <!-- Call to Action -->
     <div class="container-fluid bg-light py-5 mb-5">
@@ -169,6 +174,13 @@ $recent_posts = [];
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome JS (for the up arrow icon) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <!-- Back to Top Button Script -->
+    <script src="/public/assets/js/back-to-top.js"></script>
+    <!-- Your existing inline <script> tag can stay below this if needed -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             //Fade in effect
