@@ -52,6 +52,8 @@ if (isset($_SESSION['registration_success'])) {
     <title>Login - Blog Website</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
+
+    <style>
         /* .auth-container {
             max-width: 400px;
             width: 100%;
