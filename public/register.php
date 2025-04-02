@@ -29,7 +29,7 @@ error_log("Register.php - Session variables: " . print_r($_SESSION, true));
 // If already logged in, redirect to home
 if (isset($_SESSION['user_id'])) {
     // Use absolute path for redirection
-    header('Location: /index.php');
+    header('Location: /');
     exit();
 }
 
@@ -50,6 +50,8 @@ $success = false;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="/public/assets/css/styles.css" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         /* .auth-container {
             max-width: 400px;
@@ -170,9 +172,18 @@ $success = false;
                                 <label for="confirm_password" class="form-label">Confirm Password</label>
                                 <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                             </div>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary" id="registerBtn" disabled>Register</button>
+                           
+                            
+                            <!-- reCAPTCHA Widget -->
+                             <div class="mb-3">
+                             <div class="g-recaptcha" data-sitekey="6Lc6_vgqAAAAANk9Cwla3pSSE7SAaLGXra8fd0Ci"></div>
+                            <div class="form-text">Please verify you're not a robot</div>
                             </div>
+
+                             <!-- Submit button -->
+                            <div class="d-grid">
+                            <button type="submit" class="btn btn-primary" id="registerBtn" disabled>Register</button>
+                             </div>                          
                         </form>
                     </div>
                     <div class="card-footer text-center">
@@ -183,7 +194,6 @@ $success = false;
         </div>
     </div>
 
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/footer.php'; ?>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
@@ -235,6 +245,15 @@ $success = false;
                     errors.push('Passwords do not match');
                 }
                 
+                // Get the reCAPTCHA response
+                const recaptchaResponse = grecaptcha.getResponse();
+                if (recaptchaResponse.length === 0) {
+                    errors.push('Please complete the reCAPTCHA.');
+                }
+                // Add reCAPTCHA response to data object
+                if (errors.length === 0) {
+                    data.recaptcha_response = recaptchaResponse;
+                }
                 // If validation errors, display them
                 if (errors.length > 0) {
                     displayErrors(errors);

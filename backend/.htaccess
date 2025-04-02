@@ -1,0 +1,7 @@
+# Simple backend/.htaccess file
+Options -Indexes
+
+# Allow API endpoints
+<FilesMatch "^(api\/.*\.php)$">
+    # No restrictions for API endpoints
+</FilesMatch>

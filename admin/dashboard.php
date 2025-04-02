@@ -187,11 +187,11 @@ try {
                         <p class="card-text">Total Comments</p>
                     </div>
                     <div class="card-footer bg-transparent border-0 text-center">
-                        <a href="#" class="btn btn-sm btn-light">View Comments</a>
+                        <a href="/admin/manage_comments" class="btn btn-sm btn-light">Manage Comments</a>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-3 mb-4">
                 <div class="card dashboard-card h-100 bg-warning text-dark">
                     <div class="card-body text-center">

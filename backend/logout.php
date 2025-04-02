@@ -33,5 +33,5 @@ $logger->debug("Destroyed session");
 
 // Redirect to login page
 $logger->info("Redirecting to login page");
-header('Location: /public/login.php');
+header('Location: /public/login');
 exit();
