@@ -45,13 +45,14 @@ $all_posts = [];
     <link href="/public/assets/css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
-<body>
+<body class="posts-page">
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
 
     <div class="container my-5">
-        <header class="text-center mb-5">
+        <header class="text-center mb-1">
             <h1>All Blog Posts</h1>
             <p class="lead">Discover interesting stories, insights, and experiences from our community</p>
+            <hr>
         </header>
 
         <!-- Featured Posts -->
@@ -204,6 +205,17 @@ $all_posts = [];
                     }
                 })
                 .catch(error => console.error('Error fetching all posts:', error));
+
+            // Navbar scroll effect
+            const navbar = document.getElementById("navbar");
+
+            window.addEventListener("scroll", function () {
+                if (window.scrollY > 50) {
+                    navbar.classList.add("scrolled"); // Add dark background
+                } else {
+                    navbar.classList.remove("scrolled"); // Keep it transparent
+                }
+            });
             
             // Function to display featured posts
             function displayFeaturedPosts(posts) {
