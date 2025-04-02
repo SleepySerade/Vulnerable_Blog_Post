@@ -33,12 +33,7 @@ function sanitizeOutput($data) {
 
     <!-- Main Container for Search Results -->
     <div class="container mb-5" style="margin-top: 100px;"><!-- margin-top to avoid navbar overlap -->
-        <?php
-        // Include breadcrumbs
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/breadcrumbs.php';
-        echo auto_breadcrumbs();
-        ?>
-        
+           
         <h2 class="mb-4">Search Results<?php echo !empty($search_query) ? ' for "' . sanitizeOutput($search_query) . '"' : ''; ?></h2>
         
         <!-- Search form at the top of results page -->
