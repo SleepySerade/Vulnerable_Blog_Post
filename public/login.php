@@ -52,11 +52,73 @@ if (isset($_SESSION['registration_success'])) {
     <title>Login - Blog Website</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
+
+    <style>
+        /* .auth-container {
+            max-width: 400px;
+            width: 100%;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        } */
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            top: 1rem;
+            left: 0;
+            right: 0;
+            padding: 0 1rem;
+        }
+
+        .back-btn {
+            font-family: "Courier Prime", monospace;
+            font-weight: 300;
+            top: 1rem;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: rgb(0, 0, 0);
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            border-bottom: 2px solid transparent; /* Initially no underline */
+        }
+
+        /* Hover effect */
+        .back-btn:hover {
+            border-bottom: 2px solid rgb(0, 0, 0); /* Underline effect on hover */
+        }
+
+        /* Login Button Styles */
+        .register-btn {
+            font-family: "Courier Prime", monospace;
+            font-weight: 300;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color:rgb(0, 0, 0);
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            border-bottom: 2px solid transparent; /* Initially no underline */
+        }
+
+        /* Hover effect */
+        .register-btn:hover {
+            border-bottom: 2px solid rgb(0, 0, 0); /* Underline effect on hover */
+}
+
+    </style>
 </head>
 <body>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
-
     <div class="container my-5">
+    <div class="auth-container">
+        <!-- Button Container for Back and Login -->
+        <div class="btn-container">
+            <!-- Back Button -->
+            <a href="javascript:history.back()" class="back-btn">← Back</a>
+
+            <!-- Login Button -->
+            <a href="/public/register" class="register-btn">Register</a>
+        </div>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">

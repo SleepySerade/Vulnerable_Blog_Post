@@ -40,17 +40,81 @@ $recent_posts = [];
     <title>Welcome to Our Blog</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
+
+    <!-- Add this in your <head> section -->
+    <style>
+        /* Hero Section Styles */
+.hero-section {
+    position: relative;
+    padding: 15rem 0 13rem;
+    background-image:  url("/public/assets/include/blog-background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Optional: creates parallax effect */
+    margin-bottom: 5rem;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.5) 100%
+    );
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.min-vh-75 {
+    min-height: 75vh;
+}
+
+/* Enhance text visibility */
+.hero-section h1 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+}
+
+.hero-section .lead {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    font-size: 1.35rem;
+}
+
+/* Button styling */
+.hero-section .btn-light {
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero-section .btn-light:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+    </style>
+
 </head>
 <body>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
 
     <!-- Hero Section -->
-    <div class="container-fluid bg-secondary text-white py-5 mb-5">
-        <div class="container">
+    <div class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="container position-relative">
             <div class="row align-items-center mt-5">
                 <div class="col-md-8">
-                    <h1 class="display-4"><span id="typing-text"></span><span class="cursor">|</span></h1>
-                    <p class="lead">Discover interesting stories, insights, and experiences from our community.</p>
+                    <h1 class="display-4 text-white"><span id="typing-text"></span><span class="cursor">|</span></h1>
+                    <p class="lead text-white">Discover interesting stories, insights, and experiences from our community.</p>
                     <?php if (!isset($_SESSION['user_id'])): ?>
                         <a href="/public/register" class="btn btn-light btn-lg">Join Now</a>
                     <?php endif; ?>
@@ -139,19 +203,20 @@ $recent_posts = [];
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/footer.php'; ?>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             //Fade in effect
             const fadeElements = document.querySelectorAll(".fade-in");
 
-            const observer = new IntersectionObserver((entries) => {
+            const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add("visible");
                     }
                 });
-            }, {threshold: 0.3 });
+            }, {threshold: 0.1 });
 
             fadeElements.forEach(element => observer.observe(element));
             
@@ -159,7 +224,7 @@ $recent_posts = [];
             const textElement = document.getElementById("typing-text");
             const cursorElement = document.querySelector(".cursor");
 
-            const textArray = ["Welcome to Our Blog!", "Discover Great Stories", "Reflect Your Personality"];
+            const textArray = ["🌟 Welcome to Our Blog!", "📚 Discover Great Stories", "✨ Reflect Your Personality"];
             let textIndex = 0;
             let charIndex = 0;
             let isDeleting = false;

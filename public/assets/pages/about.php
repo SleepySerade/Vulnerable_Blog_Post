@@ -39,19 +39,23 @@ error_log("About.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!-- Add AOS CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
 </head>
-<body>
+<body class="about-page">
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
 
     <div class="container my-5">
-        <header class="text-center mb-5">
+        <header class="text-center mb-1" data-aos="fade-down" data-aos-duration="1000">
             <h1>Meet Our Team</h1>
             <p class="lead">The talented individuals behind our blog platform</p>
+            <hr>
         </header>
 
         <div class="row g-4">
             <!-- Backend Developer -->
-            <div class="col-md-6 col-lg-4">
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="text-center mb-4">
@@ -69,7 +73,7 @@ error_log("About.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
             </div>
 
             <!-- Frontend Developer (UI/UX) -->
-            <div class="col-md-6 col-lg-4">
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="text-center mb-4">
@@ -87,7 +91,7 @@ error_log("About.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
             </div>
 
             <!-- Frontend Developer (JavaScript) -->
-            <div class="col-md-6 col-lg-4">
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="text-center mb-4">
@@ -105,7 +109,7 @@ error_log("About.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
             </div>
 
             <!-- Security Developer -->
-            <div class="col-md-6 col-lg-4">
+            <div class="col-md-6 col-lg-4" data-aos="fade-left" data-aos-delay="0">
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="text-center mb-4">
@@ -123,7 +127,7 @@ error_log("About.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
             </div>
 
             <!-- Cloud Engineer -->
-            <div class="col-md-6 col-lg-4">
+            <div class="col-md-6 col-lg-4" data-aos="fade-right" data-aos-delay="0">
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="text-center mb-4">
@@ -141,7 +145,7 @@ error_log("About.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
             </div>
         </div>
 
-        <div class="text-center mt-5 mb-5">
+        <div class="text-center mt-5 mb-5" data-aos="zoom-in" data-aos-duration="1000">
             <h2>Our Mission</h2>
             <p class="lead">To create a secure, user-friendly, and feature-rich blogging platform that empowers writers and engages readers.</p>
         </div>
@@ -150,5 +154,40 @@ error_log("About.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/footer.php'; ?>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Add AOS JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800, // Duration of animation (in milliseconds)
+            once: true,    // Whether animation should happen only once
+            offset: 100,   // Offset (in pixels) from the original trigger point
+            easing: 'ease-in-out', // Easing function
+            delay: 0,      // Default delay
+            anchorPlacement: 'top-bottom', // Defines which position of the element regarding to window should trigger the animation
+        });
+    </script>
 </body>
 </html>
+
+<script>
+    // Navbar scroll effect
+    document.addEventListener('DOMContentLoaded', function() {
+        const navbar = document.getElementById('navbar');
+        
+        // Initial check for page load
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        }
+
+        // Add scroll event listener
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    });
+</script>
