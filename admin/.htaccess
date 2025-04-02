@@ -1,0 +1,8 @@
+# Simple admin/.htaccess file
+Options -Indexes
+RewriteEngine On
+
+# Clean URLs for PHP files
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^\.]+)$ $1.php [L]

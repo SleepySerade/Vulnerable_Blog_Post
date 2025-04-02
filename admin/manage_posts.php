@@ -336,13 +336,44 @@ try {
                         </div>
                         
                         <div class="mb-3">
-                            <label for="featured_image" class="form-label">Featured Image URL</label>
-                            <input type="url" class="form-control" id="featured_image" name="featured_image" value="<?php echo htmlspecialchars($edit_post['featured_image'] ?? ''); ?>">
-                            <?php if (!empty($edit_post['featured_image'])): ?>
-                                <div class="mt-2">
-                                    <img src="<?php echo htmlspecialchars($edit_post['featured_image']); ?>" alt="Featured Image" class="img-thumbnail" style="max-height: 200px;">
+                            <label for="featured_image" class="form-label">Featured Image</label>
+                            
+                            <!-- Image Source Toggle -->
+                            <div class="btn-group mb-3 w-100" role="group" aria-label="Image source options">
+                                <input type="radio" class="btn-check" name="imageSourceOption" id="uploadOption" autocomplete="off" checked>
+                                <label class="btn btn-outline-primary" for="uploadOption">Upload Image</label>
+                                
+                                <input type="radio" class="btn-check" name="imageSourceOption" id="urlOption" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="urlOption">Image URL</label>
+                            </div>
+                            
+                            <!-- Upload Image Option -->
+                            <div id="uploadImageSection">
+                                <div class="input-group mb-3">
+                                    <input type="file" class="form-control" id="imageUpload" accept="image/*">
+                                    <button class="btn btn-outline-secondary" type="button" id="uploadButton">Upload</button>
                                 </div>
-                            <?php endif; ?>
+                                <div class="form-text">Upload an image for your post (max 5MB, JPEG, PNG, GIF, or WebP).</div>
+                                <div id="uploadProgress" class="progress mt-2 d-none">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Image URL Option -->
+                            <div id="imageUrlSection" class="d-none">
+                                <div class="input-group mb-3">
+                                    <input type="url" class="form-control" id="imageUrl" placeholder="https://example.com/image.jpg">
+                                    <button class="btn btn-outline-secondary" type="button" id="previewUrlButton">Preview</button>
+                                </div>
+                                <div class="form-text">Enter a direct URL to an image (JPEG, PNG, GIF, or WebP).</div>
+                            </div>
+                            
+                            <input type="hidden" id="featured_image" name="featured_image" value="<?php echo htmlspecialchars($edit_post['featured_image'] ?? ''); ?>">
+                            
+                            <!-- Image Preview (shared between both options) -->
+                            <div id="imagePreview" class="mt-2 <?php echo empty($edit_post['featured_image']) ? 'd-none' : ''; ?>">
+                                <img src="<?php echo htmlspecialchars($edit_post['featured_image'] ?? ''); ?>" alt="Featured Image" class="img-thumbnail" style="max-height: 200px;">
+                            </div>
                         </div>
                         
                         <div class="mb-3">
@@ -556,5 +587,167 @@ try {
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/footer.php'; ?>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <?php if ($edit_post): ?>
+    <script>
+        // Image source toggle functionality
+        const uploadOption = document.getElementById('uploadOption');
+        const urlOption = document.getElementById('urlOption');
+        const uploadImageSection = document.getElementById('uploadImageSection');
+        const imageUrlSection = document.getElementById('imageUrlSection');
+        
+        // Elements for image upload
+        const imageUpload = document.getElementById('imageUpload');
+        const uploadButton = document.getElementById('uploadButton');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const progressBar = uploadProgress.querySelector('.progress-bar');
+        
+        // Elements for image URL
+        const imageUrl = document.getElementById('imageUrl');
+        const previewUrlButton = document.getElementById('previewUrlButton');
+        
+        // Shared elements
+        const featuredImageInput = document.getElementById('featured_image');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImage = imagePreview.querySelector('img');
+        
+        // Toggle between upload and URL options
+        uploadOption.addEventListener('change', function() {
+            if (this.checked) {
+                uploadImageSection.classList.remove('d-none');
+                imageUrlSection.classList.add('d-none');
+            }
+        });
+        
+        urlOption.addEventListener('change', function() {
+            if (this.checked) {
+                uploadImageSection.classList.add('d-none');
+                imageUrlSection.classList.remove('d-none');
+            }
+        });
+        
+        // Check if the current image is an external URL
+        if (featuredImageInput.value && featuredImageInput.value.match(/^https?:\/\//i) && !featuredImageInput.value.includes('/uploads/')) {
+            // Select URL option
+            urlOption.checked = true;
+            uploadOption.checked = false;
+            uploadImageSection.classList.add('d-none');
+            imageUrlSection.classList.remove('d-none');
+            
+            // Set the URL in the input field
+            imageUrl.value = featuredImageInput.value;
+        }
+        
+        // Handle image upload
+        uploadButton.addEventListener('click', function() {
+            if (!imageUpload.files.length) {
+                alert('Please select an image to upload');
+                return;
+            }
+            
+            const file = imageUpload.files[0];
+            
+            // Check file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File size exceeds the maximum allowed size (5MB)');
+                return;
+            }
+            
+            // Check file type
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Invalid file type. Allowed types: JPEG, PNG, GIF, WebP');
+                return;
+            }
+            
+            // Create form data
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            // Show progress bar
+            uploadProgress.classList.remove('d-none');
+            progressBar.style.width = '0%';
+            
+            // Upload file
+            const xhr = new XMLHttpRequest();
+            
+            xhr.upload.addEventListener('progress', function(e) {
+                if (e.lengthComputable) {
+                    const percentComplete = (e.loaded / e.total) * 100;
+                    progressBar.style.width = percentComplete + '%';
+                }
+            });
+            
+            xhr.addEventListener('load', function() {
+                if (xhr.status === 200) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        
+                        if (response.success) {
+                            // Set featured image URL
+                            featuredImageInput.value = response.data.url;
+                            
+                            // Show image preview
+                            previewImage.src = response.data.url;
+                            imagePreview.classList.remove('d-none');
+                            
+                            // Hide progress bar after a delay
+                            setTimeout(() => {
+                                uploadProgress.classList.add('d-none');
+                            }, 1000);
+                        } else {
+                            alert('Upload failed: ' + response.message);
+                            uploadProgress.classList.add('d-none');
+                        }
+                    } catch (error) {
+                        alert('Error parsing response: ' + error.message);
+                        uploadProgress.classList.add('d-none');
+                    }
+                } else {
+                    alert('Upload failed with status: ' + xhr.status);
+                    uploadProgress.classList.add('d-none');
+                }
+            });
+            
+            xhr.addEventListener('error', function() {
+                alert('Upload failed. Please try again.');
+                uploadProgress.classList.add('d-none');
+            });
+            
+            xhr.open('POST', '/backend/api/upload.php', true);
+            xhr.send(formData);
+        });
+        
+        // Handle image URL preview
+        previewUrlButton.addEventListener('click', function() {
+            const url = imageUrl.value.trim();
+            
+            if (!url) {
+                alert('Please enter an image URL');
+                return;
+            }
+            
+            // Basic URL validation
+            if (!url.match(/^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i)) {
+                alert('Please enter a valid image URL (must end with .jpg, .jpeg, .png, .gif, or .webp)');
+                return;
+            }
+            
+            // Set the URL to the hidden input
+            featuredImageInput.value = url;
+            
+            // Show image preview
+            previewImage.src = url;
+            previewImage.onerror = function() {
+                alert('Failed to load image from the provided URL. Please check the URL and try again.');
+                imagePreview.classList.add('d-none');
+                featuredImageInput.value = '';
+            };
+            previewImage.onload = function() {
+                imagePreview.classList.remove('d-none');
+            };
+        });
+    </script>
+    <?php endif; ?>
 </body>
 </html>

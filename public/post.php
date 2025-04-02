@@ -47,6 +47,22 @@ $post = null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Post - Blog Website</title>
+    
+    <!-- Basic meta tags -->
+    <meta name="description" content="Read our latest blog post">
+    
+    <!-- Open Graph meta tags for social sharing -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Blog Post - Blog Website">
+    <meta property="og:description" content="Read our latest blog post">
+    <meta property="og:url" content="<?php echo (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
+    
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Blog Post - Blog Website">
+    <meta name="twitter:description" content="Read our latest blog post">
+    
+    <!-- Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
@@ -134,7 +150,7 @@ $post = null;
                                 <p>${result.message}</p>
                                 <hr>
                                 <p class="mb-0">
-                                    <a href="/index" class="alert-link">Return to Home</a>
+                                    <a href="/" class="alert-link">Return to Home</a>
                                 </p>
                             </div>
                         `;
@@ -148,7 +164,7 @@ $post = null;
                             <p>An error occurred while fetching the post. Please try again later.</p>
                             <hr>
                             <p class="mb-0">
-                                <a href="/index" class="alert-link">Return to Home</a>
+                                <a href="/" class="alert-link">Return to Home</a>
                             </p>
                         </div>
                     `;
@@ -156,19 +172,36 @@ $post = null;
             
             // Function to display post
             function displayPost(post) {
-                // Update page title
+                // Update page title - this is important for social sharing
                 document.title = `${post.title} - Blog Website`;
+                
+                // Also update meta tags for better social sharing
+                // Create or update Open Graph meta tags
+                updateMetaTag('og:title', post.title);
+                updateMetaTag('og:description', post.content.substring(0, 150) + '...');
+                updateMetaTag('og:url', window.location.href);
+                if (post.featured_image) {
+                    updateMetaTag('og:image', post.featured_image);
+                }
+                
+                // Create or update Twitter Card meta tags
+                updateMetaTag('twitter:card', 'summary_large_image');
+                updateMetaTag('twitter:title', post.title);
+                updateMetaTag('twitter:description', post.content.substring(0, 150) + '...');
+                if (post.featured_image) {
+                    updateMetaTag('twitter:image', post.featured_image);
+                }
                 
                 // Create post HTML
                 let postHTML = `
-                    <article>
+                    <article class="post-content">
                         <header class="mb-4">
                             <h1 class="fw-bolder mb-1">${post.title}</h1>
                             <div class="text-muted fst-italic mb-2">
-                                Posted on ${new Date(post.created_at).toLocaleDateString('en-US', { 
-                                    year: 'numeric', 
-                                    month: 'long', 
-                                    day: 'numeric' 
+                                Posted on ${new Date(post.created_at).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
                                 })} by ${post.author_name}
                             </div>
                             ${post.category_name ? `<a class="badge bg-secondary text-decoration-none link-light" href="/public/assets/pages/posts?category=${post.category_id}">${post.category_name}</a>` : ''}
@@ -196,7 +229,7 @@ $post = null;
                             <i class="bi bi-eye me-1"></i> ${post.views_count} views
                         </div>
                         <div>
-                            <a href="/index" class="btn btn-outline-primary">Back to Posts</a>
+                            <a href="/" class="btn btn-outline-primary">Back to Posts</a>
                         </div>
                     </div>
                 `;
@@ -207,13 +240,358 @@ $post = null;
             
             // Function to fetch comments
             function fetchComments(postId) {
-                // This would be implemented if we had a comments API endpoint
-                // For now, just show a placeholder
-                commentsList.innerHTML = `
-                    <div class="alert alert-info">
-                        <p class="mb-0">Comments feature coming soon!</p>
-                    </div>
-                `;
+                fetch(`/backend/api/comments.php?action=by_post&post_id=${postId}`)
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            displayComments(result.data);
+                        } else {
+                            commentsList.innerHTML = `
+                                <div class="alert alert-warning">
+                                    <p class="mb-0">${result.message || 'Error loading comments'}</p>
+                                </div>
+                            `;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching comments:', error);
+                        commentsList.innerHTML = `
+                            <div class="alert alert-danger">
+                                <p class="mb-0">Failed to load comments. Please try again later.</p>
+                            </div>
+                        `;
+                    });
+            }
+            
+            // Function to display comments
+            function displayComments(comments) {
+                if (comments.length === 0) {
+                    commentsList.innerHTML = `
+                        <div class="alert alert-info">
+                            <p class="mb-0">No comments yet. Be the first to comment!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                commentsList.innerHTML = '';
+                
+                comments.forEach(comment => {
+                    const commentElement = document.createElement('div');
+                    commentElement.className = 'card mb-3';
+                    commentElement.id = `comment-${comment.comment_id}`;
+                    
+                    // Create comment HTML
+                    commentElement.innerHTML = `
+                        <div class="card-body">
+                            <div class="d-flex mb-3">
+                                <div class="flex-shrink-0">
+                                    ${comment.profile_picture ?
+                                        `<img src="${comment.profile_picture}" class="rounded-circle" width="50" height="50" alt="${comment.username}">` :
+                                        `<div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
+                                            <i class="bi bi-person-fill text-white"></i>
+                                        </div>`
+                                    }
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">${comment.username}</h6>
+                                        <small class="text-muted">${new Date(comment.created_at).toLocaleString()}</small>
+                                    </div>
+                                    <div class="comment-content mt-2">${comment.content.replace(/\n/g, '<br>')}</div>
+                                    
+                                    <div class="mt-2 comment-actions">
+                                        ${<?php echo $isLoggedIn ? 'true' : 'false'; ?> ? `
+                                            <button class="btn btn-sm btn-outline-primary reply-btn" data-comment-id="${comment.comment_id}">
+                                                <i class="bi bi-reply"></i> Reply
+                                            </button>
+                                            ${comment.user_id == <?php echo $isLoggedIn ? $_SESSION['user_id'] : '0'; ?> ? `
+                                                <button class="btn btn-sm btn-outline-secondary edit-btn" data-comment-id="${comment.comment_id}">
+                                                    <i class="bi bi-pencil"></i> Edit
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger delete-btn" data-comment-id="${comment.comment_id}">
+                                                    <i class="bi bi-trash"></i> Delete
+                                                </button>
+                                            ` : ''}
+                                        ` : ''}
+                                    </div>
+                                    
+                                    <div class="reply-form-container mt-3" style="display: none;"></div>
+                                    
+                                    <div class="edit-form-container mt-3" style="display: none;"></div>
+                                </div>
+                            </div>
+                            
+                            ${comment.replies && comment.replies.length > 0 ? `
+                                <div class="replies ms-5">
+                                    ${comment.replies.map(reply => `
+                                        <div class="card mb-2" id="comment-${reply.comment_id}">
+                                            <div class="card-body">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0">
+                                                        ${reply.profile_picture ?
+                                                            `<img src="${reply.profile_picture}" class="rounded-circle" width="40" height="40" alt="${reply.username}">` :
+                                                            `<div class="bg-secondary rounded-circle d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                                                                <i class="bi bi-person-fill text-white"></i>
+                                                            </div>`
+                                                        }
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <h6 class="mb-0">${reply.username}</h6>
+                                                            <small class="text-muted">${new Date(reply.created_at).toLocaleString()}</small>
+                                                        </div>
+                                                        <div class="comment-content mt-2">${reply.content.replace(/\n/g, '<br>')}</div>
+                                                        
+                                                        <div class="mt-2 comment-actions">
+                                                            ${<?php echo $isLoggedIn ? 'true' : 'false'; ?> && reply.user_id == <?php echo $isLoggedIn ? $_SESSION['user_id'] : '0'; ?> ? `
+                                                                <button class="btn btn-sm btn-outline-secondary edit-btn" data-comment-id="${reply.comment_id}">
+                                                                    <i class="bi bi-pencil"></i> Edit
+                                                                </button>
+                                                                <button class="btn btn-sm btn-outline-danger delete-btn" data-comment-id="${reply.comment_id}">
+                                                                    <i class="bi bi-trash"></i> Delete
+                                                                </button>
+                                                            ` : ''}
+                                                        </div>
+                                                        
+                                                        <div class="edit-form-container mt-3" style="display: none;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                    
+                    commentsList.appendChild(commentElement);
+                });
+                
+                // Add event listeners for comment actions
+                addCommentEventListeners();
+            }
+            
+            // Function to add event listeners to comment actions
+            function addCommentEventListeners() {
+                // Reply buttons
+                document.querySelectorAll('.reply-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const commentId = this.getAttribute('data-comment-id');
+                        const replyContainer = this.closest('.comment-actions').nextElementSibling;
+                        
+                        // Toggle reply form
+                        if (replyContainer.style.display === 'none') {
+                            // Create reply form
+                            replyContainer.innerHTML = `
+                                <form class="reply-form">
+                                    <input type="hidden" name="parent_comment_id" value="${commentId}">
+                                    <div class="mb-3">
+                                        <textarea class="form-control" rows="2" placeholder="Write your reply..." required></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary me-2 cancel-reply-btn">Cancel</button>
+                                        <button type="submit" class="btn btn-sm btn-primary">Submit Reply</button>
+                                    </div>
+                                </form>
+                            `;
+                            
+                            // Show reply form
+                            replyContainer.style.display = 'block';
+                            
+                            // Focus on textarea
+                            replyContainer.querySelector('textarea').focus();
+                            
+                            // Add event listener to cancel button
+                            replyContainer.querySelector('.cancel-reply-btn').addEventListener('click', function() {
+                                replyContainer.style.display = 'none';
+                            });
+                            
+                            // Add event listener to form submission
+                            replyContainer.querySelector('form').addEventListener('submit', function(e) {
+                                e.preventDefault();
+                                
+                                const parentCommentId = this.querySelector('input[name="parent_comment_id"]').value;
+                                const content = this.querySelector('textarea').value;
+                                
+                                submitComment(postId, content, parentCommentId);
+                                
+                                // Hide reply form
+                                replyContainer.style.display = 'none';
+                            });
+                        } else {
+                            // Hide reply form
+                            replyContainer.style.display = 'none';
+                        }
+                    });
+                });
+                
+                // Edit buttons
+                document.querySelectorAll('.edit-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const commentId = this.getAttribute('data-comment-id');
+                        const commentElement = document.getElementById(`comment-${commentId}`);
+                        const contentElement = commentElement.querySelector('.comment-content');
+                        const currentContent = contentElement.innerHTML.replace(/<br>/g, '\n');
+                        const editContainer = this.closest('.comment-actions').nextElementSibling;
+                        
+                        // Toggle edit form
+                        if (editContainer.style.display === 'none') {
+                            // Create edit form
+                            editContainer.innerHTML = `
+                                <form class="edit-form">
+                                    <input type="hidden" name="comment_id" value="${commentId}">
+                                    <div class="mb-3">
+                                        <textarea class="form-control" rows="3" required>${currentContent}</textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary me-2 cancel-edit-btn">Cancel</button>
+                                        <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            `;
+                            
+                            // Show edit form
+                            editContainer.style.display = 'block';
+                            
+                            // Focus on textarea
+                            editContainer.querySelector('textarea').focus();
+                            
+                            // Add event listener to cancel button
+                            editContainer.querySelector('.cancel-edit-btn').addEventListener('click', function() {
+                                editContainer.style.display = 'none';
+                            });
+                            
+                            // Add event listener to form submission
+                            editContainer.querySelector('form').addEventListener('submit', function(e) {
+                                e.preventDefault();
+                                
+                                const commentId = this.querySelector('input[name="comment_id"]').value;
+                                const content = this.querySelector('textarea').value;
+                                
+                                updateComment(commentId, content);
+                                
+                                // Hide edit form
+                                editContainer.style.display = 'none';
+                            });
+                        } else {
+                            // Hide edit form
+                            editContainer.style.display = 'none';
+                        }
+                    });
+                });
+                
+                // Delete buttons
+                document.querySelectorAll('.delete-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const commentId = this.getAttribute('data-comment-id');
+                        
+                        if (confirm('Are you sure you want to delete this comment? This action cannot be undone.')) {
+                            deleteComment(commentId);
+                        }
+                    });
+                });
+            }
+            
+            // Function to submit a new comment
+            function submitComment(postId, content, parentCommentId = null) {
+                const data = {
+                    post_id: postId,
+                    content: content
+                };
+                
+                if (parentCommentId) {
+                    data.parent_comment_id = parentCommentId;
+                }
+                
+                fetch('/backend/api/comments.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        // If it's a new top-level comment
+                        if (!parentCommentId) {
+                            // Clear comment form
+                            document.getElementById('commentContent').value = '';
+                            
+                            // Refresh comments
+                            fetchComments(postId);
+                        } else {
+                            // If it's a reply, just refresh comments to show the new reply
+                            fetchComments(postId);
+                        }
+                    } else {
+                        alert(result.message || 'Failed to submit comment');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting comment:', error);
+                    alert('An error occurred while submitting your comment. Please try again later.');
+                });
+            }
+            
+            // Function to update a comment
+            function updateComment(commentId, content) {
+                fetch('/backend/api/comments.php', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        comment_id: commentId,
+                        content: content
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        // Update the comment content in the DOM
+                        const commentElement = document.getElementById(`comment-${commentId}`);
+                        const contentElement = commentElement.querySelector('.comment-content');
+                        contentElement.innerHTML = content.replace(/\n/g, '<br>');
+                    } else {
+                        alert(result.message || 'Failed to update comment');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating comment:', error);
+                    alert('An error occurred while updating your comment. Please try again later.');
+                });
+            }
+            
+            // Function to delete a comment
+            function deleteComment(commentId) {
+                fetch(`/backend/api/comments.php?id=${commentId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        // Remove the comment from the DOM
+                        const commentElement = document.getElementById(`comment-${commentId}`);
+                        commentElement.remove();
+                        
+                        // If there are no more comments, show the "no comments" message
+                        if (commentsList.children.length === 0) {
+                            commentsList.innerHTML = `
+                                <div class="alert alert-info">
+                                    <p class="mb-0">No comments yet. Be the first to comment!</p>
+                                </div>
+                            `;
+                        }
+                    } else {
+                        alert(result.message || 'Failed to delete comment');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting comment:', error);
+                    alert('An error occurred while deleting your comment. Please try again later.');
+                });
             }
             
             // Function to fetch related posts
@@ -255,6 +633,27 @@ $post = null;
                             relatedPosts.style.display = 'none';
                         });
                 }
+            }
+            
+            // Helper function to update or create meta tags
+            function updateMetaTag(name, content) {
+                // First, try to find an existing meta tag
+                let metaTag = document.querySelector(`meta[property="${name}"], meta[name="${name}"]`);
+                
+                // If it doesn't exist, create it
+                if (!metaTag) {
+                    metaTag = document.createElement('meta');
+                    // Determine if this is an Open Graph tag or a regular meta tag
+                    if (name.startsWith('og:')) {
+                        metaTag.setAttribute('property', name);
+                    } else {
+                        metaTag.setAttribute('name', name);
+                    }
+                    document.head.appendChild(metaTag);
+                }
+                
+                // Set the content
+                metaTag.setAttribute('content', content);
             }
             
             // Function to display related posts
@@ -303,11 +702,12 @@ $post = null;
                     
                     const commentContent = document.getElementById('commentContent').value;
                     
-                    // This would be implemented if we had a comments API endpoint
-                    alert('Comment submission feature coming soon!');
+                    if (commentContent.trim() === '') {
+                        alert('Please enter a comment');
+                        return;
+                    }
                     
-                    // Clear form
-                    commentForm.reset();
+                    submitComment(postId, commentContent);
                 });
             }
         });
