@@ -125,24 +125,6 @@ error_log("About.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
                     </div>
                 </div>
             </div>
-
-            <!-- Cloud Engineer -->
-            <div class="col-md-6 col-lg-4" data-aos="fade-right" data-aos-delay="0">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="text-center mb-4">
-                            <i class="bi bi-cloud text-primary" style="font-size: 2rem;"></i>
-                            <h3 class="mt-3">Cloud Engineer</h3>
-                        </div>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Cloud deployment</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Storage optimization</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Infrastructure management</li>
-                        </ul>
-                        <p class="card-text">Manages our cloud infrastructure to ensure reliable and scalable performance.</p>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="text-center mt-5 mb-5" data-aos="zoom-in" data-aos-duration="1000">
