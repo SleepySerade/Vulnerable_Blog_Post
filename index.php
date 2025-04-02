@@ -37,17 +37,47 @@ $recent_posts = [];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Our Blog</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Welcome to Our Blog - Discover Great Stories</title>
+    <meta name="title" content="Welcome to Our Blog - Discover Great Stories">
+    <meta name="description" content="Discover interesting stories, insights, and experiences from our community. Join us and start sharing your voice with the world.">
+    <meta name="keywords" content="blog, stories, community, writing, articles">
+    <meta name="author" content="Blog Website">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
+    <meta property="og:title" content="Welcome to Our Blog - Discover Great Stories">
+    <meta property="og:description" content="Discover interesting stories, insights, and experiences from our community. Join us and start sharing your voice with the world.">
+    <meta property="og:image" content="/public/assets/images/favicon.svg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<?php echo (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
+    <meta property="twitter:title" content="Welcome to Our Blog - Discover Great Stories">
+    <meta property="twitter:description" content="Discover interesting stories, insights, and experiences from our community. Join us and start sharing your voice with the world.">
+    <meta property="twitter:image" content="/public/assets/images/favicon.svg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<?php echo (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
+    
+    <!-- Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" href="/public/assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="shortcut icon" href="/public/assets/images/favicon.svg" type="image/svg+xml">
 </head>
 <body>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
 
     <!-- Hero Section -->
-    <div class="container-fluid bg-primary text-white py-5 mb-5">
+    <div class="container-fluid bg-secondary text-white py-5 mb-5">
         <div class="container">
-            <div class="row align-items-center">
+            <div class="row align-items-center mt-5">
                 <div class="col-md-8">
                     <h1 class="display-4"><span id="typing-text"></span><span class="cursor">|</span></h1>
                     <p class="lead">Discover interesting stories, insights, and experiences from our community.</p>
@@ -67,7 +97,7 @@ $recent_posts = [];
                 <div class="col-md-4 mb-4 fade-in">
                     <div class="card h-100">
                         <?php if ($post['featured_image']): ?>
-                            <img src="<?php echo htmlspecialchars($post['featured_image']); ?>" 
+                            <img src="<?php echo htmlspecialchars($post['featured_image']); ?>"
                                  class="card-img-top" alt="<?php echo htmlspecialchars($post['title']); ?>">
                         <?php endif; ?>
                         <div class="card-body">
@@ -122,6 +152,10 @@ $recent_posts = [];
             <?php endforeach; ?>
         </div>
     </div>
+    <!-- Back to Top Button -->
+        <button id="back-to-top-btn" aria-label="Back to top" title="Back to top">
+        <i class="fas fa-arrow-up"></i>
+        </button>
 
     <!-- Call to Action -->
     <div class="container-fluid bg-light py-5 mb-5">
@@ -131,7 +165,7 @@ $recent_posts = [];
             <?php if (!isset($_SESSION['user_id'])): ?>
                 <a href="/public/register" class="btn btn-primary btn-lg">Get Started</a>
             <?php else: ?>
-                <a href="/public/create-post" class="btn btn-primary btn-lg">Create New Post</a>
+                <a href="/public/assets/pages/create-post" class="btn btn-primary btn-lg">Create New Post</a>
             <?php endif; ?>
         </div>
     </div>
@@ -140,6 +174,13 @@ $recent_posts = [];
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome JS (for the up arrow icon) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <!-- Back to Top Button Script -->
+    <script src="/public/assets/js/back-to-top.js"></script>
+    <!-- Your existing inline <script> tag can stay below this if needed -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             //Fade in effect
@@ -159,7 +200,7 @@ $recent_posts = [];
             const textElement = document.getElementById("typing-text");
             const cursorElement = document.querySelector(".cursor");
 
-            const textArray = ["Welcome to Our Blog", "Discover Great Stories", "Join Our Community"];
+            const textArray = ["Welcome to Our Blog!", "Discover Great Stories", "Reflect Your Personality"];
             let textIndex = 0;
             let charIndex = 0;
             let isDeleting = false;
@@ -284,7 +325,7 @@ $recent_posts = [];
                 // Add featured image if available and it's a featured post
                 if (isFeatured && post.featured_image) {
                     const img = document.createElement('img');
-                    img.src = post.featured_image;
+                    img.src = post.featured_image; // Directly use the image URL
                     img.className = 'card-img-top';
                     img.alt = post.title;
                     cardDiv.appendChild(img);

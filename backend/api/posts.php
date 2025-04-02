@@ -73,7 +73,7 @@ if (!headers_sent()) {
     header('Content-Type: application/json');
     header('Access-Control-Allow-Origin: ' . (isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '*'));
     header('Access-Control-Allow-Credentials: true');
-    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS');
     header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
 } else {
     error_log("Headers already sent in posts.php");
@@ -325,6 +325,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 ];
                 break;
                 
+            case 'draft':
+                // Get a draft post by ID (only accessible to the author)
+                if (!isset($_GET['id'])) {
+                    throw new Exception('Post ID is required');
+                }
+                
+                // Check if user is logged in
+                session_start();
+                if (!isset($_SESSION['user_id'])) {
+                    throw new Exception('User not logged in');
+                }
+                
+                $post_id = intval($_GET['id']);
+                $user_id = $_SESSION['user_id'];
+                
+                // First check if the post exists and is a draft
+                $stmt = $conn->prepare("
+                    SELECT p.*, u.username as author_name, c.name as category_name
+                    FROM blog_posts p
+                    JOIN users u ON p.author_id = u.user_id
+                    LEFT JOIN categories c ON p.category_id = c.category_id
+                    WHERE p.post_id = ? AND p.status = 'draft'
+                ");
+                $stmt->bind_param('i', $post_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                if ($result->num_rows === 0) {
+                    throw new Exception('Draft not found');
+                }
+                
+                $post = $result->fetch_assoc();
+                
+                // Check if the user is the author
+                if ($post['author_id'] != $user_id) {
+                    // Check if user is admin
+                    $stmt = $conn->prepare("
+                        SELECT admin_id FROM admins WHERE user_id = ?
+                    ");
+                    $stmt->bind_param('i', $user_id);
+                    $stmt->execute();
+                    $is_admin = $stmt->get_result()->num_rows > 0;
+                    
+                    if (!$is_admin) {
+                        throw new Exception('You do not have permission to view this draft');
+                    }
+                }
+                
+                $response = [
+                    'success' => true,
+                    'message' => 'Draft retrieved successfully',
+                    'data' => $post
+                ];
+                break;
+                
             default:
                 throw new Exception('Invalid action');
         }
@@ -549,6 +604,107 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $response = [
                     'success' => true,
                     'message' => 'Post deleted successfully'
+                ];
+                break;
+                
+            default:
+                throw new Exception('Invalid action');
+        }
+    } catch (Exception $e) {
+        $apiLogger->error("Posts API error: " . $e->getMessage());
+        $response = [
+            'success' => false,
+            'message' => $e->getMessage()
+        ];
+    }
+    
+    // Return JSON response
+    echo json_encode($response);
+    exit;
+}
+
+// Handle PUT request (for updating post status)
+if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+    // Get JSON data
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+    
+    // Default response
+    $response = [
+        'success' => false,
+        'message' => 'Invalid request'
+    ];
+    
+    // Check if user is logged in
+    session_start();
+    if (!isset($_SESSION['user_id'])) {
+        $response['message'] = 'User not logged in';
+        echo json_encode($response);
+        exit;
+    }
+    
+    $user_id = $_SESSION['user_id'];
+    
+    try {
+        // Check if action is provided
+        if (!isset($data['action'])) {
+            throw new Exception('Action is required');
+        }
+        
+        // Handle different actions
+        switch ($data['action']) {
+            case 'update_status':
+                // Update post status (e.g., from draft to published)
+                if (!isset($data['post_id']) || !isset($data['status'])) {
+                    throw new Exception('Post ID and status are required');
+                }
+                
+                $post_id = intval($data['post_id']);
+                $status = $data['status'];
+                
+                // Validate status
+                if (!in_array($status, ['draft', 'published', 'archived'])) {
+                    throw new Exception('Invalid status');
+                }
+                
+                // Check if user is the author or an admin
+                $stmt = $conn->prepare("
+                    SELECT author_id FROM blog_posts WHERE post_id = ?
+                ");
+                $stmt->bind_param('i', $post_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                if ($result->num_rows === 0) {
+                    throw new Exception('Post not found');
+                }
+                
+                $post = $result->fetch_assoc();
+                
+                // Check if user is admin
+                $stmt = $conn->prepare("
+                    SELECT admin_id FROM admins WHERE user_id = ?
+                ");
+                $stmt->bind_param('i', $user_id);
+                $stmt->execute();
+                $is_admin = $stmt->get_result()->num_rows > 0;
+                
+                if ($post['author_id'] != $user_id && !$is_admin) {
+                    throw new Exception('You do not have permission to update this post');
+                }
+                
+                // Update post status
+                $stmt = $conn->prepare("
+                    UPDATE blog_posts
+                    SET status = ?
+                    WHERE post_id = ?
+                ");
+                $stmt->bind_param('si', $status, $post_id);
+                $stmt->execute();
+                
+                $response = [
+                    'success' => true,
+                    'message' => 'Post status updated successfully'
                 ];
                 break;
                 

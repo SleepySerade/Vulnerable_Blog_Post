@@ -5,14 +5,17 @@
 ```
 /
 │── .gitignore          # Git ignore file
+│── .htaccess           # Main Apache configuration file
 │── database.sql        # Database schema
 │── README.md           # Project documentation
 │── admin/              # Admin panel (restricted access)
+│   ├── .htaccess       # Admin directory protection
 │   ├── dashboard.php   # Admin dashboard
 │   ├── manage_categories.php # Manage blog categories
 │   ├── manage_posts.php # Manage blog posts
 │   ├── manage_user.php # Manage users
 │── backend/            # Backend logic (not web-accessible)
+│   ├── .htaccess       # Backend directory protection
 │   ├── admin.php       # Admin-related functions
 │   ├── auth.php        # Authentication logic
 │   ├── connect_db.php  # Database connection
@@ -31,10 +34,15 @@
 │   ├── utils/          # Utility functions
 │   │   ├── logger.php  # Logging utility
 │── logs/               # Server logs
+│   ├── .htaccess       # Logs directory protection
 │   ├── logs.log        # Log file
 │── public/             # Public-facing website
+│   ├── .htaccess       # Public directory configuration
+│   ├── 403.php         # Forbidden error page
+│   ├── 404.php         # Not found error page
 │   ├── create_logs_dir.php # Create logs directory
 │   ├── create-post.php # Create post page
+│   ├── error.php       # General error handling page
 │   ├── index.php       # Main entry point
 │   ├── log_viewer.php  # View logs
 │   ├── login.php       # Login page
@@ -43,6 +51,7 @@
 │   ├── profile.php     # Profile page
 │   ├── register.php    # Registration page
 │   ├── test_logging.php # Test logging
+│   ├── trigger-error.php # Test error pages
 │   ├── assets/         # Static files
 │   │   ├── css/        # CSS stylesheets
 │   │   │   ├── styles.css # Main stylesheet
@@ -50,6 +59,11 @@
 │   │   ├── include/    # Reusable components
 │   │   │   ├── footer.php # Footer component
 │   │   │   ├── navbar.php # Navigation bar
+│   │   ├── js/         # JavaScript files
+│   │   │   ├── back-to-top.js # Back to top button functionality
+│   │   │   ├── lazyload.js # Lazy loading for images
+│   │   │   ├── reading-time.js # Reading time estimator
+│   │   │   ├── social-share.js # Social sharing buttons
 │   │   ├── pages/      # Public pages
 │   │   │   ├── about.php # About page
 │   │   │   ├── create-post.php # Create post page
@@ -61,6 +75,7 @@
 │   │   ├── edit-profile-js.php # JS-enhanced profile editing
 │   │   ├── profile.php # User profile page
 │── uploads/            # User uploads
+│   ├── .htaccess       # Uploads directory protection
 ```
 
 ## 📋 File Purpose Documentation
@@ -69,15 +84,18 @@
 |----------------|---------|
 | **Root Directory** | |
 | `.gitignore` | Specifies files and directories to be ignored by Git version control |
+| `.htaccess` | Main Apache configuration file with URL rewriting and error handling |
 | `database.sql` | Contains SQL schema for creating and setting up the database |
 | `README.md` | Project documentation with team roles and work order |
 | `index.php` | Main entry point and homepage |
 | **admin/** | Admin panel with restricted access |
+| `admin/.htaccess` | Access control for admin directory, restricts unauthorized access |
 | `admin/dashboard.php` | Main admin dashboard showing site statistics and overview |
 | `admin/manage_categories.php` | Interface for managing blog categories (CRUD operations) |
 | `admin/manage_posts.php` | Interface for managing all blog posts (edit, delete, publish) |
 | `admin/manage_user.php` | Interface for managing users (activate/deactivate, grant admin) |
 | **backend/** | Backend logic (not directly web-accessible) |
+| `backend/.htaccess` | Protects backend files from direct web access, allows API endpoints |
 | `backend/admin.php` | Functions for admin operations and privilege management |
 | `backend/auth.php` | Authentication logic (login, register, password hashing) |
 | `backend/connect_db.php` | Database connection and configuration |
@@ -96,23 +114,35 @@
 | **backend/utils/** | Utility functions and helpers |
 | `backend/utils/logger.php` | Logging utility for application events |
 | **logs/** | Server logs directory |
+| `logs/.htaccess` | Prevents direct access to log files for security |
 | `logs/logs.log` | Application log file |
 | **public/** | Public-facing website files |
+| `public/.htaccess` | URL rewriting, error handling, and security for public directory |
+| `public/403.php` | Custom 403 Forbidden error page |
+| `public/404.php` | Custom 404 Not Found error page |
 | `public/create_logs_dir.php` | Utility to create logs directory |
 | `public/create-post.php` | Page for creating new blog posts |
+| `public/error.php` | Dynamic error handling page for all HTTP error codes |
 | `public/log_viewer.php` | Interface for viewing application logs |
 | `public/login.php` | User login page |
 | `public/logout.php` | User logout page |
+| `public/preview-draft.php`| Preview Draft Post |
 | `public/post.php` | Page for viewing individual blog posts |
 | `public/profile.php` | Redirect to user profile page |
 | `public/register.php` | User registration page |
 | `public/test_logging.php` | Utility for testing logging functionality |
+| `public/trigger-error.php` | Utility for testing error pages with different error codes |
 | **public/assets/** | Static assets for the public website |
 | `public/assets/css/styles.css` | Main CSS stylesheet |
 | `public/assets/images/` | Directory for image files |
 | `public/assets/include/` | Reusable PHP components |
 | `public/assets/include/footer.php` | Footer component included on all pages |
 | `public/assets/include/navbar.php` | Navigation bar component included on all pages |
+| **public/assets/js/** | JavaScript files for client-side functionality |
+| `public/assets/js/back-to-top.js` | Implements a back-to-top button for long pages |
+| `public/assets/js/lazyload.js` | Implements lazy loading for images to improve page load performance |
+| `public/assets/js/reading-time.js` | Calculates and displays estimated reading time for blog posts |
+| `public/assets/js/social-share.js` | Adds social sharing buttons (Facebook, Twitter, LinkedIn, WhatsApp, Email) to blog posts |
 | **public/assets/pages/** | Public content pages |
 | `public/assets/pages/about.php` | About page with team information |
 | `public/assets/pages/create-post.php` | Interface for creating blog posts |
@@ -124,6 +154,7 @@
 | `public/user/edit-profile-js.php` | JavaScript-enhanced profile editing page |
 | `public/user/profile.php` | User profile page |
 | **uploads/** | Directory for user-uploaded files |
+| `uploads/.htaccess` | Prevents execution of uploaded scripts for security |
 
 ## 👥 Team Roles and Responsibilities  
 
@@ -137,7 +168,7 @@
 - Ensure responsive and mobile-friendly design  
 - Optimize layout for usability and accessibility  
 
-### **3️⃣ Frontend Developer (JavaScript & Dynamic Features)**  (Ayesha)
+### **3️⃣ Frontend Developer (JavaScript & Dynamic Features)**  (Ayesha & Saad)
 - Implement client-side dynamic features using JavaScript  
 - Manage user interactions and form validation  
 - Handle AJAX calls for smooth frontend-backend communication  
@@ -147,10 +178,6 @@
 - Secure the system against SQL injection, XSS, and other vulnerabilities  
 - Ensure password hashing and proper access control  
 
-### **5️⃣ Cloud & Deployment Engineer**  
-- Deploy the project on Google Cloud App Engine  
-- Set up Cloud Storage for media uploads and backups  
-- Optimize cloud configurations, security policies, and IAM roles  
 
 ## 🛠️ Work Order & Dependencies  
 
@@ -169,3 +196,5 @@
 - **Authentication system requires a working backend** before implementation.
 - **Frontend UI can start early**, but JavaScript integration depends on backend API.
 - **Testing and documentation are team-wide responsibilities** before final deployment.
+
+
