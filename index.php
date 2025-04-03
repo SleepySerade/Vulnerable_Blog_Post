@@ -39,11 +39,11 @@ $recent_posts = [];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Primary Meta Tags -->
-    <title>Welcome to Our Blog - Discover Great Stories</title>
+    <title>Welcome to Our Blog - BlogVerse</title>
     <meta name="title" content="Welcome to Our Blog - Discover Great Stories">
     <meta name="description" content="Discover interesting stories, insights, and experiences from our community. Join us and start sharing your voice with the world.">
     <meta name="keywords" content="blog, stories, community, writing, articles">
-    <meta name="author" content="Blog Website">
+    <meta name="author" content="BlogVerse">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -234,15 +234,17 @@ $recent_posts = [];
 
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/footer.php'; ?>
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"></script>
-    
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"></script>
     <!-- Font Awesome JS (for the up arrow icon) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <!-- Back to Top Button Script -->
     <script src="/public/assets/js/back-to-top.js"></script>
+    <!-- Dark Mode Toggle Script -->
+    <script src="/public/assets/js/script.js"></script>
+    <!-- Dropdown Fix Script -->
+    <script src="/public/assets/js/dropdown-fix.js"></script>
     <!-- Your existing inline <script> tag can stay below this if needed -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -474,6 +476,38 @@ $recent_posts = [];
             setInterval(() => {
                 cursorElement.classList.toggle("hidden");
             }, 500);
+            
+            // Direct dark mode toggle handler for index.php
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            if (darkModeToggle) {
+                console.log("Found dark mode toggle button on index page");
+                
+                // Remove any existing event listeners
+                const newDarkModeToggle = darkModeToggle.cloneNode(true);
+                darkModeToggle.parentNode.replaceChild(newDarkModeToggle, darkModeToggle);
+                
+                // Add new event listener
+                newDarkModeToggle.addEventListener('click', function(e) {
+                    console.log("Dark mode toggle clicked on index page");
+                    const body = document.body;
+                    
+                    // Toggle dark mode class
+                    body.classList.toggle('dark-mode');
+                    
+                    // Update button text
+                    if (body.classList.contains('dark-mode')) {
+                        localStorage.setItem('darkMode', 'enabled');
+                        this.textContent = '☀️ Light Mode';
+                    } else {
+                        localStorage.setItem('darkMode', 'disabled');
+                        this.textContent = '🌙 Dark Mode';
+                    }
+                    
+                    console.log("Dark mode state:", body.classList.contains('dark-mode'));
+                });
+            } else {
+                console.warn("Dark mode toggle button not found on index page");
+            }
         });
     </script>
 </body>

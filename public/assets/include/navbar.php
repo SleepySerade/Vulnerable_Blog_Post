@@ -45,23 +45,6 @@ if ($isLoggedIn) {
                     <a class="nav-link" href="/public/assets/pages/posts"><i class="bi bi-newspaper"></i> Blog Posts</a>
                 </li>
                 
-                <!-- Search Bar -->
-                <li class="nav-item">
-                    <form class="d-flex" action="/public/assets/pages/search" method="GET" id="search-form" onsubmit="return validateSearch()">
-                        <input class="form-control me-2 search-input"
-                               type="search"
-                               name="query"
-                               placeholder="Search..."
-                               id="search-input"
-                               minlength="2"
-                               maxlength="50"
-                               pattern="[A-Za-z0-9\s\-_.,]+"
-                               title="Search term must contain only letters, numbers, spaces, and basic punctuation"
-                               required>
-                        <button class="btn btn-outline-light search-button" type="submit" id="search-button">🔍</button>
-                    </form>
-                </li>
-
                 <?php if ($isLoggedIn): ?>
                 <li class="nav-item">
                     <a class="nav-link" href="/public/assets/pages/create-post"><i class="bi bi-pencil-square"></i> Create Post</a>
@@ -79,7 +62,7 @@ if ($isLoggedIn) {
                             <i class="bi bi-speedometer2"></i> Dashboard
                         </a></li>
                         <li><a class="dropdown-item" href="/admin/manage_user">
-                            <i class="bi bi-people"></i> Manage Users
+                            <i class="bi bi-people"></i> Manage UsersW
                         </a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/admin/manage_posts">
@@ -91,14 +74,25 @@ if ($isLoggedIn) {
                         <li><a class="dropdown-item" href="/admin/manage_categories">
                             <i class="bi bi-tag"></i> Manage Categories
                         </a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/public/log_viewer">
-                            <i class="bi bi-journal-text"></i> View Logs
-                        </a></li>
                     </ul>
                 </li>
                 <?php endif; ?>
-
+                    <!-- Search Bar -->
+                <li class="nav-item">
+                    <form class="d-flex" action="/public/assets/pages/search" method="GET" id="search-form" onsubmit="return validateSearch()">
+                        <input class="form-control me-2 search-input"
+                               type="search"
+                               name="query"
+                               placeholder="Search..."
+                               id="search-input"
+                               minlength="2"
+                               maxlength="50"
+                               pattern="[A-Za-z0-9\s\-_.,]+"
+                               title="Search term must contain only letters, numbers, spaces, and basic punctuation"
+                               required>
+                        <button class="btn btn-outline-light search-button" type="submit" id="search-button">🔍</button>
+                    </form>
+                </li>
                 <li class="nav-item">
                     <button id="dark-mode-toggle" class="btn btn-outline-light">
                         🌙 Dark Mode

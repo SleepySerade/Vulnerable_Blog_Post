@@ -135,6 +135,22 @@ header {
     transition: all 0.5s ease-in-out;
 }
 
+/* Navbar buttons in light mode */
+#navbar .btn-outline-light {
+    color: black !important;
+    border-color: black !important;
+}
+
+#navbar .btn-outline-light:hover {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Dark mode toggle text color in light mode */
+#dark-mode-toggle {
+    color: black !important;
+    border-color: black !important;
+}
+
 #navbar.scrolled {
     background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
@@ -144,6 +160,20 @@ header {
 #navbar.scrolled .navbar-brand,
 #navbar.scrolled .nav-item > a {
     color: white !important;
+}
+
+/* Navbar buttons when scrolled */
+#navbar.scrolled .btn-outline-light,
+#navbar.scrolled .search-button,
+#navbar.scrolled #dark-mode-toggle {
+    color: white !important;
+    border-color: white !important;
+}
+
+#navbar.scrolled .btn-outline-light:hover,
+#navbar.scrolled .search-button:hover,
+#navbar.scrolled #dark-mode-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 /* Cards & Content Containers */
@@ -410,6 +440,22 @@ footer ul li a:hover {
     color: white !important;
 }
 
+/* Navbar buttons in dark mode */
+.dark-mode #navbar .btn-outline-light {
+    color: white !important;
+    border-color: white !important;
+}
+
+.dark-mode #navbar .btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Dark mode toggle text color in dark mode */
+.dark-mode #dark-mode-toggle {
+    color: white !important;
+    border-color: white !important;
+}
+
 /* Ensure dropdown menu items in navbar are also visible in dark mode */
 .dark-mode #navbar .dropdown-menu {
     background-color: #333;
@@ -478,11 +524,30 @@ footer ul li a:hover {
     background-color: #6c757d !important;
 }
 
+/* Search elements in navbar */
+#navbar .search-button {
+    color: black !important;
+    border-color: black !important;
+}
+
+#navbar .search-button:hover {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
 /* Search elements in navbar for dark mode */
 .dark-mode #navbar .form-control {
     background-color: #333;
     color: white;
     border-color: #444;
+}
+
+.dark-mode #navbar .search-button {
+    color: white !important;
+    border-color: white !important;
+}
+
+.dark-mode #navbar .search-button:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .dark-mode #navbar .form-control::placeholder {
@@ -560,9 +625,37 @@ footer ul li a:hover {
     border-color: #444 !important;
 }
 
+/* Dropdown Menu Fixes */
+.dropdown-menu {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 0;
+    min-width: 12rem;
+    z-index: 1021;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1.5rem;
+    font-weight: 400;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-toggle::after {
+    margin-left: 0.5em;
+    vertical-align: 0.15em;
+}
+
+/* Dark Mode Dropdown Styles */
 .dark-mode .dropdown-menu {
     background-color: #333;
     border-color: #444;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
 }
 
 .dark-mode .dropdown-item {
