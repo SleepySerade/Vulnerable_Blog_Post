@@ -50,6 +50,32 @@ $categories = [];
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <!-- Include Quill.js for rich text editing -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        /* Tag styles */
+        .tag-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .tag-item .btn-close {
+            font-size: 0.5rem;
+            margin-left: 0.5rem;
+            padding: 0.25rem;
+        }
+        
+        .tag-item:hover {
+            opacity: 0.9;
+        }
+        
+        #tagContainer {
+            min-height: 2rem;
+        }
+    </style>
 </head>
 <body>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
@@ -86,6 +112,19 @@ $categories = [];
                                     <option value="">Select a category</option>
                                     <!-- Categories will be loaded dynamically -->
                                 </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tags" class="form-label">Tags</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="tagInput" placeholder="Add a tag...">
+                                    <button class="btn btn-outline-secondary" type="button" id="addTagButton">Add</button>
+                                </div>
+                                <div class="form-text">Enter tags separated by commas or add them one by one. Tags help users find your content.</div>
+                                <div id="tagContainer" class="mt-2 d-flex flex-wrap gap-2">
+                                    <!-- Tags will be added here dynamically -->
+                                </div>
+                                <input type="hidden" id="tags" name="tags" value="">
                             </div>
 
                             <div class="mb-3">
@@ -204,6 +243,91 @@ $categories = [];
                     console.error('Error fetching categories:', error);
                     // If categories can't be loaded, we can still create posts without a category
                 });
+                
+            // Tag handling functionality
+            const tagInput = document.getElementById('tagInput');
+            const addTagButton = document.getElementById('addTagButton');
+            const tagContainer = document.getElementById('tagContainer');
+            const tagsInput = document.getElementById('tags');
+            
+            // Function to add a tag
+            function addTag(tagName) {
+                // Normalize tag name (trim whitespace)
+                tagName = tagName.trim();
+                
+                // Skip if empty
+                if (!tagName) return;
+                
+                // Check if tag already exists
+                const existingTags = Array.from(document.querySelectorAll('.tag-item')).map(el => el.dataset.tagName.toLowerCase());
+                if (existingTags.includes(tagName.toLowerCase())) {
+                    // Tag already exists, highlight it briefly
+                    const existingTag = Array.from(document.querySelectorAll('.tag-item')).find(
+                        el => el.dataset.tagName.toLowerCase() === tagName.toLowerCase()
+                    );
+                    existingTag.classList.add('bg-warning');
+                    setTimeout(() => {
+                        existingTag.classList.remove('bg-warning');
+                    }, 1000);
+                    return;
+                }
+                
+                // Create tag element
+                const tagElement = document.createElement('span');
+                tagElement.className = 'badge bg-primary tag-item';
+                tagElement.dataset.tagName = tagName;
+                tagElement.innerHTML = `${tagName} <button type="button" class="btn-close btn-close-white" aria-label="Remove tag"></button>`;
+                
+                // Add remove functionality
+                const closeButton = tagElement.querySelector('.btn-close');
+                closeButton.addEventListener('click', function() {
+                    tagElement.remove();
+                    updateTagsInput();
+                });
+                
+                // Add to container
+                tagContainer.appendChild(tagElement);
+                
+                // Clear input
+                tagInput.value = '';
+                
+                // Update hidden input
+                updateTagsInput();
+            }
+            
+            // Function to update the hidden tags input
+            function updateTagsInput() {
+                const tagElements = document.querySelectorAll('.tag-item');
+                const tags = Array.from(tagElements).map(el => el.dataset.tagName);
+                tagsInput.value = JSON.stringify(tags);
+            }
+            
+            // Add tag when button is clicked
+            addTagButton.addEventListener('click', function() {
+                addTag(tagInput.value);
+            });
+            
+            // Add tag when Enter is pressed
+            tagInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addTag(tagInput.value);
+                }
+            });
+            
+            // Handle comma-separated tags
+            tagInput.addEventListener('input', function(e) {
+                const value = tagInput.value;
+                if (value.includes(',')) {
+                    const tags = value.split(',');
+                    // Add all tags except the last one (which might be incomplete)
+                    for (let i = 0; i < tags.length - 1; i++) {
+                        addTag(tags[i]);
+                    }
+                    // Keep the last part in the input
+                    tagInput.value = tags[tags.length - 1];
+                }
+            });
             
             // Image source toggle functionality
             const uploadOption = document.getElementById('uploadOption');
@@ -375,6 +499,10 @@ $categories = [];
                 // Set content to hidden input
                 document.getElementById('content').value = content;
                 
+                // Get tags
+                const tagElements = document.querySelectorAll('.tag-item');
+                const tags = Array.from(tagElements).map(el => el.dataset.tagName);
+                
                 // Create post data object
                 const postData = {
                     action: 'create',
@@ -382,7 +510,8 @@ $categories = [];
                     content: content,
                     category_id: category_id,
                     featured_image: featured_image,
-                    status: status
+                    status: status,
+                    tags: tags
                 };
                 
                 // Show loading state

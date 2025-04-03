@@ -82,6 +82,9 @@ if (!headers_sent()) {
 // Include database connection
 require_once '../connect_db.php';
 
+// Include tag functions
+require_once '../tags.php';
+
 // Include logger
 require_once '../utils/logger.php';
 
@@ -221,6 +224,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 ");
                 $stmt->bind_param('i', $post_id);
                 $stmt->execute();
+                
+                // Get tags for this post
+                $tagsResult = getPostTags($post_id);
+                if ($tagsResult['success']) {
+                    $post['tags'] = $tagsResult['data'];
+                } else {
+                    $post['tags'] = [];
+                }
                 
                 $response = [
                     'success' => true,
@@ -453,11 +464,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 $post_id = $conn->insert_id;
                 
+                // Handle tags if provided
+                if (isset($data['tags']) && is_array($data['tags']) && !empty($data['tags'])) {
+                    $tagsResult = addTagsToPost($post_id, $data['tags']);
+                    $tagsAdded = $tagsResult['success'] ? $tagsResult['data']['added'] : 0;
+                    $tagsFailed = $tagsResult['success'] ? $tagsResult['data']['failed'] : 0;
+                }
+                
                 $response = [
                     'success' => true,
                     'message' => 'Post created successfully',
                     'data' => [
-                        'post_id' => $post_id
+                        'post_id' => $post_id,
+                        'tags_added' => isset($tagsAdded) ? $tagsAdded : 0,
+                        'tags_failed' => isset($tagsFailed) ? $tagsFailed : 0
                     ]
                 ];
                 break;
@@ -553,9 +573,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bind_param($types, ...$params);
                 $stmt->execute();
                 
+                // Handle tags if provided
+                if (isset($data['tags']) && is_array($data['tags'])) {
+                    $tagsResult = updatePostTags($post_id, $data['tags']);
+                    $tagsMessage = $tagsResult['success'] ? $tagsResult['message'] : 'Failed to update tags';
+                }
+                
                 $response = [
                     'success' => true,
-                    'message' => 'Post updated successfully'
+                    'message' => 'Post updated successfully',
+                    'tags_message' => isset($tagsMessage) ? $tagsMessage : 'No tags updated'
                 ];
                 break;
                 

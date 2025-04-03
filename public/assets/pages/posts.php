@@ -196,15 +196,72 @@ $all_posts = [];
                 })
                 .catch(error => console.error('Error fetching recent posts:', error));
             
-            // Fetch all posts
-            fetch('/backend/api/posts.php?action=all')
-                .then(response => response.json())
-                .then(result => {
-                    if (result.success && result.data.length > 0) {
-                        displayAllPosts(result.data);
-                    }
-                })
-                .catch(error => console.error('Error fetching all posts:', error));
+            // Check if we're filtering by tag or category
+            const urlParams = new URLSearchParams(window.location.search);
+            const tagId = urlParams.get('tag');
+            const categoryId = urlParams.get('category');
+            
+            // Update page title based on filter
+            if (tagId) {
+                document.querySelector('h1').textContent = 'Posts by Tag';
+                document.querySelector('.lead').textContent = 'Browsing posts with a specific tag';
+                
+                // Fetch tag name
+                fetch(`/backend/api/tags.php?action=all`)
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            const tag = result.data.find(t => t.tag_id == tagId);
+                            if (tag) {
+                                document.querySelector('h1').textContent = `Posts Tagged: ${tag.name}`;
+                                document.querySelector('.lead').textContent = `Browsing all posts with the tag "${tag.name}"`;
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Error fetching tag info:', error));
+                
+                // Fetch posts by tag
+                fetch(`/backend/api/tags.php?action=posts_by_tag&tag_id=${tagId}`)
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success && result.data.length > 0) {
+                            // Hide featured and recent sections
+                            document.querySelector('.container.mb-5:nth-of-type(1)').style.display = 'none';
+                            document.querySelector('.container.mb-5:nth-of-type(2)').style.display = 'none';
+                            
+                            // Update "All Posts" heading to "Tagged Posts"
+                            document.querySelector('.container.mb-5:nth-of-type(3) h2').textContent = 'Tagged Posts';
+                            
+                            displayAllPosts(result.data);
+                        } else {
+                            // No posts found for this tag
+                            const container = document.querySelector('.container.mb-5:nth-of-type(3) .row');
+                            container.innerHTML = '<div class="col-12"><div class="alert alert-info">No posts found with this tag.</div></div>';
+                        }
+                    })
+                    .catch(error => console.error('Error fetching posts by tag:', error));
+            } else if (categoryId) {
+                // Existing category filter logic (if any)
+                // Fetch all posts
+                fetch('/backend/api/posts.php?action=all')
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success && result.data.length > 0) {
+                            displayAllPosts(result.data);
+                        }
+                    })
+                    .catch(error => console.error('Error fetching all posts:', error));
+            } else {
+                // No filter, fetch all posts
+                fetch('/backend/api/posts.php?action=all')
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success && result.data.length > 0) {
+                            displayAllPosts(result.data);
+                        }
+                    })
+                    .catch(error => console.error('Error fetching all posts:', error));
+            }
 
             // Navbar scroll effect
             const navbar = document.getElementById("navbar");
@@ -329,6 +386,22 @@ $all_posts = [];
                 const plainText = tempDiv.textContent || tempDiv.innerText;
                 excerpt.textContent = plainText.substring(0, contentLength) + '...';
                 cardBodyDiv.appendChild(excerpt);
+                
+                // Add tags if available
+                if (post.tags && post.tags.length > 0) {
+                    const tagsDiv = document.createElement('div');
+                    tagsDiv.className = 'd-flex flex-wrap gap-1 mb-2';
+                    
+                    post.tags.forEach(tag => {
+                        const tagLink = document.createElement('a');
+                        tagLink.href = `/public/assets/pages/posts?tag=${tag.tag_id}`;
+                        tagLink.className = 'badge bg-secondary text-decoration-none link-light me-1 mb-1';
+                        tagLink.textContent = tag.name;
+                        tagsDiv.appendChild(tagLink);
+                    });
+                    
+                    cardBodyDiv.appendChild(tagsDiv);
+                }
                 
                 // Add read more button
                 const link = document.createElement('a');

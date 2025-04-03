@@ -256,6 +256,18 @@ $post = null;
                         <section class="mb-5">
                             ${post.content.replace(/\n/g, '<br>')}
                         </section>
+                        
+                        <!-- Tags Section -->
+                        ${post.tags && post.tags.length > 0 ? `
+                        <section class="mb-4">
+                            <h5>Tags:</h5>
+                            <div class="d-flex flex-wrap gap-2">
+                                ${post.tags.map(tag => `
+                                    <a href="/public/assets/pages/posts?tag=${tag.tag_id}" class="badge bg-secondary text-decoration-none link-light">${tag.name}</a>
+                                `).join('')}
+                            </div>
+                        </section>
+                        ` : ''}
                     </article>
                     
                     <div class="d-flex justify-content-between align-items-center mb-4">
