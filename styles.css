@@ -1,60 +1,272 @@
 /* Default (Light Mode) */
 :root {
     --background-color: #ffffff;
-    --text-color: #333;
-    --header-bg: #f4ece1;
-    --navbar-bg: #FF9800;
-    --card-bg: #FFF3E0; /* Light orange-tinted background */
-    --button-bg: #FF9800;
-    --button-hover-bg: #F57C00;
-    --muted-text-color: #333;
-    --button-text-color: #ffffff; /* Button text color */
+    --text-color: #000000;
+    --header-bg: #74681f;
+    /* --navbar-bg: white; */
+    --card-bg: #f8f9fa;
+    --card-bg-hover: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(249, 250, 251, 1) 100%);
+    --heading-color: #1f2937;
+    --primary-color-light: #6366f1;
+    --primary-color-dark: #8b5cf6;
+    --primary-color-rgb: 99, 102, 241;
+    --primary-color-dark-rgb: 139, 92, 246;
+    --button-bg: #FF4500;
+    --button-hover-bg: #e63e00;
+    --success-color: #10b981;
+    --muted-text-color: #6c757d; /* Bootstrap's default text-muted color */
+    --outline-button-text: #212529; /* Default text color for outline buttons */
 }
 
 /* Dark Mode */
 .dark-mode {
     --background-color: #121212;
-    --text-color: #f5f5f5;
-    --header-bg: #1A1A1A;
-    --navbar-bg: #1A1A1A;
-    --card-bg: #222; /* Darker contrast for readability */
-    --button-bg: #E65100; /* Deep orange */
-    --button-hover-bg: #BF360C; /* Darker orange */
-    --muted-text-color: #f5f5f5; /* Muted text color for dark mode */
-    --button-text-color: #ffffff; /* Button text color */
+    --text-color: #ffffff;
+    --header-bg: #dee0d6;
+    --navbar-bg: #1a1a1a;
+    --card-bg: #222;
+    --card-bg-hover: linear-gradient(to bottom, rgba(34, 34, 34, 1) 0%, rgba(51, 51, 51, 1) 100%);
+    --heading-color: #ffffff;
+    --primary-color-light: #8b5cf6;
+    --primary-color-dark: #6366f1;
+    --primary-color-rgb: 139, 92, 246;
+    --primary-color-dark-rgb: 99, 102, 241;
+    --button-bg: #FF5722;
+    --button-hover-bg: #e64a19;
+    --success-color: #10b981;
+    --muted-text-color: #adb5bd; /* Lighter gray for dark mode */
+    --outline-button-text: #ffffff; /* White text for outline buttons in dark mode */
 }
 .dark-mode .form-text {
     color: #ffffff !important;
 }
+
+.dark-mode .bg-light {
+    background-color: #333 !important;
+    color: #fff !important;
+}
+.dark-mode .reading-time {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 /* Apply Theme */
 body {
     background-color: var(--background-color);
     color: var(--text-color);
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+/* Ensure all text elements inherit the text color */
+.dark-mode p,
+.dark-mode span:not(.badge),
+.dark-mode div:not(.badge),
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 {
+    color: var(--text-color);
+}
+
+/* Exceptions for elements that should use muted color */
+.dark-mode .text-muted,
+.dark-mode small.text-muted,
+.dark-mode span.text-muted,
+.dark-mode p.text-muted {
+    color: var(--muted-text-color) !important;
 }
 
 header {
-    background-color: var(--header-bg);
+    /* background-color: var(--header-bg); */
+    color: var(--text-color);
+    padding: 1rem 0;
 }
 
-#navbar {
-    background-color: var(--navbar-bg);
-    transition: background-color 0.5s ease-in-out;
-}
-.card {
+/* Card Base Styles */
+.about-page .card {
+    border: none;
     background-color: var(--card-bg);
+    color: var(--text-color);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover Effects */
+.about-page .card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon Wrapper Styles */
+.about-page .icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color-light) 0%, var(--primary-color-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Icon Styles */
+.about-page .icon-wrapper i {
+    color: white;
+    font-size: 2rem;
+    transition: all 0.5s ease;
+}
+
+/* Icon Hover Effects */
+.about-page .card:hover .icon-wrapper {
+    transform: rotate(360deg);
+    background: linear-gradient(135deg, var(--primary-color-dark) 0%, var(--primary-color-light) 100%);
+}
+
+.about-page .card:hover .icon-wrapper i {
+    transform: scale(1.2);
+}
+
+/* Card Content Hover Effects */
+.about-page .card-body {
+    padding: 2rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.about-page .card:hover .card-body {
+    background: var(--card-bg-hover);
+    transition: all 0.3s ease;
+}
+
+/* List Item Hover Effects */
+.about-page .list-unstyled li {
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.about-page .list-unstyled li:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary-color-light);
+    transition: all 0.3s ease;
+}
+
+.about-page .card:hover .list-unstyled li:before {
+    transform: translateY(-50%) scale(1.5);
+    background: var(--primary-color-dark);
+}
+
+/* Card Title Styles */
+.about-page .card h3 {
+    color: var(--heading-color); /* Dynamic heading color */
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+.about-page .card h3:after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, var(--primary-color-light) 0%, var(--primary-color-dark) 100%);
+    transition: all 0.3s ease;
+}
+
+.about-page .card:hover h3:after {
+    width: 100%;
+}
+
+/* Card Text Hover Effects */
+.about-page .card-text {
+    color: var(--text-muted-color); /* Dynamic muted text color */
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.about-page .card:hover .card-text {
+    color: var(--text-color); /* Switch to main text color on hover */
+}
+
+/* Checkmark Icon Styles */
+.about-page .check-icon {
+    color: var(--success-color); /* Dynamic success color */
+    margin-right: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.about-page .card:hover .check-icon {
+    transform: scale(1.2);
+}
+
+/* Card Border Glow Effect */
+.about-page .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0.5rem;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--primary-color-light) 0%, var(--primary-color-dark) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.about-page .card:hover::before {
+    opacity: 1;
+}
+
+/* Mission Section Styles */
+.about-page .mission-section {
+    margin-top: 5rem;
+    padding: 3rem 0;
+    background: linear-gradient(to right, rgba(var(--primary-color-rgb), 0.05), rgba(var(--primary-color-dark-rgb), 0.05));
+    border-radius: 1rem;
+}
+
+
+/* Headings */
+h1, h2, h3, h4, h6 {
+    color: var(--text-color);
+}
+
+/* Featured Posts and Recent Posts headings */
+.container h2.mb-4 {
     color: var(--text-color);
 }
 
 /* Muted Text */
 .card .card-text.text-muted,
-.card .card-text.text-muted small,
-.dark-mode .form-text,
-.dark-mode .text-muted,
-.dark-mode .card .text-muted,
-.dark-mode .fst-italic.text-muted,
-.dark-mode small.text-muted {
+.card .card-text.text-muted small {
+    color: var(--muted-text-color); /* Use the muted text color */
+}
+.dark-mode .text-muted {
     color: var(--muted-text-color) !important;
 }
+
+
 /* Buttons */
 button,
 .btn-primary,
@@ -75,15 +287,118 @@ button:hover,
     color: var(--button-text-color);
 }
 
-.dark-mode .bg-light {
-    background-color: #333 !important;
-    color: #fff !important;
-}
-
-
 body {
     opacity: 0;
     animation: fadeIn 1s forwards;
+}
+
+/* Hero Section Styles */
+.hero-section {
+    position: relative;
+    padding: 8rem 0 6rem;
+    /* background-image:  url("/.../public/assets/include/blog-background.jpg"); */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Optional: creates parallax effect */
+    margin-bottom: 5rem;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.5) 100%
+    );
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.min-vh-75 {
+    min-height: 75vh;
+}
+
+/* Enhance text visibility */
+.hero-section h1 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+}
+
+.hero-section .lead {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    font-size: 1.35rem;
+}
+
+/* Button styling */
+.hero-section .btn-light {
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero-section .btn-light:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Cursor animation enhancement */
+.cursor {
+    font-weight: 300;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 6rem 0 4rem;
+    }
+    
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-section .lead {
+        font-size: 1.1rem;
+    }
+    
+    .min-vh-75 {
+        min-height: 60vh;
+    }
+}
+
+/* Gradient Animation */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+.bg-moving-gradient {
+    background: linear-gradient(45deg, #bb3f0e, #eb2907);
+    background-size: 400% 400%;
+    animation: gradientAnimation 10s ease infinite;
 }
 
 
@@ -266,28 +581,308 @@ footer .fab {
 
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
     to {
         opacity: 1;
     }
 }
 
+/* Initial state: hidden and slightly translated */
 .fade-in {
     opacity: 0;
-    animation: fadeIn 1s forwards;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Visible state: fully opaque and in position */
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .fade-out {
-    opacity: 1;
+    opacity: 0;
     transition: opacity 1s ease-out;
 }
-
-.fade-out.hidden {
-    opacity: 0;
+/* Default Transparent Navbar */
+#navbar {
+    background-color: rgb(222 204 174);
+    transition: all 0.5s ease-in-out;
 }
 
+/* Fix for text-muted class in dark mode */
+.dark-mode .text-muted,
+.dark-mode .small.text-muted {
+    color: var(--muted-text-color) !important;
+}
+
+/* Fix for outline buttons in dark mode */
+.dark-mode .btn-outline-success,
+.dark-mode .btn-outline-danger,
+.dark-mode .btn-outline-primary,
+.dark-mode .btn-outline-secondary,
+.dark-mode .btn-outline-light {
+    color: var(--outline-button-text);
+    border-color: currentColor;
+}
+
+/* Fix for reaction counts in dark mode */
+.dark-mode .like-count,
+.dark-mode .dislike-count {
+    color: var(--text-color);
+}
+
+/* Style for login link */
+.login-link {
+    color: var(--muted-text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-link:hover {
+    color: var(--button-bg);
+    text-decoration: underline;
+}
+
+.dark-mode .login-link {
+    color: var(--muted-text-color);
+}
+
+.dark-mode .login-link:hover {
+    color: var(--button-bg);
+}
+
+/* Fix for dropdown menus in dark mode */
+.dark-mode .dropdown-menu {
+    background-color: #333;
+    border-color: #444;
+}
+
+.dark-mode .dropdown-item {
+    color: var(--text-color);
+}
+
+.dark-mode .dropdown-item:hover,
+.dark-mode .dropdown-item:focus {
+    background-color: #444;
+    color: var(--text-color);
+}
+
+.dark-mode .dropdown-divider {
+    border-top-color: #444;
+}
+
+.dark-mode .dropdown-item-text {
+    color: var(--muted-text-color) !important;
+}
+
+/* Fix for search button in navbar */
+.search-button {
+    color: #212529;
+    border-color: #212529;
+}
+
+.dark-mode .search-button {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+.search-button:hover {
+    background-color: var(--button-bg);
+    border-color: var(--button-bg);
+    color: #ffffff;
+}
+
+.dark-mode .search-button:hover {
+    background-color: var(--button-bg);
+    border-color: var(--button-bg);
+}
+
+/* Fix for search input in navbar */
+.search-input {
+    background-color: #ffffff;
+    color: #212529;
+    border-color: #ced4da;
+}
+
+.dark-mode .search-input {
+    background-color: #333;
+    color: #ffffff;
+    border-color: #444;
+}
+
+.dark-mode .search-input::placeholder {
+    color: #adb5bd;
+}
+
+.dark-mode .search-input:focus {
+    background-color: #333;
+    color: #ffffff;
+    border-color: var(--button-bg);
+    box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb), 0.25);
+}
+
+/* Fix for reaction buttons in post.php */
+.reaction-btn {
+    transition: all 0.2s ease;
+    min-width: 70px;
+}
+
+.dark-mode .btn-outline-success {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.dark-mode .btn-outline-success:hover,
+.dark-mode .btn-outline-success.active {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.dark-mode .btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+.dark-mode .btn-outline-danger:hover,
+.dark-mode .btn-outline-danger.active {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Ensure all text in cards is properly colored in dark mode */
+.dark-mode .card {
+    color: var(--text-color);
+}
+
+.dark-mode .card-title,
+.dark-mode .card-text {
+    color: var(--text-color) !important;
+}
+
+/* Fix for post content in dark mode */
+.dark-mode .posts-page .card-text,
+.dark-mode .post-content {
+    color: var(--text-color) !important;
+}
+
+/* Fix for post excerpt in dark mode */
+.dark-mode p.card-text:not(.text-muted) {
+    color: var(--text-color) !important;
+}
+
+/* Fix for post timestamp in dark mode */
+.dark-mode .post-timestamp {
+    color: var(--muted-text-color) !important;
+}
+
+/* Fix for comment username in dark mode */
+.dark-mode .comment-username {
+    color: var(--text-color) !important;
+}
+
+/* Fix for comment timestamps in dark mode */
+.dark-mode .card-body small.text-muted {
+    color: var(--muted-text-color) !important;
+}
+
+/* Fix for comment text in dark mode */
+.dark-mode .comment-text {
+    color: var(--text-color) !important;
+}
+
+/* Comment cards in dark mode are handled by the general card styles */
+
+/* Fix for comment form in dark mode */
+.dark-mode #commentForm .form-control {
+    background-color: #333;
+    color: #fff;
+    border-color: #444;
+}
+
+.dark-mode #commentForm .form-control:focus {
+    background-color: #333;
+    color: #fff;
+    border-color: var(--button-bg);
+    box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb), 0.25);
+}
+
+/* Fix for reply and edit forms in dark mode */
+.dark-mode .reply-form .form-control,
+.dark-mode .edit-form .form-control {
+    background-color: #333;
+    color: #fff;
+    border-color: #444;
+}
+
+.dark-mode .reply-form .form-control:focus,
+.dark-mode .edit-form .form-control:focus {
+    background-color: #333;
+    color: #fff;
+    border-color: var(--button-bg);
+    box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb), 0.25);
+}
+
+/* Consolidated alert styles for dark mode */
+.dark-mode .alert-info,
+.dark-mode .login-alert {
+    background-color: #0d3a4f !important;
+    color: #fff !important;
+    border-color: #0c5460 !important;
+}
+
+.dark-mode .login-alert a,
+.dark-mode .alert-info a {
+    color: #8be0ff !important;
+    text-decoration: underline;
+}
+
+.dark-mode .login-alert a:hover,
+.dark-mode .alert-info a:hover {
+    color: #b3ecff !important;
+}
+
+.dark-mode .alert-warning {
+    background-color: #523e02 !important;
+    color: #fff !important;
+    border-color: #856404 !important;
+}
+
+.dark-mode .alert-danger {
+    background-color: #5a1c1c !important;
+    color: #fff !important;
+    border-color: #721c24 !important;
+}
+
+/* Comments section text colors are handled by the general text color rules */
+
+/* Card styles for dark mode are consolidated at the end of the file */
+
+/* Ensure form controls in dark mode have proper styling */
+.dark-mode .form-control {
+    background-color: #333;
+    color: #fff;
+    border-color: #444;
+}
+
+.dark-mode .form-control:focus {
+    background-color: #333;
+    color: #fff;
+    border-color: var(--button-bg);
+    box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb), 0.25);
+}
+
+/* Fix for Call to Action section in dark mode */
+.dark-mode .bg-light {
+    background-color: #333 !important;
+    color: #fff !important;
+}
+
+.dark-mode .bg-light h2,
+.dark-mode .bg-light p.lead {
+    color: #fff !important;
+}
 /* Ensure the edit button is blue in dark mode */
 .btn-edit {
     background-color: #007bff !important; /* Blue */
@@ -308,8 +903,211 @@ footer .fab {
     background-color: #ff9500d0 !important; 
 }
 
+#back-to-top-btn {
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    z-index: 999;
+    display: none;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px 14px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#back-to-top-btn.show {
+    display: inline-block;
+}
+#back-to-top-btn:hover {
+    background-color: #0056b3;
+}
+/* Consolidated navbar styles */
+#navbar {
+    background-color: rgb(222 204 174);
+    transition: all 0.5s ease-in-out;
+}
+
+#navbar .nav-link,
+#navbar .navbar-brand,
+#navbar .nav-item > a {
+    color: black !important;
+    transition: all 0.5s ease-in-out;
+}
+
 /* When scrolled, change to dark */
 #navbar.scrolled {
     background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
 }
+
+#navbar.scrolled .nav-link,
+#navbar.scrolled .navbar-brand,
+#navbar.scrolled .nav-item > a {
+    color: white !important;
+}
+
+/* Posts Page Styles */
+.posts-page .card {
+    border: none;
+    overflow: hidden;
+    background-color: var(--card-bg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
+    position: relative;
+}
+
+.posts-page .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.posts-page .card .card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.posts-page .card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.posts-page .card-body {
+    padding: 1.5rem;
+}
+
+.posts-page .card-title {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.posts-page .card-text {
+    color: var(--text-muted-color);
+    margin-bottom: 1rem;
+}
+
+.posts-page .card .btn {
+    transition: all 0.3s ease;
+}
+
+.posts-page .card .btn:hover {
+    background-color: var(--button-hover-bg);
+    border-color: var(--button-hover-bg);
+    color: #fff;
+}
+
+
+.dark-mode .form-text {
+    color: #ffffff !important;
+}
+/* Consolidated card styles */
+.card {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+/* Consolidated dark mode card styles */
+.dark-mode .card {
+    background-color: #222 !important;
+    border-color: #444 !important;
+    color: var(--text-color) !important;
+}
+
+/* Login and Register page styles for dark mode */
+.dark-mode .back-btn,
+.dark-mode .login-btn,
+.dark-mode .register-btn {
+    color: #fff !important;
+    border-bottom-color: transparent;
+}
+
+.dark-mode .back-btn:hover,
+.dark-mode .login-btn:hover,
+.dark-mode .register-btn:hover {
+    border-bottom-color: #fff !important;
+}
+
+.dark-mode .auth-container .card-header {
+    background-color: #333 !important;
+    border-bottom-color: #444 !important;
+}
+
+.dark-mode .auth-container .card-footer {
+    background-color: #333 !important;
+    border-top-color: #444 !important;
+}
+
+.dark-mode .auth-container label {
+    color: var(--text-color) !important;
+}
+
+.dark-mode .auth-container .form-control {
+    background-color: #333 !important;
+    color: #fff !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .auth-container .form-control:focus {
+    border-color: var(--button-bg) !important;
+    box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb), 0.25) !important;
+}
+
+.dark-mode .auth-container .form-text {
+    color: #adb5bd !important;
+}
+
+/* reCAPTCHA in dark mode */
+.dark-mode .g-recaptcha {
+    filter: invert(0.85) hue-rotate(180deg);
+    margin: 0 auto;
+    width: fit-content;
+}
+
+/* Alert boxes in login/register pages */
+.dark-mode .auth-container .alert-success {
+    background-color: #0f5132 !important;
+    color: #fff !important;
+    border-color: #0c4128 !important;
+}
+
+.dark-mode .auth-container .alert-danger {
+    background-color: #5a1c1c !important;
+    color: #fff !important;
+    border-color: #721c24 !important;
+}
+
+.dark-mode .auth-container .alert-info {
+    background-color: #0d3a4f !important;
+    color: #fff !important;
+    border-color: #0c5460 !important;
+}
+
+.dark-mode .auth-container .loading-indicator {
+    background-color: #0d3a4f !important;
+    color: #fff !important;
+}
+
+.dark-mode .auth-container .spinner-border {
+    border-color: #fff !important;
+    border-right-color: transparent !important;
+}
+
+/*
+ * CSS ORGANIZATION NOTES:
+ *
+ * 1. Variables are defined at the top (light mode and dark mode)
+ * 2. General element styles follow
+ * 3. Component-specific styles are grouped by component
+ * 4. Dark mode overrides use the .dark-mode prefix
+ * 5. Media queries are at the end
+ *
+ * To avoid conflicts:
+ * - Use !important sparingly and consistently
+ * - Group related styles together
+ * - Use specific selectors to avoid unintended style inheritance
+ * - Consolidate duplicate rules
+ */
