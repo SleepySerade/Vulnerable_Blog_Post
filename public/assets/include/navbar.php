@@ -62,7 +62,7 @@ if ($isLoggedIn) {
                             <i class="bi bi-speedometer2"></i> Dashboard
                         </a></li>
                         <li><a class="dropdown-item" href="/admin/manage_user">
-                            <i class="bi bi-people"></i> Manage UsersW
+                            <i class="bi bi-people"></i> Manage Users
                         </a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/admin/manage_posts">
