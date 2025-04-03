@@ -1013,6 +1013,85 @@ footer .fab {
     color: var(--text-color) !important;
 }
 
+/* Login and Register page styles for dark mode */
+.dark-mode .back-btn,
+.dark-mode .login-btn,
+.dark-mode .register-btn {
+    color: #fff !important;
+    border-bottom-color: transparent;
+}
+
+.dark-mode .back-btn:hover,
+.dark-mode .login-btn:hover,
+.dark-mode .register-btn:hover {
+    border-bottom-color: #fff !important;
+}
+
+.dark-mode .auth-container .card-header {
+    background-color: #333 !important;
+    border-bottom-color: #444 !important;
+}
+
+.dark-mode .auth-container .card-footer {
+    background-color: #333 !important;
+    border-top-color: #444 !important;
+}
+
+.dark-mode .auth-container label {
+    color: var(--text-color) !important;
+}
+
+.dark-mode .auth-container .form-control {
+    background-color: #333 !important;
+    color: #fff !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .auth-container .form-control:focus {
+    border-color: var(--button-bg) !important;
+    box-shadow: 0 0 0 0.25rem rgba(var(--primary-color-rgb), 0.25) !important;
+}
+
+.dark-mode .auth-container .form-text {
+    color: #adb5bd !important;
+}
+
+/* reCAPTCHA in dark mode */
+.dark-mode .g-recaptcha {
+    filter: invert(0.85) hue-rotate(180deg);
+    margin: 0 auto;
+    width: fit-content;
+}
+
+/* Alert boxes in login/register pages */
+.dark-mode .auth-container .alert-success {
+    background-color: #0f5132 !important;
+    color: #fff !important;
+    border-color: #0c4128 !important;
+}
+
+.dark-mode .auth-container .alert-danger {
+    background-color: #5a1c1c !important;
+    color: #fff !important;
+    border-color: #721c24 !important;
+}
+
+.dark-mode .auth-container .alert-info {
+    background-color: #0d3a4f !important;
+    color: #fff !important;
+    border-color: #0c5460 !important;
+}
+
+.dark-mode .auth-container .loading-indicator {
+    background-color: #0d3a4f !important;
+    color: #fff !important;
+}
+
+.dark-mode .auth-container .spinner-border {
+    border-color: #fff !important;
+    border-right-color: transparent !important;
+}
+
 /*
  * CSS ORGANIZATION NOTES:
  *

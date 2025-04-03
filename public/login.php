@@ -80,14 +80,14 @@ if (isset($_SESSION['registration_success'])) {
             top: 1rem;
             font-size: 1.2rem;
             text-decoration: none;
-            color: rgb(0, 0, 0);
+            color: var(--text-color);
             transition: color 0.3s ease, border-bottom 0.3s ease;
             border-bottom: 2px solid transparent; /* Initially no underline */
         }
 
         /* Hover effect */
         .back-btn:hover {
-            border-bottom: 2px solid rgb(0, 0, 0); /* Underline effect on hover */
+            border-bottom: 2px solid var(--text-color); /* Underline effect on hover */
         }
 
         /* Login Button Styles */
@@ -96,21 +96,20 @@ if (isset($_SESSION['registration_success'])) {
             font-weight: 300;
             font-size: 1.2rem;
             text-decoration: none;
-            color:rgb(0, 0, 0);
+            color: var(--text-color);
             transition: color 0.3s ease, border-bottom 0.3s ease;
             border-bottom: 2px solid transparent; /* Initially no underline */
         }
 
         /* Hover effect */
         .register-btn:hover {
-            border-bottom: 2px solid rgb(0, 0, 0); /* Underline effect on hover */
-}
+            border-bottom: 2px solid var(--text-color); /* Underline effect on hover */
+        }
 
     </style>
 </head>
 <body>
-    <div class="container my-5">
-    <div class="auth-container">
+    <div class="container my-5 auth-container">
         <!-- Button Container for Back and Login -->
         <div class="btn-container">
             <!-- Back Button -->
@@ -176,9 +175,9 @@ if (isset($_SESSION['registration_success'])) {
                 </div>
             </div>
         </div>
-    </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/assets/js/script.js"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
