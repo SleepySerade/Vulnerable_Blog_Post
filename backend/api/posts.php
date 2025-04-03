@@ -240,6 +240,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 ];
                 break;
                 
+            case 'featured_by_category':
+                // Get featured posts by category
+                if (!isset($_GET['category_id'])) {
+                    throw new Exception('Category ID is required');
+                }
+                
+                $category_id = intval($_GET['category_id']);
+                $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 3;
+                
+                $stmt = $conn->prepare("
+                    SELECT p.*, u.username as author_name, c.name as category_name
+                    FROM blog_posts p
+                    JOIN users u ON p.author_id = u.user_id
+                    LEFT JOIN categories c ON p.category_id = c.category_id
+                    WHERE p.category_id = ? AND p.status = 'published'
+                    ORDER BY p.created_at DESC
+                    LIMIT ?
+                ");
+                $stmt->bind_param('ii', $category_id, $limit);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                $posts = [];
+                while ($row = $result->fetch_assoc()) {
+                    // Get tags for this post
+                    $tagsResult = getPostTags($row['post_id']);
+                    if ($tagsResult['success']) {
+                        $row['tags'] = $tagsResult['data'];
+                    } else {
+                        $row['tags'] = [];
+                    }
+                    $posts[] = $row;
+                }
+                
+                $response = [
+                    'success' => true,
+                    'message' => 'Featured posts by category retrieved successfully',
+                    'data' => $posts
+                ];
+                break;
+                
             case 'by_category':
                 // Get posts by category
                 if (!isset($_GET['category_id'])) {
@@ -262,6 +303,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 
                 $posts = [];
                 while ($row = $result->fetch_assoc()) {
+                    // Get tags for this post
+                    $tagsResult = getPostTags($row['post_id']);
+                    if ($tagsResult['success']) {
+                        $row['tags'] = $tagsResult['data'];
+                    } else {
+                        $row['tags'] = [];
+                    }
                     $posts[] = $row;
                 }
                 

@@ -44,6 +44,80 @@ $all_posts = [];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <style>
+        /* Category tabs styles */
+        .category-tabs .nav-tabs {
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .category-tabs .nav-link {
+            border: none;
+            color: #495057;
+            font-weight: 500;
+            padding: 0.75rem 1rem;
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .category-tabs .nav-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .category-tabs .nav-link.active {
+            color: var(--primary-color);
+            background-color: transparent;
+            border: none;
+        }
+        
+        .category-tabs .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        /* Dark mode styles for tabs */
+        .dark-mode .category-tabs .nav-tabs {
+            border-bottom-color: #444;
+        }
+        
+        .dark-mode .category-tabs .nav-link {
+            color: #ccc;
+        }
+        
+        .dark-mode .category-tabs .nav-link:hover {
+            color: #fff;
+        }
+        
+        .dark-mode .category-tabs .nav-link.active {
+            color: #fff;
+        }
+        
+        /* Loading indicator */
+        .loading-indicator, .category-loading {
+            padding: 2rem 0;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .category-tabs .nav-tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 5px;
+            }
+            
+            .category-tabs .nav-link {
+                padding: 0.5rem 0.75rem;
+            }
+        }
+    </style>
 </head>
 <body class="posts-page">
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
@@ -63,14 +137,14 @@ $all_posts = [];
                     <div class="col-md-4 mb-4">
                         <div class="card h-100">
                             <?php if ($post['featured_image']): ?>
-                                <img src="<?php echo htmlspecialchars($post['featured_image']); ?>" 
+                                <img src="<?php echo htmlspecialchars($post['featured_image']); ?>"
                                      class="card-img-top" alt="<?php echo htmlspecialchars($post['title']); ?>">
                             <?php endif; ?>
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($post['title']); ?></h5>
                                 <p class="card-text text-muted">
                                     <small>
-                                        By <?php echo htmlspecialchars($post['author_name']); ?> in 
+                                        By <?php echo htmlspecialchars($post['author_name']); ?> in
                                         <?php echo htmlspecialchars($post['category_name']); ?>
                                     </small>
                                 </p>
@@ -86,6 +160,25 @@ $all_posts = [];
                         </div>
                     </div>
                 <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- Featured Posts by Category -->
+        <div class="container mb-5" id="featuredByCategory">
+            <h2 class="mb-4">Featured by Category</h2>
+            <div class="category-tabs mb-4">
+                <ul class="nav nav-tabs" id="categoryTabs" role="tablist">
+                    <!-- Category tabs will be loaded dynamically -->
+                </ul>
+            </div>
+            <div class="tab-content" id="categoryTabContent">
+                <!-- Category content will be loaded dynamically -->
+                <div class="text-center py-4 loading-indicator">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading categories...</p>
+                </div>
             </div>
         </div>
 
@@ -228,29 +321,71 @@ $all_posts = [];
                             // Hide featured and recent sections
                             document.querySelector('.container.mb-5:nth-of-type(1)').style.display = 'none';
                             document.querySelector('.container.mb-5:nth-of-type(2)').style.display = 'none';
+                            document.getElementById('featuredByCategory').style.display = 'none';
                             
                             // Update "All Posts" heading to "Tagged Posts"
-                            document.querySelector('.container.mb-5:nth-of-type(3) h2').textContent = 'Tagged Posts';
+                            const allPostsSection = document.querySelector('.container.mb-5:nth-of-type(4)');
+                            if (allPostsSection) {
+                                allPostsSection.querySelector('h2').textContent = 'Tagged Posts';
+                            }
                             
                             displayAllPosts(result.data);
                         } else {
                             // No posts found for this tag
-                            const container = document.querySelector('.container.mb-5:nth-of-type(3) .row');
-                            container.innerHTML = '<div class="col-12"><div class="alert alert-info">No posts found with this tag.</div></div>';
+                            const allPostsSection = document.querySelector('.container.mb-5:nth-of-type(4)');
+                            const container = allPostsSection ? allPostsSection.querySelector('.row') : null;
+                            if (container) {
+                                container.innerHTML = '<div class="col-12"><div class="alert alert-info">No posts found with this tag.</div></div>';
+                            }
                         }
                     })
                     .catch(error => console.error('Error fetching posts by tag:', error));
             } else if (categoryId) {
-                // Existing category filter logic (if any)
-                // Fetch all posts
-                fetch('/backend/api/posts.php?action=all')
+                // Update page title for category filter
+                document.querySelector('h1').textContent = 'Posts by Category';
+                document.querySelector('.lead').textContent = 'Browsing posts in a specific category';
+                
+                // Fetch category name
+                fetch(`/backend/api/categories.php`)
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            const category = result.data.find(c => c.category_id == categoryId);
+                            if (category) {
+                                document.querySelector('h1').textContent = `Category: ${category.name}`;
+                                document.querySelector('.lead').textContent = `Browsing all posts in the "${category.name}" category`;
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Error fetching category info:', error));
+                
+                // Fetch posts by category
+                fetch(`/backend/api/posts.php?action=by_category&category_id=${categoryId}`)
                     .then(response => response.json())
                     .then(result => {
                         if (result.success && result.data.length > 0) {
+                            // Hide featured and recent sections
+                            document.querySelector('.container.mb-5:nth-of-type(1)').style.display = 'none';
+                            document.querySelector('.container.mb-5:nth-of-type(2)').style.display = 'none';
+                            document.getElementById('featuredByCategory').style.display = 'none';
+                            
+                            // Update "All Posts" heading to "Category Posts"
+                            const allPostsSection = document.querySelector('.container.mb-5:nth-of-type(4)');
+                            if (allPostsSection) {
+                                allPostsSection.querySelector('h2').textContent = 'Category Posts';
+                            }
+                            
                             displayAllPosts(result.data);
+                        } else {
+                            // No posts found for this category
+                            const allPostsSection = document.querySelector('.container.mb-5:nth-of-type(4)');
+                            const container = allPostsSection ? allPostsSection.querySelector('.row') : null;
+                            if (container) {
+                                container.innerHTML = '<div class="col-12"><div class="alert alert-info">No posts found in this category.</div></div>';
+                            }
                         }
                     })
-                    .catch(error => console.error('Error fetching all posts:', error));
+                    .catch(error => console.error('Error fetching posts by category:', error));
             } else {
                 // No filter, fetch all posts
                 fetch('/backend/api/posts.php?action=all')
@@ -263,6 +398,9 @@ $all_posts = [];
                     .catch(error => console.error('Error fetching all posts:', error));
             }
 
+            // Fetch categories for featured posts by category
+            fetchCategoriesForTabs();
+            
             // Navbar scroll effect
             const navbar = document.getElementById("navbar");
 
@@ -273,6 +411,149 @@ $all_posts = [];
                     navbar.classList.remove("scrolled"); // Keep it transparent
                 }
             });
+            
+            // Function to fetch categories and create tabs
+            function fetchCategoriesForTabs() {
+                fetch('/backend/api/categories.php')
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success && result.data.length > 0) {
+                            createCategoryTabs(result.data);
+                        } else {
+                            // Hide the section if no categories
+                            document.getElementById('featuredByCategory').style.display = 'none';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching categories:', error);
+                        document.getElementById('featuredByCategory').style.display = 'none';
+                    });
+            }
+            
+            // Function to create category tabs
+            function createCategoryTabs(categories) {
+                const tabsContainer = document.getElementById('categoryTabs');
+                const tabContent = document.getElementById('categoryTabContent');
+                
+                // Remove loading indicator
+                tabContent.querySelector('.loading-indicator')?.remove();
+                
+                // Create tabs and content for each category
+                categories.forEach((category, index) => {
+                    // Create tab
+                    const tabItem = document.createElement('li');
+                    tabItem.className = 'nav-item';
+                    tabItem.role = 'presentation';
+                    
+                    const tabButton = document.createElement('button');
+                    tabButton.className = `nav-link ${index === 0 ? 'active' : ''}`;
+                    tabButton.id = `category-${category.category_id}-tab`;
+                    tabButton.setAttribute('data-bs-toggle', 'tab');
+                    tabButton.setAttribute('data-bs-target', `#category-${category.category_id}`);
+                    tabButton.setAttribute('type', 'button');
+                    tabButton.setAttribute('role', 'tab');
+                    tabButton.setAttribute('aria-controls', `category-${category.category_id}`);
+                    tabButton.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+                    tabButton.textContent = category.name;
+                    
+                    tabItem.appendChild(tabButton);
+                    tabsContainer.appendChild(tabItem);
+                    
+                    // Create content pane
+                    const contentPane = document.createElement('div');
+                    contentPane.className = `tab-pane fade ${index === 0 ? 'show active' : ''}`;
+                    contentPane.id = `category-${category.category_id}`;
+                    contentPane.setAttribute('role', 'tabpanel');
+                    contentPane.setAttribute('aria-labelledby', `category-${category.category_id}-tab`);
+                    
+                    // Add loading indicator to content pane
+                    contentPane.innerHTML = `
+                        <div class="text-center py-4 category-loading">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Loading posts for ${category.name}...</p>
+                        </div>
+                        <div class="row category-posts"></div>
+                    `;
+                    
+                    tabContent.appendChild(contentPane);
+                    
+                    // Fetch posts for this category
+                    fetchFeaturedPostsByCategory(category.category_id);
+                });
+                
+                // Add event listener for tab changes
+                const tabButtons = document.querySelectorAll('[data-bs-toggle="tab"]');
+                tabButtons.forEach(button => {
+                    button.addEventListener('shown.bs.tab', function(event) {
+                        const categoryId = event.target.getAttribute('data-bs-target').replace('#category-', '');
+                        // You could do something when a tab is shown, like analytics tracking
+                        console.log(`Category tab ${categoryId} shown`);
+                    });
+                });
+            }
+            
+            // Function to fetch featured posts by category
+            function fetchFeaturedPostsByCategory(categoryId) {
+                fetch(`/backend/api/posts.php?action=featured_by_category&category_id=${categoryId}&limit=3`)
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            displayFeaturedPostsByCategory(categoryId, result.data);
+                        } else {
+                            // Show no posts message
+                            const contentPane = document.getElementById(`category-${categoryId}`);
+                            contentPane.querySelector('.category-loading').remove();
+                            contentPane.querySelector('.category-posts').innerHTML = `
+                                <div class="col-12">
+                                    <div class="alert alert-info">No posts found in this category.</div>
+                                </div>
+                            `;
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`Error fetching posts for category ${categoryId}:`, error);
+                        // Show error message
+                        const contentPane = document.getElementById(`category-${categoryId}`);
+                        contentPane.querySelector('.category-loading').remove();
+                        contentPane.querySelector('.category-posts').innerHTML = `
+                            <div class="col-12">
+                                <div class="alert alert-danger">Error loading posts. Please try again later.</div>
+                            </div>
+                        `;
+                    });
+            }
+            
+            // Function to display featured posts by category
+            function displayFeaturedPostsByCategory(categoryId, posts) {
+                const contentPane = document.getElementById(`category-${categoryId}`);
+                const postsContainer = contentPane.querySelector('.category-posts');
+                const loadingIndicator = contentPane.querySelector('.category-loading');
+                
+                // Remove loading indicator
+                if (loadingIndicator) {
+                    loadingIndicator.remove();
+                }
+                
+                // Clear container
+                postsContainer.innerHTML = '';
+                
+                if (posts.length === 0) {
+                    postsContainer.innerHTML = `
+                        <div class="col-12">
+                            <div class="alert alert-info">No posts found in this category.</div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Add posts to container
+                posts.forEach(post => {
+                    const postElement = createPostElement(post, true);
+                    postsContainer.appendChild(postElement);
+                });
+            }
             
             // Function to display featured posts
             function displayFeaturedPosts(posts) {
@@ -308,7 +589,7 @@ $all_posts = [];
             
             // Function to display all posts
             function displayAllPosts(posts) {
-                const container = document.querySelector('.container.mb-5:nth-of-type(3) .row');
+                const container = document.querySelector('.container.mb-5:nth-of-type(4) .row');
                 
                 if (!container) return;
                 
