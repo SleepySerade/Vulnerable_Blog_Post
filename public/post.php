@@ -66,6 +66,37 @@ $post = null;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    
+    <style>
+        /* Reaction button styles */
+        .post-reactions {
+            transition: all 0.3s ease;
+        }
+        
+        .reaction-btn {
+            transition: all 0.2s ease;
+            min-width: 70px;
+        }
+        
+        .reaction-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .reaction-btn.active {
+            font-weight: bold;
+        }
+        
+        /* Animation for reaction count changes */
+        @keyframes countChange {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        .count-changed {
+            animation: countChange 0.5s ease;
+        }
+    </style>
 </head>
 <body>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
@@ -192,6 +223,9 @@ $post = null;
                     updateMetaTag('twitter:image', post.featured_image);
                 }
                 
+                // Fetch post reactions
+                fetchPostReactions(post.post_id);
+                
                 // Create post HTML
                 let postHTML = `
                     <article class="post-content">
@@ -225,8 +259,30 @@ $post = null;
                     </article>
                     
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <i class="bi bi-eye me-1"></i> ${post.views_count} views
+                        <div class="d-flex align-items-center">
+                            <div class="me-4">
+                                <i class="bi bi-eye me-1"></i> ${post.views_count} views
+                            </div>
+                            <div class="post-reactions d-flex align-items-center" data-post-id="${post.post_id}">
+                                ${<?php echo $isLoggedIn ? 'true' : 'false'; ?> ? `
+                                    <button class="btn btn-sm btn-outline-success me-1 reaction-btn" data-reaction="like">
+                                        <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">0</span>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger reaction-btn" data-reaction="dislike">
+                                        <i class="bi bi-hand-thumbs-down"></i> <span class="dislike-count">0</span>
+                                    </button>
+                                ` : `
+                                    <div class="d-flex align-items-center">
+                                        <span class="me-2">
+                                            <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">0</span>
+                                        </span>
+                                        <span class="me-2">
+                                            <i class="bi bi-hand-thumbs-down"></i> <span class="dislike-count">0</span>
+                                        </span>
+                                        <a href="/public/login" class="ms-2 small text-muted">Login to react</a>
+                                    </div>
+                                `}
+                            </div>
                         </div>
                         <div>
                             <a href="/" class="btn btn-outline-primary">Back to Posts</a>
@@ -693,6 +749,136 @@ $post = null;
                     relatedPostsList.appendChild(postElement);
                 });
             }
+            
+            // Function to fetch post reactions
+            function fetchPostReactions(postId) {
+                const isLoggedIn = <?php echo $isLoggedIn ? 'true' : 'false'; ?>;
+                const url = `/backend/api/reactions.php?post_id=${postId}${isLoggedIn ? '&user_reaction=true' : ''}`;
+                
+                fetch(url)
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            // Update reaction counts
+                            updateReactionCounts(result.data);
+                            
+                            // If user is logged in, highlight their reaction
+                            if (isLoggedIn && result.user_reaction) {
+                                highlightUserReaction(result.user_reaction);
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching reactions:', error);
+                    });
+            }
+            
+            // Function to update reaction counts in the UI
+            function updateReactionCounts(counts) {
+                const likeCount = document.querySelector('.like-count');
+                const dislikeCount = document.querySelector('.dislike-count');
+                
+                if (likeCount) {
+                    // Add animation if count changed
+                    if (parseInt(likeCount.textContent) !== counts.likes) {
+                        likeCount.classList.add('count-changed');
+                        setTimeout(() => {
+                            likeCount.classList.remove('count-changed');
+                        }, 500);
+                    }
+                    likeCount.textContent = counts.likes;
+                }
+                
+                if (dislikeCount) {
+                    // Add animation if count changed
+                    if (parseInt(dislikeCount.textContent) !== counts.dislikes) {
+                        dislikeCount.classList.add('count-changed');
+                        setTimeout(() => {
+                            dislikeCount.classList.remove('count-changed');
+                        }, 500);
+                    }
+                    dislikeCount.textContent = counts.dislikes;
+                }
+            }
+            
+            // Function to highlight user's reaction
+            function highlightUserReaction(reactionType) {
+                // Remove active class from all reaction buttons
+                document.querySelectorAll('.reaction-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    
+                    // Reset button styles
+                    if (btn.getAttribute('data-reaction') === 'like') {
+                        btn.classList.remove('btn-success');
+                        btn.classList.add('btn-outline-success');
+                    } else {
+                        btn.classList.remove('btn-danger');
+                        btn.classList.add('btn-outline-danger');
+                    }
+                });
+                
+                // Add active class to the user's reaction button
+                if (reactionType) {
+                    const activeBtn = document.querySelector(`.reaction-btn[data-reaction="${reactionType}"]`);
+                    if (activeBtn) {
+                        activeBtn.classList.add('active');
+                        
+                        // Change button style based on reaction type
+                        if (reactionType === 'like') {
+                            activeBtn.classList.remove('btn-outline-success');
+                            activeBtn.classList.add('btn-success');
+                        } else {
+                            activeBtn.classList.remove('btn-outline-danger');
+                            activeBtn.classList.add('btn-danger');
+                        }
+                    }
+                }
+            }
+            
+            // Function to handle reaction button clicks
+            function handleReaction(postId, reactionType) {
+                fetch('/backend/api/reactions.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        post_id: postId,
+                        reaction_type: reactionType
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        // Update reaction counts
+                        updateReactionCounts(result.counts);
+                        
+                        // Update UI based on action
+                        if (result.action === 'removed') {
+                            highlightUserReaction(null);
+                        } else {
+                            highlightUserReaction(reactionType);
+                        }
+                    } else {
+                        alert(result.message || 'Failed to process reaction');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error handling reaction:', error);
+                    alert('An error occurred while processing your reaction. Please try again later.');
+                });
+            }
+            
+            // Add event listeners to reaction buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.reaction-btn')) {
+                    const button = e.target.closest('.reaction-btn');
+                    const postId = button.closest('.post-reactions').getAttribute('data-post-id');
+                    const reactionType = button.getAttribute('data-reaction');
+                    
+                    handleReaction(postId, reactionType);
+                }
+            });
             
             // Handle comment form submission
             const commentForm = document.getElementById('commentForm');
