@@ -20,4 +20,18 @@ document.addEventListener("DOMContentLoaded", function () {
             toggleButton.textContent = "🌙 Dark Mode";
         }
     });
+
+    // Active link highlighting
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    // Highlight the active link based on the current URL
+    const currentPath = window.location.pathname;
+
+    navLinks.forEach((link) => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
 });

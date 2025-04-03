@@ -4,13 +4,13 @@
         <div class="row">
             <!-- About Us Section -->
             <div class="col-md-4 mb-3">
-                <h5>About Us</h5>
+                <h5 class="text-light">About Us</h5>
                 <p>We are a community-driven blog sharing stories, insights, and experiences. Join us and share your voice with the world.</p>
             </div>
 
             <!-- Quick Links Section -->
             <div class="col-md-4 mb-3">
-                <h5>Quick Links</h5>
+                <h5 class="text-light">Quick Links</h5>
                 <ul class="list-unstyled">
                     <li><a href="/public/assets/pages/about" class="text-light">About</a></li>
                     <li><a href="/contact" class="text-light">Contact</a></li>
@@ -21,12 +21,12 @@
 
             <!-- Social Media Section -->
             <div class="col-md-4 mb-3">
-                <h5>Follow Us</h5>
-                <ul class="list-unstyled d-flex">
-                    <li class="mr-3"><a href="https://www.facebook.com" target="_blank" class="text-light"><i class="fab fa-facebook-f"></i> Facebook  </a></li>
-                    <li class="mr-3"><a href="https://www.twitter.com" target="_blank" class="text-light"><i class="fab fa-twitter"></i> Twitter  </a></li>
-                    <li class="mr-3"><a href="https://www.instagram.com" target="_blank" class="text-light"><i class="fab fa-instagram"></i> Instagram  </a></li>
-                    <li><a href="https://www.linkedin.com" target="_blank" class="text-light"><i class="fab fa-linkedin-in"></i> LinkedIn  </a></li>
+                <h5 class="text-light">Follow Us</h5>
+                <ul class="list-unstyled d-flex flex-column">
+                    <li class="mb-2"><a href="https://www.facebook.com" target="_blank" class="text-light"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                    <li class="mb-2"><a href="https://www.twitter.com" target="_blank" class="text-light"><i class="fab fa-twitter"></i> Twitter</a></li>
+                    <li class="mb-2"><a href="https://www.instagram.com" target="_blank" class="text-light"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    <li><a href="https://www.linkedin.com" target="_blank" class="text-light"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
                 </ul>
             </div>
         </div>

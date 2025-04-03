@@ -106,10 +106,12 @@ if (isset($_SESSION['registration_success'])) {
             border-bottom: 2px solid var(--text-color); /* Underline effect on hover */
         }
 
+
     </style>
 </head>
 <body>
-    <div class="container my-5 auth-container">
+    <div class="container my-5">
+    <div class="auth-container">
         <!-- Button Container for Back and Login -->
         <div class="btn-container">
             <!-- Back Button -->
@@ -163,6 +165,10 @@ if (isset($_SESSION['registration_success'])) {
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
+                                <div class="form-check mt-2">
+                                    <input type="checkbox" class="form-check-input" id="showPassword">
+                                    <label for="showPassword" class="form-check-label">Show Password</label>
+                                </div>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary" id="loginBtn">Login</button>
@@ -175,12 +181,20 @@ if (isset($_SESSION['registration_success'])) {
                 </div>
             </div>
         </div>
+    </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/public/assets/js/script.js"></script>
+    <script src="/public/assets/js/dark-mode-check.js"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const showPassword = document.getElementById('showPassword');
+            const passwordInput = document.getElementById('password');
+
+            showPassword.addEventListener('change', function () {
+                passwordInput.type = this.checked ? 'text' : 'password';
+            });
+
             const loginForm = document.getElementById('loginForm');
             const errorContainer = document.querySelector('.alert-danger');
             
