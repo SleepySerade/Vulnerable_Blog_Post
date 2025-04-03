@@ -48,7 +48,7 @@ if ($isLoggedIn) {
                 <!-- Search Bar -->
                 <li class="nav-item">
                     <form class="d-flex" action="/public/assets/pages/search" method="GET" id="search-form" onsubmit="return validateSearch()">
-                        <input class="form-control me-2"
+                        <input class="form-control me-2 search-input"
                                type="search"
                                name="query"
                                placeholder="Search..."
@@ -58,7 +58,7 @@ if ($isLoggedIn) {
                                pattern="[A-Za-z0-9\s\-_.,]+"
                                title="Search term must contain only letters, numbers, spaces, and basic punctuation"
                                required>
-                        <button class="btn btn-outline-light" type="submit" id="search-button">🔍</button>
+                        <button class="btn btn-outline-light search-button" type="submit" id="search-button">🔍</button>
                     </form>
                 </li>
 

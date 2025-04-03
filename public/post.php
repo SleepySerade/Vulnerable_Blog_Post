@@ -119,7 +119,7 @@ $post = null;
             </div>
 
             <?php if ($isLoggedIn): ?>
-                <div class="card mt-4">
+                <div class="card mt-4 comment-form-card">
                     <div class="card-body">
                         <h4 class="card-title">Leave a Comment</h4>
                         <form id="commentForm">
@@ -132,8 +132,8 @@ $post = null;
                     </div>
                 </div>
             <?php else: ?>
-                <div class="alert alert-info mt-4">
-                    <p class="mb-0">Please <a href="/public/login">login</a> to leave a comment.</p>
+                <div class="alert alert-info mt-4 login-alert">
+                    <p class="mb-0">Please <a href="/public/login">login</a> to react to posts and leave comments.</p>
                 </div>
             <?php endif; ?>
         </div>
@@ -231,7 +231,7 @@ $post = null;
                     <article class="post-content">
                         <header class="mb-4">
                             <h1 class="fw-bolder mb-1">${post.title}</h1>
-                            <div class="text-muted fst-italic mb-2">
+                            <div class="text-muted fst-italic mb-2 post-timestamp">
                                 Posted on ${new Date(post.created_at).toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: 'long',
@@ -279,7 +279,6 @@ $post = null;
                                         <span class="me-2">
                                             <i class="bi bi-hand-thumbs-down"></i> <span class="dislike-count">0</span>
                                         </span>
-                                        <a href="/public/login" class="ms-2 small text-muted">Login to react</a>
                                     </div>
                                 `}
                             </div>
@@ -334,7 +333,7 @@ $post = null;
                 
                 comments.forEach(comment => {
                     const commentElement = document.createElement('div');
-                    commentElement.className = 'card mb-3';
+                    commentElement.className = 'card mb-3 comment-card';
                     commentElement.id = `comment-${comment.comment_id}`;
                     
                     // Create comment HTML
@@ -351,10 +350,10 @@ $post = null;
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h6 class="mb-0">${comment.username}</h6>
+                                        <h6 class="mb-0 comment-username">${comment.username}</h6>
                                         <small class="text-muted">${new Date(comment.created_at).toLocaleString()}</small>
                                     </div>
-                                    <div class="comment-content mt-2">${comment.content.replace(/\n/g, '<br>')}</div>
+                                    <div class="comment-content mt-2 comment-text">${comment.content.replace(/\n/g, '<br>')}</div>
                                     
                                     <div class="mt-2 comment-actions">
                                         ${<?php echo $isLoggedIn ? 'true' : 'false'; ?> ? `
@@ -381,7 +380,7 @@ $post = null;
                             ${comment.replies && comment.replies.length > 0 ? `
                                 <div class="replies ms-5">
                                     ${comment.replies.map(reply => `
-                                        <div class="card mb-2" id="comment-${reply.comment_id}">
+                                        <div class="card mb-2 reply-card" id="comment-${reply.comment_id}">
                                             <div class="card-body">
                                                 <div class="d-flex">
                                                     <div class="flex-shrink-0">
@@ -394,10 +393,10 @@ $post = null;
                                                     </div>
                                                     <div class="flex-grow-1 ms-3">
                                                         <div class="d-flex justify-content-between align-items-center">
-                                                            <h6 class="mb-0">${reply.username}</h6>
+                                                            <h6 class="mb-0 comment-username">${reply.username}</h6>
                                                             <small class="text-muted">${new Date(reply.created_at).toLocaleString()}</small>
                                                         </div>
-                                                        <div class="comment-content mt-2">${reply.content.replace(/\n/g, '<br>')}</div>
+                                                        <div class="comment-content mt-2 comment-text">${reply.content.replace(/\n/g, '<br>')}</div>
                                                         
                                                         <div class="mt-2 comment-actions">
                                                             ${<?php echo $isLoggedIn ? 'true' : 'false'; ?> && reply.user_id == <?php echo $isLoggedIn ? $_SESSION['user_id'] : '0'; ?> ? `
