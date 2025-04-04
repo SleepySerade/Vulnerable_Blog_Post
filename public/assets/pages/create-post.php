@@ -2,6 +2,13 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Output sanitisation function
+function sanitizeOutput($data) {
+    // ENT_QUOTES converts both double and single quotes
+    // ENT_SUBSTITUTE replaces invalid UTF-8 sequences with a substitute character
+    return htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
 // Configure session parameters
 ini_set('session.use_only_cookies', 1);
 ini_set('session.use_strict_mode', 1);
@@ -22,7 +29,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Debug session information
-error_log("CreatePost.php - Session ID: " . session_id());
+error_log("CreatePost.php - Session ID: " . sanitizeOutput(session_id()));
 error_log("CreatePost.php - Session status: " . (session_status() === PHP_SESSION_ACTIVE ? 'active' : 'inactive'));
 error_log("CreatePost.php - Session variables: " . print_r($_SESSION, true));
 
@@ -44,12 +51,38 @@ $categories = [];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Post - Blog Website</title>
+    <title>Create New Post - BlogVerse</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <!-- Include Quill.js for rich text editing -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        /* Tag styles */
+        .tag-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .tag-item .btn-close {
+            font-size: 0.5rem;
+            margin-left: 0.5rem;
+            padding: 0.25rem;
+        }
+        
+        .tag-item:hover {
+            opacity: 0.9;
+        }
+        
+        #tagContainer {
+            min-height: 2rem;
+        }
+    </style>
 </head>
 <body>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
@@ -73,10 +106,12 @@ $categories = [];
                         </div>
 
                         <!-- Post Form -->
-                        <form id="postForm">
+                        <form id="postForm" method="post" action="/backend/api/posts.php">
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="title" name="title" required>
+                                <!-- Using sanitizeOutput to pre-populate the title field safely -->
+                                <input type="text" class="form-control" id="title" name="title" required 
+                                       value="<?php echo isset($_POST['title']) ? sanitizeOutput($_POST['title']) : ''; ?>">
                                 <div class="form-text">Choose a descriptive title for your post.</div>
                             </div>
 
@@ -86,6 +121,19 @@ $categories = [];
                                     <option value="">Select a category</option>
                                     <!-- Categories will be loaded dynamically -->
                                 </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tags" class="form-label">Tags</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="tagInput" placeholder="Add a tag...">
+                                    <button class="btn btn-outline-secondary" type="button" id="addTagButton">Add</button>
+                                </div>
+                                <div class="form-text">Enter tags separated by commas or add them one by one. Tags help users find your content.</div>
+                                <div id="tagContainer" class="mt-2 d-flex flex-wrap gap-2">
+                                    <!-- Tags will be added here dynamically -->
+                                </div>
+                                <input type="hidden" id="tags" name="tags" value="">
                             </div>
 
                             <div class="mb-3">
@@ -132,7 +180,7 @@ $categories = [];
                             <div class="mb-3">
                                 <label for="editor" class="form-label">Content</label>
                                 <div id="editor" style="height: 300px;"></div>
-                                <input type="hidden" id="content" name="content">
+                                <input type="hidden" id="content" name="content" value="<?php echo isset($_POST['content']) ? sanitizeOutput($_POST['content']) : ''; ?>">
                                 <div class="form-text">Write your post content here. You can format text, add links, and more.</div>
                             </div>
 
@@ -202,8 +250,73 @@ $categories = [];
                 })
                 .catch(error => {
                     console.error('Error fetching categories:', error);
-                    // If categories can't be loaded, we can still create posts without a category
                 });
+                
+            // Tag handling functionality
+            const tagInput = document.getElementById('tagInput');
+            const addTagButton = document.getElementById('addTagButton');
+            const tagContainer = document.getElementById('tagContainer');
+            const tagsInput = document.getElementById('tags');
+            
+            function addTag(tagName) {
+                tagName = tagName.trim();
+                if (!tagName) return;
+                
+                const existingTags = Array.from(document.querySelectorAll('.tag-item')).map(el => el.dataset.tagName.toLowerCase());
+                if (existingTags.includes(tagName.toLowerCase())) {
+                    const existingTag = Array.from(document.querySelectorAll('.tag-item')).find(
+                        el => el.dataset.tagName.toLowerCase() === tagName.toLowerCase()
+                    );
+                    existingTag.classList.add('bg-warning');
+                    setTimeout(() => {
+                        existingTag.classList.remove('bg-warning');
+                    }, 1000);
+                    return;
+                }
+                
+                const tagElement = document.createElement('span');
+                tagElement.className = 'badge bg-primary tag-item';
+                tagElement.dataset.tagName = tagName;
+                tagElement.innerHTML = `${tagName} <button type="button" class="btn-close btn-close-white" aria-label="Remove tag"></button>`;
+                
+                const closeButton = tagElement.querySelector('.btn-close');
+                closeButton.addEventListener('click', function() {
+                    tagElement.remove();
+                    updateTagsInput();
+                });
+                
+                tagContainer.appendChild(tagElement);
+                tagInput.value = '';
+                updateTagsInput();
+            }
+            
+            function updateTagsInput() {
+                const tagElements = document.querySelectorAll('.tag-item');
+                const tags = Array.from(tagElements).map(el => el.dataset.tagName);
+                tagsInput.value = JSON.stringify(tags);
+            }
+            
+            addTagButton.addEventListener('click', function() {
+                addTag(tagInput.value);
+            });
+            
+            tagInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addTag(tagInput.value);
+                }
+            });
+            
+            tagInput.addEventListener('input', function(e) {
+                const value = tagInput.value;
+                if (value.includes(',')) {
+                    const tags = value.split(',');
+                    for (let i = 0; i < tags.length - 1; i++) {
+                        addTag(tags[i]);
+                    }
+                    tagInput.value = tags[tags.length - 1];
+                }
+            });
             
             // Image source toggle functionality
             const uploadOption = document.getElementById('uploadOption');
@@ -211,22 +324,18 @@ $categories = [];
             const uploadImageSection = document.getElementById('uploadImageSection');
             const imageUrlSection = document.getElementById('imageUrlSection');
             
-            // Elements for image upload
             const imageUpload = document.getElementById('imageUpload');
             const uploadButton = document.getElementById('uploadButton');
             const uploadProgress = document.getElementById('uploadProgress');
             const progressBar = uploadProgress.querySelector('.progress-bar');
             
-            // Elements for image URL
             const imageUrl = document.getElementById('imageUrl');
             const previewUrlButton = document.getElementById('previewUrlButton');
             
-            // Shared elements
             const featuredImageInput = document.getElementById('featuredImage');
             const imagePreview = document.getElementById('imagePreview');
             const previewImage = imagePreview.querySelector('img');
             
-            // Toggle between upload and URL options
             uploadOption.addEventListener('change', function() {
                 if (this.checked) {
                     uploadImageSection.classList.remove('d-none');
@@ -241,7 +350,6 @@ $categories = [];
                 }
             });
             
-            // Handle image upload
             uploadButton.addEventListener('click', function() {
                 if (!imageUpload.files.length) {
                     alert('Please select an image to upload');
@@ -249,29 +357,23 @@ $categories = [];
                 }
                 
                 const file = imageUpload.files[0];
-                
-                // Check file size (max 5MB)
                 if (file.size > 5 * 1024 * 1024) {
                     alert('File size exceeds the maximum allowed size (5MB)');
                     return;
                 }
                 
-                // Check file type
                 const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
                 if (!allowedTypes.includes(file.type)) {
                     alert('Invalid file type. Allowed types: JPEG, PNG, GIF, WebP');
                     return;
                 }
                 
-                // Create form data
                 const formData = new FormData();
                 formData.append('image', file);
                 
-                // Show progress bar
                 uploadProgress.classList.remove('d-none');
                 progressBar.style.width = '0%';
                 
-                // Upload file
                 const xhr = new XMLHttpRequest();
                 
                 xhr.upload.addEventListener('progress', function(e) {
@@ -287,14 +389,10 @@ $categories = [];
                             const response = JSON.parse(xhr.responseText);
                             
                             if (response.success) {
-                                // Set featured image URL
                                 featuredImageInput.value = response.data.url;
-                                
-                                // Show image preview
                                 previewImage.src = response.data.url;
                                 imagePreview.classList.remove('d-none');
                                 
-                                // Hide progress bar after a delay
                                 setTimeout(() => {
                                     uploadProgress.classList.add('d-none');
                                 }, 1000);
@@ -321,7 +419,6 @@ $categories = [];
                 xhr.send(formData);
             });
             
-            // Handle image URL preview
             previewUrlButton.addEventListener('click', function() {
                 const url = imageUrl.value.trim();
                 
@@ -330,16 +427,12 @@ $categories = [];
                     return;
                 }
                 
-                // Basic URL validation
                 if (!url.match(/^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i)) {
                     alert('Please enter a valid image URL (must end with .jpg, .jpeg, .png, .gif, or .webp)');
                     return;
                 }
                 
-                // Set the URL to the hidden input
                 featuredImageInput.value = url;
-                
-                // Show image preview
                 previewImage.src = url;
                 previewImage.onerror = function() {
                     alert('Failed to load image from the provided URL. Please check the URL and try again.');
@@ -359,50 +452,43 @@ $categories = [];
             postForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Get form data
                 const title = document.getElementById('title').value;
                 const category_id = document.getElementById('category').value || null;
                 const featured_image = document.getElementById('featuredImage').value || null;
                 
-                // Get the text content from Quill (without HTML)
-                let content = quill.getText();
-                
-                // Trim any extra whitespace
-                content = content.trim();
-                
+                let content = quill.getText().trim();
                 const status = document.querySelector('input[name="status"]:checked').value;
                 
-                // Set content to hidden input
                 document.getElementById('content').value = content;
                 
-                // Create post data object
+                const tagElements = document.querySelectorAll('.tag-item');
+                const tags = Array.from(tagElements).map(el => el.dataset.tagName);
+                
                 const postData = {
                     action: 'create',
                     title: title,
                     content: content,
                     category_id: category_id,
                     featured_image: featured_image,
-                    status: status
+                    status: status,
+                    tags: tags
                 };
                 
-                // Show loading state
                 const submitButton = postForm.querySelector('button[type="submit"]');
                 const originalButtonText = submitButton.textContent;
                 submitButton.disabled = true;
                 submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Creating...';
                 
-                // Hide any previous alerts
                 successAlert.classList.add('d-none');
                 errorAlert.classList.add('d-none');
                 
-                // Submit data to API
                 fetch('/backend/api/posts.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(postData),
-                    credentials: 'same-origin' // Include cookies in the request
+                    credentials: 'same-origin'
                 })
                 .then(response => {
                     if (!response.ok) {
@@ -411,40 +497,29 @@ $categories = [];
                     return response.json();
                 })
                 .then(result => {
-                    // Reset loading state
                     submitButton.disabled = false;
                     submitButton.textContent = originalButtonText;
                     
                     if (result.success) {
-                        // Show success message
                         successAlert.classList.remove('d-none');
-                        
-                        // Reset form
                         postForm.reset();
                         quill.root.innerHTML = '';
                         
-                        // Redirect to the appropriate page based on post status
                         setTimeout(() => {
                             if (status === 'draft') {
-                                // Redirect to draft preview page
                                 window.location.href = `/public/preview-draft?id=${result.data.post_id}`;
                             } else {
-                                // Redirect to published post page
                                 window.location.href = `/public/post?id=${result.data.post_id}`;
                             }
                         }, 2000);
                     } else {
-                        // Show error message
                         errorAlert.textContent = result.message || 'An error occurred. Please try again.';
                         errorAlert.classList.remove('d-none');
                     }
                 })
                 .catch(error => {
-                    // Reset loading state
                     submitButton.disabled = false;
                     submitButton.textContent = originalButtonText;
-                    
-                    // Show error message
                     console.error('Error:', error);
                     errorAlert.textContent = 'An error occurred. Please try again.';
                     errorAlert.classList.remove('d-none');

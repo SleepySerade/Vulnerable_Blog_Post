@@ -46,26 +46,152 @@ $post = null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Post - Blog Website</title>
+    <title>Blog Post - BlogVerse</title>
     
     <!-- Basic meta tags -->
     <meta name="description" content="Read our latest blog post">
     
     <!-- Open Graph meta tags for social sharing -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Blog Post - Blog Website">
+    <meta property="og:title" content="Blog Post - BlogVerse">
     <meta property="og:description" content="Read our latest blog post">
     <meta property="og:url" content="<?php echo (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
     
     <!-- Twitter Card meta tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Blog Post - Blog Website">
+    <meta name="twitter:title" content="Blog Post - BlogVerse">
     <meta name="twitter:description" content="Read our latest blog post">
     
     <!-- Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    
+    <style>
+        /* Reaction button styles */
+        .post-reactions {
+            transition: all 0.3s ease;
+        }
+        
+        .reaction-btn {
+            transition: all 0.2s ease;
+            min-width: 70px;
+        }
+        
+        .reaction-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .reaction-btn.active {
+            font-weight: bold;
+        }
+        
+        /* Animation for reaction count changes */
+        @keyframes countChange {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        .count-changed {
+            animation: countChange 0.5s ease;
+        }
+        
+        /* Social Share Styles */
+        .social-share-container {
+            margin: 2rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, 0.03);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark-mode .social-share-container {
+            background-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-share-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .social-share-title i {
+            margin-right: 0.5rem;
+            color: var(--button-bg);
+        }
+        
+        .social-share-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        
+        .social-share-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .social-share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-share-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .btn-facebook { background-color: #3b5998; }
+        .btn-twitter { background-color: #1da1f2; }
+        .btn-linkedin { background-color: #0077b5; }
+        .btn-whatsapp { background-color: #25d366; }
+        .btn-email { background-color: #777; }
+        .btn-copy { background-color: #6c757d; }
+        
+        .btn-facebook:hover { background-color: #2d4373; }
+        .btn-twitter:hover { background-color: #0c85d0; }
+        .btn-linkedin:hover { background-color: #005983; }
+        .btn-whatsapp:hover { background-color: #1da851; }
+        .btn-email:hover { background-color: #555; }
+        .btn-copy:hover { background-color: #5a6268; }
+        
+        /* Toast notification for copy to clipboard */
+        .copy-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        .dark-mode .copy-toast {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+        }
+    </style>
 </head>
 <body>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
@@ -88,7 +214,7 @@ $post = null;
             </div>
 
             <?php if ($isLoggedIn): ?>
-                <div class="card mt-4">
+                <div class="card mt-4 comment-form-card">
                     <div class="card-body">
                         <h4 class="card-title">Leave a Comment</h4>
                         <form id="commentForm">
@@ -101,8 +227,8 @@ $post = null;
                     </div>
                 </div>
             <?php else: ?>
-                <div class="alert alert-info mt-4">
-                    <p class="mb-0">Please <a href="/public/login">login</a> to leave a comment.</p>
+                <div class="alert alert-info mt-4 login-alert">
+                    <p class="mb-0">Please <a href="/public/login">login</a> to react to posts and leave comments.</p>
                 </div>
             <?php endif; ?>
         </div>
@@ -121,6 +247,66 @@ $post = null;
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
+        // Social sharing functions
+        function shareOnFacebook() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+        }
+        
+        function shareOnTwitter() {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.title);
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, '_blank', 'width=600,height=400');
+        }
+        
+        function shareOnLinkedIn() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank', 'width=600,height=400');
+        }
+        
+        function shareOnWhatsApp() {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.title);
+            window.open(`https://api.whatsapp.com/send?text=${title}%20${url}`, '_blank', 'width=600,height=400');
+        }
+        
+        function shareViaEmail() {
+            const url = window.location.href;
+            const title = document.title;
+            window.location.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent('Check out this article: ' + url)}`;
+        }
+        
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href)
+                .then(() => {
+                    showToast('Link copied to clipboard!');
+                })
+                .catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+        }
+        
+        function showToast(message) {
+            // Create toast element if it doesn't exist
+            let toast = document.getElementById('copy-toast');
+            
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'copy-toast';
+                toast.className = 'copy-toast';
+                document.body.appendChild(toast);
+            }
+            
+            // Set message and show toast
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    
         document.addEventListener('DOMContentLoaded', function() {
             const postId = <?php echo $post_id; ?>;
             const postContainer = document.getElementById('postContainer');
@@ -173,7 +359,7 @@ $post = null;
             // Function to display post
             function displayPost(post) {
                 // Update page title - this is important for social sharing
-                document.title = `${post.title} - Blog Website`;
+                document.title = `${post.title} - BlogVerse`;
                 
                 // Also update meta tags for better social sharing
                 // Create or update Open Graph meta tags
@@ -192,12 +378,15 @@ $post = null;
                     updateMetaTag('twitter:image', post.featured_image);
                 }
                 
+                // Fetch post reactions
+                fetchPostReactions(post.post_id);
+                
                 // Create post HTML
                 let postHTML = `
                     <article class="post-content">
                         <header class="mb-4">
                             <h1 class="fw-bolder mb-1">${post.title}</h1>
-                            <div class="text-muted fst-italic mb-2">
+                            <div class="text-muted fst-italic mb-2 post-timestamp">
                                 Posted on ${new Date(post.created_at).toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: 'long',
@@ -222,11 +411,71 @@ $post = null;
                         <section class="mb-5">
                             ${post.content.replace(/\n/g, '<br>')}
                         </section>
+                        
+                        <!-- Social Share Section -->
+                        <div class="social-share-container mb-4">
+                            <div class="social-share-title">
+                                <i class="bi bi-share-fill"></i> Share this post
+                            </div>
+                            <div class="social-share-buttons">
+                                <button class="social-share-btn btn-facebook" onclick="shareOnFacebook()">
+                                    <i class="bi bi-facebook"></i>
+                                </button>
+                                <button class="social-share-btn btn-twitter" onclick="shareOnTwitter()">
+                                    <i class="bi bi-twitter"></i>
+                                </button>
+                                <button class="social-share-btn btn-linkedin" onclick="shareOnLinkedIn()">
+                                    <i class="bi bi-linkedin"></i>
+                                </button>
+                                <button class="social-share-btn btn-whatsapp" onclick="shareOnWhatsApp()">
+                                    <i class="bi bi-whatsapp"></i>
+                                </button>
+                                <button class="social-share-btn btn-email" onclick="shareViaEmail()">
+                                    <i class="bi bi-envelope-fill"></i>
+                                </button>
+                                <button class="social-share-btn btn-copy" onclick="copyLink()">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Tags Section -->
+                        ${post.tags && post.tags.length > 0 ? `
+                        <section class="mb-4">
+                            <h5>Tags:</h5>
+                            <div class="d-flex flex-wrap gap-2">
+                                ${post.tags.map(tag => `
+                                    <a href="/public/assets/pages/posts?tag=${tag.tag_id}" class="badge bg-secondary text-decoration-none link-light">${tag.name}</a>
+                                `).join('')}
+                            </div>
+                        </section>
+                        ` : ''}
                     </article>
                     
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <i class="bi bi-eye me-1"></i> ${post.views_count} views
+                        <div class="d-flex align-items-center">
+                            <div class="me-4">
+                                <i class="bi bi-eye me-1"></i> ${post.views_count} views
+                            </div>
+                            <div class="post-reactions d-flex align-items-center" data-post-id="${post.post_id}">
+                                ${<?php echo $isLoggedIn ? 'true' : 'false'; ?> ? `
+                                    <button class="btn btn-sm btn-outline-success me-1 reaction-btn" data-reaction="like">
+                                        <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">0</span>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger reaction-btn" data-reaction="dislike">
+                                        <i class="bi bi-hand-thumbs-down"></i> <span class="dislike-count">0</span>
+                                    </button>
+                                ` : `
+                                    <div class="d-flex align-items-center">
+                                        <span class="me-2">
+                                            <i class="bi bi-hand-thumbs-up"></i> <span class="like-count">0</span>
+                                        </span>
+                                        <span class="me-2">
+                                            <i class="bi bi-hand-thumbs-down"></i> <span class="dislike-count">0</span>
+                                        </span>
+                                    </div>
+                                `}
+                            </div>
                         </div>
                         <div>
                             <a href="/" class="btn btn-outline-primary">Back to Posts</a>
@@ -278,7 +527,7 @@ $post = null;
                 
                 comments.forEach(comment => {
                     const commentElement = document.createElement('div');
-                    commentElement.className = 'card mb-3';
+                    commentElement.className = 'card mb-3 comment-card';
                     commentElement.id = `comment-${comment.comment_id}`;
                     
                     // Create comment HTML
@@ -295,10 +544,10 @@ $post = null;
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h6 class="mb-0">${comment.username}</h6>
+                                        <h6 class="mb-0 comment-username">${comment.username}</h6>
                                         <small class="text-muted">${new Date(comment.created_at).toLocaleString()}</small>
                                     </div>
-                                    <div class="comment-content mt-2">${comment.content.replace(/\n/g, '<br>')}</div>
+                                    <div class="comment-content mt-2 comment-text">${comment.content.replace(/\n/g, '<br>')}</div>
                                     
                                     <div class="mt-2 comment-actions">
                                         ${<?php echo $isLoggedIn ? 'true' : 'false'; ?> ? `
@@ -325,7 +574,7 @@ $post = null;
                             ${comment.replies && comment.replies.length > 0 ? `
                                 <div class="replies ms-5">
                                     ${comment.replies.map(reply => `
-                                        <div class="card mb-2" id="comment-${reply.comment_id}">
+                                        <div class="card mb-2 reply-card" id="comment-${reply.comment_id}">
                                             <div class="card-body">
                                                 <div class="d-flex">
                                                     <div class="flex-shrink-0">
@@ -338,10 +587,10 @@ $post = null;
                                                     </div>
                                                     <div class="flex-grow-1 ms-3">
                                                         <div class="d-flex justify-content-between align-items-center">
-                                                            <h6 class="mb-0">${reply.username}</h6>
+                                                            <h6 class="mb-0 comment-username">${reply.username}</h6>
                                                             <small class="text-muted">${new Date(reply.created_at).toLocaleString()}</small>
                                                         </div>
-                                                        <div class="comment-content mt-2">${reply.content.replace(/\n/g, '<br>')}</div>
+                                                        <div class="comment-content mt-2 comment-text">${reply.content.replace(/\n/g, '<br>')}</div>
                                                         
                                                         <div class="mt-2 comment-actions">
                                                             ${<?php echo $isLoggedIn ? 'true' : 'false'; ?> && reply.user_id == <?php echo $isLoggedIn ? $_SESSION['user_id'] : '0'; ?> ? `
@@ -693,6 +942,136 @@ $post = null;
                     relatedPostsList.appendChild(postElement);
                 });
             }
+            
+            // Function to fetch post reactions
+            function fetchPostReactions(postId) {
+                const isLoggedIn = <?php echo $isLoggedIn ? 'true' : 'false'; ?>;
+                const url = `/backend/api/reactions.php?post_id=${postId}${isLoggedIn ? '&user_reaction=true' : ''}`;
+                
+                fetch(url)
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            // Update reaction counts
+                            updateReactionCounts(result.data);
+                            
+                            // If user is logged in, highlight their reaction
+                            if (isLoggedIn && result.user_reaction) {
+                                highlightUserReaction(result.user_reaction);
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching reactions:', error);
+                    });
+            }
+            
+            // Function to update reaction counts in the UI
+            function updateReactionCounts(counts) {
+                const likeCount = document.querySelector('.like-count');
+                const dislikeCount = document.querySelector('.dislike-count');
+                
+                if (likeCount) {
+                    // Add animation if count changed
+                    if (parseInt(likeCount.textContent) !== counts.likes) {
+                        likeCount.classList.add('count-changed');
+                        setTimeout(() => {
+                            likeCount.classList.remove('count-changed');
+                        }, 500);
+                    }
+                    likeCount.textContent = counts.likes;
+                }
+                
+                if (dislikeCount) {
+                    // Add animation if count changed
+                    if (parseInt(dislikeCount.textContent) !== counts.dislikes) {
+                        dislikeCount.classList.add('count-changed');
+                        setTimeout(() => {
+                            dislikeCount.classList.remove('count-changed');
+                        }, 500);
+                    }
+                    dislikeCount.textContent = counts.dislikes;
+                }
+            }
+            
+            // Function to highlight user's reaction
+            function highlightUserReaction(reactionType) {
+                // Remove active class from all reaction buttons
+                document.querySelectorAll('.reaction-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    
+                    // Reset button styles
+                    if (btn.getAttribute('data-reaction') === 'like') {
+                        btn.classList.remove('btn-success');
+                        btn.classList.add('btn-outline-success');
+                    } else {
+                        btn.classList.remove('btn-danger');
+                        btn.classList.add('btn-outline-danger');
+                    }
+                });
+                
+                // Add active class to the user's reaction button
+                if (reactionType) {
+                    const activeBtn = document.querySelector(`.reaction-btn[data-reaction="${reactionType}"]`);
+                    if (activeBtn) {
+                        activeBtn.classList.add('active');
+                        
+                        // Change button style based on reaction type
+                        if (reactionType === 'like') {
+                            activeBtn.classList.remove('btn-outline-success');
+                            activeBtn.classList.add('btn-success');
+                        } else {
+                            activeBtn.classList.remove('btn-outline-danger');
+                            activeBtn.classList.add('btn-danger');
+                        }
+                    }
+                }
+            }
+            
+            // Function to handle reaction button clicks
+            function handleReaction(postId, reactionType) {
+                fetch('/backend/api/reactions.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        post_id: postId,
+                        reaction_type: reactionType
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        // Update reaction counts
+                        updateReactionCounts(result.counts);
+                        
+                        // Update UI based on action
+                        if (result.action === 'removed') {
+                            highlightUserReaction(null);
+                        } else {
+                            highlightUserReaction(reactionType);
+                        }
+                    } else {
+                        alert(result.message || 'Failed to process reaction');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error handling reaction:', error);
+                    alert('An error occurred while processing your reaction. Please try again later.');
+                });
+            }
+            
+            // Add event listeners to reaction buttons
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.reaction-btn')) {
+                    const button = e.target.closest('.reaction-btn');
+                    const postId = button.closest('.post-reactions').getAttribute('data-post-id');
+                    const reactionType = button.getAttribute('data-reaction');
+                    
+                    handleReaction(postId, reactionType);
+                }
+            });
             
             // Handle comment form submission
             const commentForm = document.getElementById('commentForm');

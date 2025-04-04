@@ -35,7 +35,7 @@ error_log("About.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Blog Website</title>
+    <title>About Us - BlogVerse</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
@@ -122,24 +122,6 @@ error_log("About.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
                             <li><i class="bi bi-check-circle-fill text-success me-2"></i>Access control management</li>
                         </ul>
                         <p class="card-text">Ensures the safety and security of our blog platform and user data.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cloud Engineer -->
-            <div class="col-md-6 col-lg-4" data-aos="fade-right" data-aos-delay="0">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="text-center mb-4">
-                            <i class="bi bi-cloud text-primary" style="font-size: 2rem;"></i>
-                            <h3 class="mt-3">Cloud Engineer</h3>
-                        </div>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Cloud deployment</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Storage optimization</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Infrastructure management</li>
-                        </ul>
-                        <p class="card-text">Manages our cloud infrastructure to ensure reliable and scalable performance.</p>
                     </div>
                 </div>
             </div>

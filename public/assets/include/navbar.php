@@ -29,7 +29,7 @@ if ($isLoggedIn) {
 
 <nav id="navbar" class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="/"><i class="bi bi-journal-richtext"></i> Blog Website</a>
+        <a class="navbar-brand" href="/"><i class="bi bi-journal-richtext"></i> BlogVerse</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -45,23 +45,6 @@ if ($isLoggedIn) {
                     <a class="nav-link" href="/public/assets/pages/posts"><i class="bi bi-newspaper"></i> Blog Posts</a>
                 </li>
                 
-                <!-- Search Bar -->
-                <li class="nav-item">
-                    <form class="d-flex" action="/public/assets/pages/search" method="GET" id="search-form" onsubmit="return validateSearch()">
-                        <input class="form-control me-2"
-                               type="search"
-                               name="query"
-                               placeholder="Search..."
-                               id="search-input"
-                               minlength="2"
-                               maxlength="50"
-                               pattern="[A-Za-z0-9\s\-_.,]+"
-                               title="Search term must contain only letters, numbers, spaces, and basic punctuation"
-                               required>
-                        <button class="btn btn-outline-light" type="submit" id="search-button">🔍</button>
-                    </form>
-                </li>
-
                 <?php if ($isLoggedIn): ?>
                 <li class="nav-item">
                     <a class="nav-link" href="/public/assets/pages/create-post"><i class="bi bi-pencil-square"></i> Create Post</a>
@@ -91,14 +74,25 @@ if ($isLoggedIn) {
                         <li><a class="dropdown-item" href="/admin/manage_categories">
                             <i class="bi bi-tag"></i> Manage Categories
                         </a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/public/log_viewer">
-                            <i class="bi bi-journal-text"></i> View Logs
-                        </a></li>
                     </ul>
                 </li>
                 <?php endif; ?>
-
+                    <!-- Search Bar -->
+                <li class="nav-item">
+                    <form class="d-flex" action="/public/assets/pages/search" method="GET" id="search-form" onsubmit="return validateSearch()">
+                        <input class="form-control me-2 search-input"
+                               type="search"
+                               name="query"
+                               placeholder="Search..."
+                               id="search-input"
+                               minlength="2"
+                               maxlength="50"
+                               pattern="[A-Za-z0-9\s\-_.,]+"
+                               title="Search term must contain only letters, numbers, spaces, and basic punctuation"
+                               required>
+                        <button class="btn btn-outline-light search-button" type="submit" id="search-button">🔍</button>
+                    </form>
+                </li>
                 <li class="nav-item">
                     <button id="dark-mode-toggle" class="btn btn-outline-light">
                         🌙 Dark Mode

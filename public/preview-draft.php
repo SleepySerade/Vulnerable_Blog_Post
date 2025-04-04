@@ -53,20 +53,20 @@ $post = null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Draft Preview - Blog Website</title>
+    <title>Draft Preview - BlogVerse</title>
     
     <!-- Basic meta tags -->
     <meta name="description" content="Preview your draft post">
     
     <!-- Open Graph meta tags for social sharing -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Draft Preview - Blog Website">
+    <meta property="og:title" content="Draft Preview - BlogVerse">
     <meta property="og:description" content="Preview your draft post">
     <meta property="og:url" content="<?php echo (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
     
     <!-- Twitter Card meta tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Draft Preview - Blog Website">
+    <meta name="twitter:title" content="Draft Preview - BlogVerse">
     <meta name="twitter:description" content="Preview your draft post">
     
     <!-- Stylesheets -->
@@ -187,7 +187,7 @@ $post = null;
             // Function to display post
             function displayPost(post) {
                 // Update page title
-                document.title = `${post.title} (Draft) - Blog Website`;
+                document.title = `${post.title} (Draft) - BlogVerse`;
                 
                 // Update meta tags for better social sharing
                 updateMetaTag('og:title', post.title + ' (Draft)');

@@ -82,6 +82,9 @@ if (!headers_sent()) {
 // Include database connection
 require_once '../connect_db.php';
 
+// Include tag functions
+require_once '../tags.php';
+
 // Include logger
 require_once '../utils/logger.php';
 
@@ -222,10 +225,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $stmt->bind_param('i', $post_id);
                 $stmt->execute();
                 
+                // Get tags for this post
+                $tagsResult = getPostTags($post_id);
+                if ($tagsResult['success']) {
+                    $post['tags'] = $tagsResult['data'];
+                } else {
+                    $post['tags'] = [];
+                }
+                
                 $response = [
                     'success' => true,
                     'message' => 'Post retrieved successfully',
                     'data' => $post
+                ];
+                break;
+                
+            case 'featured_by_category':
+                // Get featured posts by category
+                if (!isset($_GET['category_id'])) {
+                    throw new Exception('Category ID is required');
+                }
+                
+                $category_id = intval($_GET['category_id']);
+                $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 3;
+                
+                $stmt = $conn->prepare("
+                    SELECT p.*, u.username as author_name, c.name as category_name
+                    FROM blog_posts p
+                    JOIN users u ON p.author_id = u.user_id
+                    LEFT JOIN categories c ON p.category_id = c.category_id
+                    WHERE p.category_id = ? AND p.status = 'published'
+                    ORDER BY p.created_at DESC
+                    LIMIT ?
+                ");
+                $stmt->bind_param('ii', $category_id, $limit);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                $posts = [];
+                while ($row = $result->fetch_assoc()) {
+                    // Get tags for this post
+                    $tagsResult = getPostTags($row['post_id']);
+                    if ($tagsResult['success']) {
+                        $row['tags'] = $tagsResult['data'];
+                    } else {
+                        $row['tags'] = [];
+                    }
+                    $posts[] = $row;
+                }
+                
+                $response = [
+                    'success' => true,
+                    'message' => 'Featured posts by category retrieved successfully',
+                    'data' => $posts
                 ];
                 break;
                 
@@ -251,6 +303,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 
                 $posts = [];
                 while ($row = $result->fetch_assoc()) {
+                    // Get tags for this post
+                    $tagsResult = getPostTags($row['post_id']);
+                    if ($tagsResult['success']) {
+                        $row['tags'] = $tagsResult['data'];
+                    } else {
+                        $row['tags'] = [];
+                    }
                     $posts[] = $row;
                 }
                 
@@ -453,11 +512,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 $post_id = $conn->insert_id;
                 
+                // Handle tags if provided
+                if (isset($data['tags']) && is_array($data['tags']) && !empty($data['tags'])) {
+                    $tagsResult = addTagsToPost($post_id, $data['tags']);
+                    $tagsAdded = $tagsResult['success'] ? $tagsResult['data']['added'] : 0;
+                    $tagsFailed = $tagsResult['success'] ? $tagsResult['data']['failed'] : 0;
+                }
+                
                 $response = [
                     'success' => true,
                     'message' => 'Post created successfully',
                     'data' => [
-                        'post_id' => $post_id
+                        'post_id' => $post_id,
+                        'tags_added' => isset($tagsAdded) ? $tagsAdded : 0,
+                        'tags_failed' => isset($tagsFailed) ? $tagsFailed : 0
                     ]
                 ];
                 break;
@@ -553,9 +621,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bind_param($types, ...$params);
                 $stmt->execute();
                 
+                // Handle tags if provided
+                if (isset($data['tags']) && is_array($data['tags'])) {
+                    $tagsResult = updatePostTags($post_id, $data['tags']);
+                    $tagsMessage = $tagsResult['success'] ? $tagsResult['message'] : 'Failed to update tags';
+                }
+                
                 $response = [
                     'success' => true,
-                    'message' => 'Post updated successfully'
+                    'message' => 'Post updated successfully',
+                    'tags_message' => isset($tagsMessage) ? $tagsMessage : 'No tags updated'
                 ];
                 break;
                 

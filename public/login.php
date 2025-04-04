@@ -49,7 +49,7 @@ if (isset($_SESSION['registration_success'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Blog Website</title>
+    <title>Login - BlogVerse</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
 
@@ -80,14 +80,14 @@ if (isset($_SESSION['registration_success'])) {
             top: 1rem;
             font-size: 1.2rem;
             text-decoration: none;
-            color: rgb(0, 0, 0);
+            color: var(--text-color);
             transition: color 0.3s ease, border-bottom 0.3s ease;
             border-bottom: 2px solid transparent; /* Initially no underline */
         }
 
         /* Hover effect */
         .back-btn:hover {
-            border-bottom: 2px solid rgb(0, 0, 0); /* Underline effect on hover */
+            border-bottom: 2px solid var(--text-color); /* Underline effect on hover */
         }
 
         /* Login Button Styles */
@@ -96,15 +96,16 @@ if (isset($_SESSION['registration_success'])) {
             font-weight: 300;
             font-size: 1.2rem;
             text-decoration: none;
-            color:rgb(0, 0, 0);
+            color: var(--text-color);
             transition: color 0.3s ease, border-bottom 0.3s ease;
             border-bottom: 2px solid transparent; /* Initially no underline */
         }
 
         /* Hover effect */
         .register-btn:hover {
-            border-bottom: 2px solid rgb(0, 0, 0); /* Underline effect on hover */
-}
+            border-bottom: 2px solid var(--text-color); /* Underline effect on hover */
+        }
+
 
     </style>
 </head>
@@ -164,6 +165,10 @@ if (isset($_SESSION['registration_success'])) {
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
+                                <div class="form-check mt-2">
+                                    <input type="checkbox" class="form-check-input" id="showPassword">
+                                    <label for="showPassword" class="form-check-label">Show Password</label>
+                                </div>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary" id="loginBtn">Login</button>
@@ -179,9 +184,17 @@ if (isset($_SESSION['registration_success'])) {
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/assets/js/dark-mode-check.js"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const showPassword = document.getElementById('showPassword');
+            const passwordInput = document.getElementById('password');
+
+            showPassword.addEventListener('change', function () {
+                passwordInput.type = this.checked ? 'text' : 'password';
+            });
+
             const loginForm = document.getElementById('loginForm');
             const errorContainer = document.querySelector('.alert-danger');
             

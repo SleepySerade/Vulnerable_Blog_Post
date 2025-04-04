@@ -45,13 +45,33 @@ $success = false;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Blog Website</title>
+    <title>Register - BlogVerse</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=recaptchaOnload" async defer></script>
+    <script>
+        // Function to be called when reCAPTCHA script is loaded
+        function recaptchaOnload() {
+            // Check if dark mode is enabled
+            if (localStorage.getItem("darkMode") === "enabled") {
+                // Give reCAPTCHA a moment to render
+                setTimeout(function() {
+                    // Apply dark mode styles to reCAPTCHA
+                    const recaptchaContainer = document.querySelector('.g-recaptcha');
+                    if (recaptchaContainer) {
+                        // Force a repaint to apply the CSS filter
+                        recaptchaContainer.style.display = 'none';
+                        setTimeout(() => {
+                            recaptchaContainer.style.display = 'block';
+                        }, 50);
+                    }
+                }, 500);
+            }
+        }
+    </script>
     <style>
         /* .auth-container {
             max-width: 400px;
@@ -79,14 +99,14 @@ $success = false;
             top: 1rem;
             font-size: 1.2rem;
             text-decoration: none;
-            color: rgb(0, 0, 0);
+            color: var(--text-color);
             transition: color 0.3s ease, border-bottom 0.3s ease;
             border-bottom: 2px solid transparent; /* Initially no underline */
         }
 
         /* Hover effect */
         .back-btn:hover {
-            border-bottom: 2px solid rgb(0, 0, 0); /* Underline effect on hover */
+            border-bottom: 2px solid var(--text-color); /* Underline effect on hover */
         }
 
         /* Login Button Styles */
@@ -95,22 +115,20 @@ $success = false;
             font-weight: 300;
             font-size: 1.2rem;
             text-decoration: none;
-            color:rgb(0, 0, 0);
+            color: var(--text-color);
             transition: color 0.3s ease, border-bottom 0.3s ease;
             border-bottom: 2px solid transparent; /* Initially no underline */
         }
 
         /* Hover effect */
         .login-btn:hover {
-            border-bottom: 2px solid rgb(0, 0, 0); /* Underline effect on hover */
-}
+            border-bottom: 2px solid var(--text-color); /* Underline effect on hover */
+        }
 
     </style>
 </head>
 <body>
-
-    <div class="container my-5">
-    <div class="auth-container">
+    <div class="container my-5 auth-container">
         <!-- Button Container for Back and Login -->
         <div class="btn-container">
             <!-- Back Button -->
@@ -176,7 +194,9 @@ $success = false;
                             
                             <!-- reCAPTCHA Widget -->
                              <div class="mb-3">
-                             <div class="g-recaptcha" data-sitekey="6Lc6_vgqAAAAANk9Cwla3pSSE7SAaLGXra8fd0Ci"></div>
+                             <div class="g-recaptcha"
+                                  data-sitekey="6Lc6_vgqAAAAANk9Cwla3pSSE7SAaLGXra8fd0Ci"
+                                  data-callback="recaptchaCallback"></div>
                             <div class="form-text">Please verify you're not a robot</div>
                             </div>
 
@@ -192,10 +212,29 @@ $success = false;
                 </div>
             </div>
         </div>
-    </div>
 
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/assets/js/dark-mode-check.js"></script>
+    
+    <!-- reCAPTCHA Dark Mode Handler -->
+    <script>
+        // This function will be called when reCAPTCHA is loaded
+        function recaptchaCallback() {
+            // Check if dark mode is enabled
+            if (document.body.classList.contains('dark-mode')) {
+                // Force recaptcha to redraw with dark mode styles
+                const recaptchaContainer = document.querySelector('.g-recaptcha');
+                if (recaptchaContainer) {
+                    // Small opacity change to force a repaint
+                    recaptchaContainer.style.opacity = '0.99';
+                    setTimeout(() => {
+                        recaptchaContainer.style.opacity = '1';
+                    }, 100);
+                }
+            }
+        }
+    </script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
