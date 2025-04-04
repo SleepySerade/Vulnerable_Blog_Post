@@ -17453,3 +17453,644 @@
 [2025-04-04 11:55:11] [INFO] Using database: blog_db
 [2025-04-04 11:55:11] [INFO] Attempting to connect to database at localhost
 [2025-04-04 11:55:11] [INFO] Successfully connected to database
+[2025-04-04 13:32:58] [INFO] Login API endpoint called
+[2025-04-04 13:32:58] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:32:58] [INFO] Using database: blog_db
+[2025-04-04 13:32:58] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:32:58] [INFO] Successfully connected to database
+[2025-04-04 13:32:58] [INFO] Validation passed, attempting login for username: ayesha2604
+[2025-04-04 13:32:58] [INFO] Login attempt for username: ayesha2604
+[2025-04-04 13:32:58] [INFO] Successful login for user: ayesha2604 (ID: 34)
+[2025-04-04 13:32:58] [INFO] Login successful for username: ayesha2604 (ID: 34)
+[2025-04-04 13:32:58] [INFO] Login API request completed
+[2025-04-04 13:33:01] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:01] [INFO] Using database: blog_db
+[2025-04-04 13:33:01] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:01] [INFO] Successfully connected to database
+[2025-04-04 13:33:01] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:01] [INFO] Using database: blog_db
+[2025-04-04 13:33:01] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:01] [INFO] Successfully connected to database
+[2025-04-04 13:33:01] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:33:01] [DEBUG] Posts API action: featured
+[2025-04-04 13:33:01] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:01] [INFO] Using database: blog_db
+[2025-04-04 13:33:01] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:01] [INFO] Successfully connected to database
+[2025-04-04 13:33:01] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:33:01] [DEBUG] Posts API action: recent
+[2025-04-04 13:33:04] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:04] [INFO] Using database: blog_db
+[2025-04-04 13:33:04] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:04] [INFO] Successfully connected to database
+[2025-04-04 13:33:04] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:04] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:04] [INFO] Using database: blog_db
+[2025-04-04 13:33:04] [INFO] Using database: blog_db
+[2025-04-04 13:33:04] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:04] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:04] [INFO] Successfully connected to database
+[2025-04-04 13:33:04] [INFO] Successfully connected to database
+[2025-04-04 13:33:04] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:33:04] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:33:04] [DEBUG] Posts API action: featured
+[2025-04-04 13:33:04] [DEBUG] Posts API action: all
+[2025-04-04 13:33:04] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:04] [INFO] Using database: blog_db
+[2025-04-04 13:33:04] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:04] [INFO] Successfully connected to database
+[2025-04-04 13:33:04] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:33:04] [DEBUG] Posts API action: recent
+[2025-04-04 13:33:04] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:04] [INFO] Using database: blog_db
+[2025-04-04 13:33:04] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:04] [INFO] Successfully connected to database
+[2025-04-04 13:33:04] [DEBUG] Categories API called with method: GET
+[2025-04-04 13:33:04] [DEBUG] Categories API GET request
+[2025-04-04 13:33:04] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:04] [INFO] Using database: blog_db
+[2025-04-04 13:33:04] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:04] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:04] [INFO] Using database: blog_db
+[2025-04-04 13:33:04] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:04] [INFO] Successfully connected to database
+[2025-04-04 13:33:04] [INFO] Successfully connected to database
+[2025-04-04 13:33:04] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:33:04] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:33:04] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:33:04] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:33:04] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:04] [INFO] Using database: blog_db
+[2025-04-04 13:33:04] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:04] [INFO] Successfully connected to database
+[2025-04-04 13:33:04] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:33:04] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:33:04] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:04] [INFO] Using database: blog_db
+[2025-04-04 13:33:04] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:04] [INFO] Successfully connected to database
+[2025-04-04 13:33:04] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:33:04] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:33:04] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:04] [INFO] Using database: blog_db
+[2025-04-04 13:33:04] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:04] [INFO] Successfully connected to database
+[2025-04-04 13:33:04] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:33:04] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:33:07] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:33:07] [INFO] Using database: blog_db
+[2025-04-04 13:33:07] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:33:07] [INFO] Successfully connected to database
+[2025-04-04 13:37:01] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:01] [INFO] Using database: blog_db
+[2025-04-04 13:37:01] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:01] [INFO] Successfully connected to database
+[2025-04-04 13:37:01] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:01] [INFO] Using database: blog_db
+[2025-04-04 13:37:01] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:01] [INFO] Successfully connected to database
+[2025-04-04 13:37:01] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:01] [DEBUG] Posts API action: recent
+[2025-04-04 13:37:01] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:01] [INFO] Using database: blog_db
+[2025-04-04 13:37:01] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:01] [INFO] Successfully connected to database
+[2025-04-04 13:37:01] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:01] [DEBUG] Posts API action: featured
+[2025-04-04 13:37:02] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:02] [INFO] Using database: blog_db
+[2025-04-04 13:37:02] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:02] [INFO] Successfully connected to database
+[2025-04-04 13:37:02] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:02] [DEBUG] Posts API action: all
+[2025-04-04 13:37:02] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:02] [INFO] Using database: blog_db
+[2025-04-04 13:37:02] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:02] [INFO] Successfully connected to database
+[2025-04-04 13:37:02] [DEBUG] Categories API called with method: GET
+[2025-04-04 13:37:02] [DEBUG] Categories API GET request
+[2025-04-04 13:37:02] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:02] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:02] [INFO] Using database: blog_db
+[2025-04-04 13:37:02] [INFO] Using database: blog_db
+[2025-04-04 13:37:02] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:02] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:02] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:02] [INFO] Successfully connected to database
+[2025-04-04 13:37:02] [INFO] Using database: blog_db
+[2025-04-04 13:37:02] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:02] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:02] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:02] [INFO] Successfully connected to database
+[2025-04-04 13:37:02] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:02] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:02] [INFO] Successfully connected to database
+[2025-04-04 13:37:02] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:02] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:02] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:02] [INFO] Using database: blog_db
+[2025-04-04 13:37:02] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:02] [INFO] Successfully connected to database
+[2025-04-04 13:37:02] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:02] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:02] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:02] [INFO] Using database: blog_db
+[2025-04-04 13:37:02] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:02] [INFO] Successfully connected to database
+[2025-04-04 13:37:02] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:02] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:03] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:03] [INFO] Using database: blog_db
+[2025-04-04 13:37:03] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:03] [INFO] Successfully connected to database
+[2025-04-04 13:37:03] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:03] [INFO] Using database: blog_db
+[2025-04-04 13:37:03] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:03] [INFO] Successfully connected to database
+[2025-04-04 13:37:03] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:03] [DEBUG] Posts API action: single
+[2025-04-04 13:37:04] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:04] [INFO] Using database: blog_db
+[2025-04-04 13:37:04] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:04] [INFO] Successfully connected to database
+[2025-04-04 13:37:04] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:04] [DEBUG] Posts API action: by_category
+[2025-04-04 13:37:04] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:04] [INFO] Using database: blog_db
+[2025-04-04 13:37:04] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:04] [INFO] Successfully connected to database
+[2025-04-04 13:37:04] [DEBUG] Comments API called with method: GET
+[2025-04-04 13:37:04] [DEBUG] Fetching comments for post ID: 34
+[2025-04-04 13:37:04] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:04] [INFO] Using database: blog_db
+[2025-04-04 13:37:04] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:04] [INFO] Successfully connected to database
+[2025-04-04 13:37:28] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:28] [INFO] Using database: blog_db
+[2025-04-04 13:37:28] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:28] [INFO] Successfully connected to database
+[2025-04-04 13:37:29] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:29] [INFO] Using database: blog_db
+[2025-04-04 13:37:29] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:29] [INFO] Successfully connected to database
+[2025-04-04 13:37:29] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:29] [DEBUG] Posts API action: featured
+[2025-04-04 13:37:29] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:29] [INFO] Using database: blog_db
+[2025-04-04 13:37:29] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:29] [INFO] Successfully connected to database
+[2025-04-04 13:37:29] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:29] [DEBUG] Posts API action: recent
+[2025-04-04 13:37:29] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:29] [INFO] Using database: blog_db
+[2025-04-04 13:37:29] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:29] [INFO] Successfully connected to database
+[2025-04-04 13:37:29] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:29] [DEBUG] Posts API action: all
+[2025-04-04 13:37:29] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:29] [INFO] Using database: blog_db
+[2025-04-04 13:37:29] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:29] [INFO] Successfully connected to database
+[2025-04-04 13:37:29] [DEBUG] Categories API called with method: GET
+[2025-04-04 13:37:29] [DEBUG] Categories API GET request
+[2025-04-04 13:37:29] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:29] [INFO] Using database: blog_db
+[2025-04-04 13:37:29] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:29] [INFO] Successfully connected to database
+[2025-04-04 13:37:29] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:29] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:29] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:29] [INFO] Using database: blog_db
+[2025-04-04 13:37:29] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:29] [INFO] Successfully connected to database
+[2025-04-04 13:37:29] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:29] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:29] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:29] [INFO] Using database: blog_db
+[2025-04-04 13:37:29] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:29] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:29] [INFO] Using database: blog_db
+[2025-04-04 13:37:29] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:29] [INFO] Successfully connected to database
+[2025-04-04 13:37:29] [INFO] Successfully connected to database
+[2025-04-04 13:37:29] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:29] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:29] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:29] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:29] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:29] [INFO] Using database: blog_db
+[2025-04-04 13:37:29] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:29] [INFO] Successfully connected to database
+[2025-04-04 13:37:29] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:29] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:49] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:49] [INFO] Using database: blog_db
+[2025-04-04 13:37:49] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:49] [INFO] Successfully connected to database
+[2025-04-04 13:37:53] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:53] [INFO] Using database: blog_db
+[2025-04-04 13:37:53] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:53] [INFO] Successfully connected to database
+[2025-04-04 13:37:54] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:54] [INFO] Using database: blog_db
+[2025-04-04 13:37:54] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:54] [INFO] Successfully connected to database
+[2025-04-04 13:37:54] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:54] [DEBUG] Posts API action: featured
+[2025-04-04 13:37:54] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:54] [INFO] Using database: blog_db
+[2025-04-04 13:37:54] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:54] [INFO] Successfully connected to database
+[2025-04-04 13:37:54] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:54] [DEBUG] Posts API action: recent
+[2025-04-04 13:37:58] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:58] [INFO] Using database: blog_db
+[2025-04-04 13:37:58] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:58] [INFO] Successfully connected to database
+[2025-04-04 13:37:59] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:59] [INFO] Using database: blog_db
+[2025-04-04 13:37:59] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:59] [INFO] Successfully connected to database
+[2025-04-04 13:37:59] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:59] [DEBUG] Posts API action: featured
+[2025-04-04 13:37:59] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:59] [INFO] Using database: blog_db
+[2025-04-04 13:37:59] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:59] [INFO] Successfully connected to database
+[2025-04-04 13:37:59] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:59] [DEBUG] Posts API action: all
+[2025-04-04 13:37:59] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:59] [INFO] Using database: blog_db
+[2025-04-04 13:37:59] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:59] [INFO] Successfully connected to database
+[2025-04-04 13:37:59] [DEBUG] Categories API called with method: GET
+[2025-04-04 13:37:59] [DEBUG] Categories API GET request
+[2025-04-04 13:37:59] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:59] [INFO] Using database: blog_db
+[2025-04-04 13:37:59] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:59] [INFO] Successfully connected to database
+[2025-04-04 13:37:59] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:59] [DEBUG] Posts API action: recent
+[2025-04-04 13:37:59] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:59] [INFO] Using database: blog_db
+[2025-04-04 13:37:59] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:59] [INFO] Successfully connected to database
+[2025-04-04 13:37:59] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:59] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:59] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:59] [INFO] Using database: blog_db
+[2025-04-04 13:37:59] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:59] [INFO] Successfully connected to database
+[2025-04-04 13:37:59] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:59] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:59] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:59] [INFO] Using database: blog_db
+[2025-04-04 13:37:59] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:59] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:59] [INFO] Using database: blog_db
+[2025-04-04 13:37:59] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:59] [INFO] Successfully connected to database
+[2025-04-04 13:37:59] [INFO] Successfully connected to database
+[2025-04-04 13:37:59] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:59] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:59] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:59] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:37:59] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:37:59] [INFO] Using database: blog_db
+[2025-04-04 13:37:59] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:37:59] [INFO] Successfully connected to database
+[2025-04-04 13:37:59] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:37:59] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:39:57] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:39:57] [INFO] Using database: blog_db
+[2025-04-04 13:39:57] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:39:57] [INFO] Successfully connected to database
+[2025-04-04 13:39:58] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:39:58] [INFO] Using database: blog_db
+[2025-04-04 13:39:58] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:39:58] [INFO] Successfully connected to database
+[2025-04-04 13:39:58] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:39:58] [DEBUG] Posts API action: featured
+[2025-04-04 13:39:58] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:39:58] [INFO] Using database: blog_db
+[2025-04-04 13:39:58] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:39:58] [INFO] Successfully connected to database
+[2025-04-04 13:39:58] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:39:58] [DEBUG] Posts API action: recent
+[2025-04-04 13:39:58] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:39:58] [INFO] Using database: blog_db
+[2025-04-04 13:39:58] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:39:58] [INFO] Successfully connected to database
+[2025-04-04 13:39:58] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:39:58] [DEBUG] Posts API action: all
+[2025-04-04 13:39:58] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:39:58] [INFO] Using database: blog_db
+[2025-04-04 13:39:58] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:39:58] [INFO] Successfully connected to database
+[2025-04-04 13:39:58] [DEBUG] Categories API called with method: GET
+[2025-04-04 13:39:58] [DEBUG] Categories API GET request
+[2025-04-04 13:39:58] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:39:58] [INFO] Using database: blog_db
+[2025-04-04 13:39:58] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:39:58] [INFO] Successfully connected to database
+[2025-04-04 13:39:58] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:39:58] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:39:58] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:39:58] [INFO] Using database: blog_db
+[2025-04-04 13:39:58] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:39:58] [INFO] Successfully connected to database
+[2025-04-04 13:39:58] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:39:58] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:39:58] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:39:58] [INFO] Using database: blog_db
+[2025-04-04 13:39:58] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:39:58] [INFO] Successfully connected to database
+[2025-04-04 13:39:58] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:39:58] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:39:58] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:39:58] [INFO] Using database: blog_db
+[2025-04-04 13:39:58] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:39:58] [INFO] Successfully connected to database
+[2025-04-04 13:39:58] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:39:58] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:39:58] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:39:58] [INFO] Using database: blog_db
+[2025-04-04 13:39:58] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:39:58] [INFO] Successfully connected to database
+[2025-04-04 13:39:58] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:39:58] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:40:12] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:40:12] [INFO] Using database: blog_db
+[2025-04-04 13:40:12] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:40:12] [INFO] Successfully connected to database
+[2025-04-04 13:40:12] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:40:12] [INFO] Using database: blog_db
+[2025-04-04 13:40:12] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:40:12] [INFO] Successfully connected to database
+[2025-04-04 13:40:12] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:40:12] [DEBUG] Posts API action: featured
+[2025-04-04 13:40:12] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:40:12] [INFO] Using database: blog_db
+[2025-04-04 13:40:12] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:40:12] [INFO] Successfully connected to database
+[2025-04-04 13:40:12] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:40:12] [DEBUG] Posts API action: recent
+[2025-04-04 13:40:12] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:40:12] [INFO] Using database: blog_db
+[2025-04-04 13:40:12] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:40:12] [INFO] Successfully connected to database
+[2025-04-04 13:40:12] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:40:12] [DEBUG] Posts API action: all
+[2025-04-04 13:40:12] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:40:12] [INFO] Using database: blog_db
+[2025-04-04 13:40:12] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:40:12] [INFO] Successfully connected to database
+[2025-04-04 13:40:12] [DEBUG] Categories API called with method: GET
+[2025-04-04 13:40:12] [DEBUG] Categories API GET request
+[2025-04-04 13:40:13] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:40:13] [INFO] Using database: blog_db
+[2025-04-04 13:40:13] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:40:13] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:40:13] [INFO] Using database: blog_db
+[2025-04-04 13:40:13] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:40:13] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:40:13] [INFO] Using database: blog_db
+[2025-04-04 13:40:13] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:40:13] [INFO] Successfully connected to database
+[2025-04-04 13:40:13] [INFO] Successfully connected to database
+[2025-04-04 13:40:13] [INFO] Successfully connected to database
+[2025-04-04 13:40:13] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:40:13] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:40:13] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:40:13] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:40:13] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:40:13] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:40:13] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:40:13] [INFO] Using database: blog_db
+[2025-04-04 13:40:13] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:40:13] [INFO] Successfully connected to database
+[2025-04-04 13:40:13] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:40:13] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:40:13] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:40:13] [INFO] Using database: blog_db
+[2025-04-04 13:40:13] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:40:13] [INFO] Successfully connected to database
+[2025-04-04 13:40:13] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:40:13] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:41:24] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:41:24] [INFO] Using database: blog_db
+[2025-04-04 13:41:24] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:41:24] [INFO] Successfully connected to database
+[2025-04-04 13:41:24] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:41:24] [INFO] Using database: blog_db
+[2025-04-04 13:41:24] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:41:24] [INFO] Successfully connected to database
+[2025-04-04 13:41:24] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:41:24] [DEBUG] Posts API action: recent
+[2025-04-04 13:41:24] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:41:24] [INFO] Using database: blog_db
+[2025-04-04 13:41:24] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:41:24] [INFO] Successfully connected to database
+[2025-04-04 13:41:24] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:41:24] [DEBUG] Posts API action: featured
+[2025-04-04 13:41:25] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:41:25] [INFO] Using database: blog_db
+[2025-04-04 13:41:25] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:41:25] [INFO] Successfully connected to database
+[2025-04-04 13:41:25] [DEBUG] Categories API called with method: GET
+[2025-04-04 13:41:25] [DEBUG] Categories API GET request
+[2025-04-04 13:41:25] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:41:25] [INFO] Using database: blog_db
+[2025-04-04 13:41:25] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:41:25] [INFO] Successfully connected to database
+[2025-04-04 13:41:25] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:41:25] [DEBUG] Posts API action: all
+[2025-04-04 13:41:25] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:41:25] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:41:25] [INFO] Using database: blog_db
+[2025-04-04 13:41:25] [INFO] Using database: blog_db
+[2025-04-04 13:41:25] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:41:25] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:41:25] [INFO] Successfully connected to database
+[2025-04-04 13:41:25] [INFO] Successfully connected to database
+[2025-04-04 13:41:25] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:41:25] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:41:25] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:41:25] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:41:25] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:41:25] [INFO] Using database: blog_db
+[2025-04-04 13:41:25] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:41:25] [INFO] Successfully connected to database
+[2025-04-04 13:41:25] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:41:25] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:41:25] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:41:25] [INFO] Using database: blog_db
+[2025-04-04 13:41:25] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:41:25] [INFO] Successfully connected to database
+[2025-04-04 13:41:25] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:41:25] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:41:25] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:41:25] [INFO] Using database: blog_db
+[2025-04-04 13:41:25] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:41:25] [INFO] Successfully connected to database
+[2025-04-04 13:41:25] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:41:25] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:48:06] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:48:06] [INFO] Using database: blog_db
+[2025-04-04 13:48:06] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:48:06] [INFO] Successfully connected to database
+[2025-04-04 13:48:07] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:48:07] [INFO] Using database: blog_db
+[2025-04-04 13:48:07] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:48:07] [INFO] Successfully connected to database
+[2025-04-04 13:48:07] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:48:07] [DEBUG] Posts API action: recent
+[2025-04-04 13:48:07] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:48:07] [INFO] Using database: blog_db
+[2025-04-04 13:48:07] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:48:07] [INFO] Successfully connected to database
+[2025-04-04 13:48:07] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:48:07] [DEBUG] Posts API action: featured
+[2025-04-04 13:48:07] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:48:07] [INFO] Using database: blog_db
+[2025-04-04 13:48:07] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:48:07] [INFO] Successfully connected to database
+[2025-04-04 13:48:07] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:48:07] [DEBUG] Posts API action: all
+[2025-04-04 13:48:07] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:48:07] [INFO] Using database: blog_db
+[2025-04-04 13:48:07] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:48:07] [INFO] Successfully connected to database
+[2025-04-04 13:48:07] [DEBUG] Categories API called with method: GET
+[2025-04-04 13:48:07] [DEBUG] Categories API GET request
+[2025-04-04 13:48:07] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:48:07] [INFO] Using database: blog_db
+[2025-04-04 13:48:07] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:48:07] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:48:07] [INFO] Using database: blog_db
+[2025-04-04 13:48:07] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:48:07] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:48:07] [INFO] Using database: blog_db
+[2025-04-04 13:48:07] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:48:07] [INFO] Successfully connected to database
+[2025-04-04 13:48:07] [INFO] Successfully connected to database
+[2025-04-04 13:48:07] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:48:07] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:48:07] [INFO] Successfully connected to database
+[2025-04-04 13:48:07] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:48:07] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:48:07] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:48:07] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:48:07] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:48:07] [INFO] Using database: blog_db
+[2025-04-04 13:48:07] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:48:07] [INFO] Successfully connected to database
+[2025-04-04 13:48:07] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:48:07] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:48:07] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:48:07] [INFO] Using database: blog_db
+[2025-04-04 13:48:07] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:48:07] [INFO] Successfully connected to database
+[2025-04-04 13:48:07] [DEBUG] Posts API called with method: GET
+[2025-04-04 13:48:07] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 13:48:08] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:48:08] [INFO] Using database: blog_db
+[2025-04-04 13:48:08] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:48:08] [INFO] Successfully connected to database
+[2025-04-04 13:48:08] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:48:08] [INFO] Using database: blog_db
+[2025-04-04 13:48:08] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:48:08] [INFO] Successfully connected to database
+[2025-04-04 13:48:08] [DEBUG] Categories API called with method: GET
+[2025-04-04 13:48:08] [DEBUG] Categories API GET request
+[2025-04-04 13:58:26] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:58:26] [INFO] Using database: blog_db
+[2025-04-04 13:58:26] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:58:26] [INFO] Successfully connected to database
+[2025-04-04 13:58:26] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 13:58:26] [INFO] Using database: blog_db
+[2025-04-04 13:58:26] [INFO] Attempting to connect to database at localhost
+[2025-04-04 13:58:26] [INFO] Successfully connected to database
+[2025-04-04 13:58:26] [DEBUG] Categories API called with method: GET
+[2025-04-04 13:58:26] [DEBUG] Categories API GET request
+[2025-04-04 14:01:19] [INFO] Logout page accessed
+[2025-04-04 14:01:19] [INFO] Logging out user ID: 34, username: ayesha2604
+[2025-04-04 14:01:19] [INFO] Redirecting to login page
+[2025-04-04 14:10:12] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 14:10:12] [INFO] Using database: blog_db
+[2025-04-04 14:10:12] [INFO] Attempting to connect to database at localhost
+[2025-04-04 14:10:12] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 14:10:12] [INFO] Using database: blog_db
+[2025-04-04 14:10:12] [INFO] Attempting to connect to database at localhost
+[2025-04-04 14:10:12] [INFO] Successfully connected to database
+[2025-04-04 14:10:12] [INFO] Successfully connected to database
+[2025-04-04 14:10:12] [DEBUG] Posts API called with method: GET
+[2025-04-04 14:10:12] [DEBUG] Posts API called with method: GET
+[2025-04-04 14:10:12] [DEBUG] Posts API action: featured
+[2025-04-04 14:10:12] [DEBUG] Posts API action: recent
+[2025-04-04 14:25:25] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 14:25:25] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 14:25:25] [INFO] Using database: blog_db
+[2025-04-04 14:25:25] [INFO] Using database: blog_db
+[2025-04-04 14:25:25] [INFO] Attempting to connect to database at localhost
+[2025-04-04 14:25:25] [INFO] Attempting to connect to database at localhost
+[2025-04-04 14:25:25] [INFO] Successfully connected to database
+[2025-04-04 14:25:25] [INFO] Successfully connected to database
+[2025-04-04 14:25:25] [DEBUG] Posts API called with method: GET
+[2025-04-04 14:25:25] [DEBUG] Posts API called with method: GET
+[2025-04-04 14:25:25] [DEBUG] Posts API action: featured
+[2025-04-04 14:25:25] [DEBUG] Posts API action: recent
+[2025-04-04 14:25:42] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 14:25:42] [INFO] Using database: blog_db
+[2025-04-04 14:25:42] [INFO] Attempting to connect to database at localhost
+[2025-04-04 14:25:42] [INFO] Successfully connected to database
+[2025-04-04 14:25:42] [DEBUG] Posts API called with method: GET
+[2025-04-04 14:25:42] [DEBUG] Posts API action: featured
+[2025-04-04 14:25:42] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 14:25:42] [INFO] Using database: blog_db
+[2025-04-04 14:25:42] [INFO] Attempting to connect to database at localhost
+[2025-04-04 14:25:42] [INFO] Successfully connected to database
+[2025-04-04 14:25:42] [DEBUG] Posts API called with method: GET
+[2025-04-04 14:25:42] [DEBUG] Posts API action: recent
+[2025-04-04 14:25:42] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 14:25:42] [INFO] Using database: blog_db
+[2025-04-04 14:25:42] [INFO] Attempting to connect to database at localhost
+[2025-04-04 14:25:42] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 14:25:42] [INFO] Using database: blog_db
+[2025-04-04 14:25:42] [INFO] Attempting to connect to database at localhost
+[2025-04-04 14:25:42] [INFO] Successfully connected to database
+[2025-04-04 14:25:42] [INFO] Successfully connected to database
+[2025-04-04 14:25:42] [DEBUG] Categories API called with method: GET
+[2025-04-04 14:25:42] [DEBUG] Categories API GET request
+[2025-04-04 14:25:42] [DEBUG] Posts API called with method: GET
+[2025-04-04 14:25:42] [DEBUG] Posts API action: all
+[2025-04-04 14:25:42] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 14:25:42] [INFO] Using database: blog_db
+[2025-04-04 14:25:42] [INFO] Attempting to connect to database at localhost
+[2025-04-04 14:25:42] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 14:25:42] [INFO] Using database: blog_db
+[2025-04-04 14:25:42] [INFO] Attempting to connect to database at localhost
+[2025-04-04 14:25:42] [INFO] Successfully connected to database
+[2025-04-04 14:25:42] [DEBUG] Posts API called with method: GET
+[2025-04-04 14:25:42] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 14:25:42] [INFO] Successfully connected to database
+[2025-04-04 14:25:42] [DEBUG] Posts API called with method: GET
+[2025-04-04 14:25:42] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 14:25:42] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 14:25:42] [INFO] Using database: blog_db
+[2025-04-04 14:25:42] [INFO] Attempting to connect to database at localhost
+[2025-04-04 14:25:42] [INFO] Successfully connected to database
+[2025-04-04 14:25:42] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 14:25:42] [INFO] Using database: blog_db
+[2025-04-04 14:25:42] [INFO] Attempting to connect to database at localhost
+[2025-04-04 14:25:42] [DEBUG] Posts API called with method: GET
+[2025-04-04 14:25:42] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 14:25:42] [INFO] Successfully connected to database
+[2025-04-04 14:25:42] [DEBUG] Posts API called with method: GET
+[2025-04-04 14:25:42] [DEBUG] Posts API action: featured_by_category
+[2025-04-04 14:25:43] [INFO] Successfully loaded database configuration from INI file
+[2025-04-04 14:25:43] [INFO] Using database: blog_db
+[2025-04-04 14:25:43] [INFO] Attempting to connect to database at localhost
+[2025-04-04 14:25:43] [INFO] Successfully connected to database
+[2025-04-04 14:25:43] [DEBUG] Posts API called with method: GET
+[2025-04-04 14:25:43] [DEBUG] Posts API action: featured_by_category

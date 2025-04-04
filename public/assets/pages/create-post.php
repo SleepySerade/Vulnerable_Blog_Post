@@ -239,21 +239,6 @@ $categories = [];
                 placeholder: 'Write your post content here...'
             });
 
-        // Insert selected emoji into Quill editor
-        emojiPicker.addEventListener('emoji-click', function (event) {
-            const emoji = event.detail.unicode;
-            const range = quill.getSelection();
-            quill.insertText(range.index, emoji);
-            emojiPicker.style.display = 'none';
-        });
-
-        // Hide emoji picker when clicking elsewhere
-        document.addEventListener('click', function (event) {
-            if (!emojiButton.contains(event.target) && !emojiPicker.contains(event.target)) {
-                emojiPicker.style.display = 'none';
-            }
-        });
-
             // Word and character count
             const wordCountElement = document.createElement('p');
             wordCountElement.classList.add('text-muted', 'mt-1'); // Styling

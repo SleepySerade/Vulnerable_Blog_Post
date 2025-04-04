@@ -1,4 +1,4 @@
-# Public directory .htaccess file
+# Simple public/.htaccess file
 RewriteEngine On
 
 # Prevent directory listing

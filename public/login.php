@@ -188,6 +188,8 @@ if (isset($_SESSION['registration_success'])) {
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
+            //Show/hide password functionality
             const showPassword = document.getElementById('showPassword');
             const passwordInput = document.getElementById('password');
 
