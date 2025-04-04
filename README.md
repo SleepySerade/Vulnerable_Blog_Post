@@ -1,5 +1,39 @@
 # INF1005 Web Systems & Technologies - Group Project
 
+## Introduction
+
+BlogVerse represents a significant achievement in web development, offering a comprehensive platform for content creation, sharing, and community engagement. This project demonstrates the successful implementation of modern web technologies, robust security practices, and user-centered design principles to create a seamless blogging experience.
+
+## Vision and Purpose
+BlogVerse was conceived as more than just a blogging platform—it's a digital ecosystem where individuals can express themselves, share knowledge, and build communities around shared interests. The name "BlogVerse" itself captures the essence of the project: a universe of diverse voices and perspectives coming together in one digital space.
+
+## Key Features and Functionality
+The platform offers a rich set of features designed to enhance both the content creation and consumption experience:
+
+- User Authentication System: Secure registration and login processes with proper password hashing and salt mechanisms
+- Content Management: Intuitive interfaces for creating, editing, and managing blog posts
+- Categorization and Tagging: Organizational tools that help users discover relevant content
+- Interactive Elements: Comment sections, reaction systems (likes/dislikes), and social sharing capabilities
+- Responsive Design: Mobile-friendly interface that adapts to various screen sizes
+- Dark Mode: Enhanced reading experience with light and dark theme options
+- Admin Dashboard: Comprehensive tools for content moderation and user management
+- Profile Management: Personalized user profiles with customization options
+
+## Technical Architecture
+BlogVerse demonstrates technical excellence through its well-structured architecture:
+
+- Frontend: HTML5, CSS3, Bootstrap 5, and JavaScript create a responsive and interactive user interface
+- Backend: PHP powers the server-side logic with a clean separation of concerns
+- Database: MySQL database with a thoughtfully designed schema supporting complex relationships between users, posts, comments, categories, and tags
+- API Layer: RESTful API endpoints facilitate smooth communication between frontend and backend
+- Security Layer: Comprehensive protection against common web vulnerabilities
+
+## Development Approach
+The project followed a structured development approach with clear role assignments:
+
+Backend development focused on database design, API endpoints, and core functionality.Frontend development emphasized user experience, responsive design, and accessibility. Security implementation ensured data protection and user privacy
+The team maintained a collaborative workflow with interdependent tasks and milestones.
+
 ## 📁 Project File Structure
 
 ```
@@ -23,6 +57,7 @@
 │   ├── posts.php       # Post-related functions
 │   ├── products.php    # Product-related functions
 │   ├── setup_db.php    # Database setup
+│   ├── tags.php        # Tag-related functions
 │   ├── users.php       # User-related functions
 │   ├── api/            # API endpoints
 │   │   ├── categories.php # Categories API
@@ -61,8 +96,11 @@
 │   │   │   ├── navbar.php # Navigation bar
 │   │   ├── js/         # JavaScript files
 │   │   │   ├── back-to-top.js # Back to top button functionality
+│   │   │   ├── dark-mode-check.js # Dark mode preference check
+│   │   │   ├── dropdown-fix.js # Dropdown menu enhancement
 │   │   │   ├── lazyload.js # Lazy loading for images
 │   │   │   ├── reading-time.js # Reading time estimator
+│   │   │   ├── script.js # Main JavaScript functionality
 │   │   │   ├── social-share.js # Social sharing buttons
 │   │   ├── pages/      # Public pages
 │   │   │   ├── about.php # About page
@@ -103,6 +141,7 @@
 | `backend/posts.php` | Functions for blog post operations |
 | `backend/products.php` | Functions for product-related operations |
 | `backend/setup_db.php` | Database setup and initialization |
+| `backend/tags.php` | Functions for tag management and operations |
 | `backend/users.php` | User management functions |
 | **backend/api/** | API endpoints for frontend-backend communication |
 | `backend/api/categories.php` | API for category operations |
@@ -140,8 +179,11 @@
 | `public/assets/include/navbar.php` | Navigation bar component included on all pages |
 | **public/assets/js/** | JavaScript files for client-side functionality |
 | `public/assets/js/back-to-top.js` | Implements a back-to-top button for long pages |
+| `public/assets/js/dark-mode-check.js` | Checks and applies dark mode preference based on user settings |
+| `public/assets/js/dropdown-fix.js` | Enhances dropdown menu functionality for better user experience |
 | `public/assets/js/lazyload.js` | Implements lazy loading for images to improve page load performance |
 | `public/assets/js/reading-time.js` | Calculates and displays estimated reading time for blog posts |
+| `public/assets/js/script.js` | Main JavaScript file for site-wide functionality including dark mode toggle |
 | `public/assets/js/social-share.js` | Adds social sharing buttons (Facebook, Twitter, LinkedIn, WhatsApp, Email) to blog posts |
 | **public/assets/pages/** | Public content pages |
 | `public/assets/pages/about.php` | About page with team information |
@@ -155,6 +197,125 @@
 | `public/user/profile.php` | User profile page |
 | **uploads/** | Directory for user-uploaded files |
 | `uploads/.htaccess` | Prevents execution of uploaded scripts for security |
+
+## 📊 Use Case Diagrams
+
+### Public User (Non-Logged In) Use Cases
+```
++---------------------------------------------+
+|                                             |
+|  +-------------+        +-----------------+ |
+|  | Public User |        | BlogVerse      | |
+|  +-------------+        | System         | |
+|        |                +-----------------+ |
+|        |                        |           |
+|        |----> View Homepage --->|           |
+|        |                        |           |
+|        |----> Browse Posts ---->|           |
+|        |                        |           |
+|        |----> View Single Post >|           |
+|        |                        |           |
+|        |----> Search Content -->|           |
+|        |                        |           |
+|        |----> Register -------->|           |
+|        |                        |           |
+|        |----> Login ----------->|           |
+|        |                        |           |
++---------------------------------------------+
+```
+
+### Registered User Use Cases
+```
++---------------------------------------------+
+|                                             |
+|  +----------------+     +-----------------+ |
+|  | Registered User|     | BlogVerse      | |
+|  +----------------+     | System         | |
+|        |                +-----------------+ |
+|        |                        |           |
+|        |----> Login ----------->|           |
+|        |                        |           |
+|        |----> Create Post ----->|           |
+|        |                        |           |
+|        |----> Edit Own Post --->|           |
+|        |                        |           |
+|        |----> Delete Own Post ->|           |
+|        |                        |           |
+|        |----> Comment --------->|           |
+|        |                        |           |
+|        |----> Like/React ------>|           |
+|        |                        |           |
+|        |----> Edit Profile ---->|           |
+|        |                        |           |
+|        |----> Logout ---------->|           |
+|        |                        |           |
++---------------------------------------------+
+```
+
+### Admin User Use Cases
+```
++---------------------------------------------+
+|                                             |
+|  +-------------+        +-----------------+ |
+|  | Admin User  |        | BlogVerse      | |
+|  +-------------+        | System         | |
+|        |                +-----------------+ |
+|        |                        |           |
+|        |----> Login ----------->|           |
+|        |                        |           |
+|        |----> View Dashboard -->|           |
+|        |                        |           |
+|        |----> Manage Users ---->|           |
+|        |                        |           |
+|        |----> Manage Posts ---->|           |
+|        |                        |           |
+|        |----> Manage Comments ->|           |
+|        |                        |           |
+|        |----> Manage Categories>|           |
+|        |                        |           |
+|        |----> View Logs ------->|           |
+|        |                        |           |
+|        |----> Logout ---------->|           |
+|        |                        |           |
++---------------------------------------------+
+```
+
+### User Flow Diagram - Public User
+```
++-------+     +--------+     +------------+     +-----------+
+| Start |---->| Browse |---->| View Post  |---->| Register/ |
++-------+     | Posts  |     | Details    |     | Login     |
+                |  ^          |                 +-----+-----+
+                |  |          |                       |
+                v  |          v                       v
+              +---+----------+----------------+     +--------+
+              | Search/Filter| Comment (if    |     | Become |
+              | Posts        | logged in)     |     | Member |
+              +--------------+----------------+     +--------+
+```
+
+### User Flow Diagram - Admin User
+```
++-------+     +----------+     +----------------+
+| Login |---->| Admin    |---->| Manage Users   |
++-------+     | Dashboard|     +----------------+
+                |               |
+                |               v
+                |             +----------------+
+                |------------>| Manage Posts   |
+                |             +----------------+
+                |               |
+                |               v
+                |             +----------------+
+                |------------>| Manage Comments|
+                |             +----------------+
+                |               |
+                |               v
+                |             +----------------+
+                +------------>| Manage         |
+                              | Categories     |
+                              +----------------+
+```
 
 ## 👥 Team Roles and Responsibilities  
 
@@ -196,5 +357,3 @@
 - **Authentication system requires a working backend** before implementation.
 - **Frontend UI can start early**, but JavaScript integration depends on backend API.
 - **Testing and documentation are team-wide responsibilities** before final deployment.
-
-

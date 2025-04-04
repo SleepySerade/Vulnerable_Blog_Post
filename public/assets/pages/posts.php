@@ -123,7 +123,7 @@ $all_posts = [];
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
 
     <div class="container my-5">
-        <header class="text-center mb-1">
+        <header class="text-center mb-1" data-aos="fade-down" data-aos-duration="1000">
             <h1>All Blog Posts</h1>
             <p class="lead">Discover interesting stories, insights, and experiences from our community</p>
             <hr>
@@ -134,7 +134,7 @@ $all_posts = [];
             <h2 class="mb-4">Featured Posts</h2>
             <div class="row">
                 <?php foreach ($featured_posts as $post): ?>
-                    <div class="col-md-4 mb-4">
+                    <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="0">
                         <div class="card h-100">
                             <?php if ($post['featured_image']): ?>
                                 <img src="<?php echo htmlspecialchars($post['featured_image']); ?>"
@@ -187,7 +187,7 @@ $all_posts = [];
             <h2 class="mb-4">Recent Posts</h2>
             <div class="row">
                 <?php foreach ($recent_posts as $post): ?>
-                    <div class="col-md-4 mb-4">
+                    <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
                         <div class="card h-100">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($post['title']); ?></h5>
@@ -266,6 +266,22 @@ $all_posts = [];
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/footer.php'; ?>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Add AOS JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <script>
+        // Initialize AOS
+        
+        AOS.init({
+            duration: 800, // Duration of animation (in milliseconds)
+            once: true,    // Whether animation should happen only once
+            offset: 100,   // Offset (in pixels) from the original trigger point
+            easing: 'ease-in-out', // Easing function
+            delay: 0,      // Default delay
+            anchorPlacement: 'top-bottom', // Defines which position of the element regarding to window should trigger the animation
+
+        });
+    </script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {

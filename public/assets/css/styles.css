@@ -47,6 +47,245 @@
 body {
     background-color: var(--background-color);
     color: var(--text-color);
+}
+
+header {
+    /* background-color: var(--header-bg); */
+    color: var(--text-color);
+    padding: 1rem 0;
+}
+
+/* -----------Navbar Styles-------------- */
+#navbar .nav-link,
+#navbar .navbar-brand,
+#navbar .nav-item > a {
+    color: black !important;
+    transition: all 0.5s ease-in-out;
+}
+
+/* When scrolled, change to dark */
+#navbar.scrolled {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+}
+
+#navbar.scrolled .nav-link,
+#navbar.scrolled .navbar-brand,
+#navbar.scrolled .nav-item > a {
+    color: white !important;
+}
+
+.nav-link.active {
+    font-weight: bold;
+    color:rgb(0, 0, 0) !important;
+    border-bottom: 2px solidrgb(0, 0, 0);
+}
+
+/* Card Base Styles */
+.about-page .card {
+    border: none;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover Effects */
+.about-page .card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon Wrapper Styles */
+.about-page .icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color-light) 0%, var(--primary-color-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Icon Styles */
+.about-page .icon-wrapper i {
+    color: white;
+    font-size: 2rem;
+    transition: all 0.5s ease;
+}
+
+/* Icon Hover Effects */
+.about-page .card:hover .icon-wrapper {
+    transform: rotate(360deg);
+    background: linear-gradient(135deg, var(--primary-color-dark) 0%, var(--primary-color-light) 100%);
+}
+
+.about-page .card:hover .icon-wrapper i {
+    transform: scale(1.2);
+}
+
+/* Card Content Hover Effects */
+.about-page .card-body {
+    padding: 2rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.about-page .card:hover .card-body {
+    background: var(--card-bg-hover);
+    transition: all 0.3s ease;
+}
+
+/* List Item Hover Effects */
+.about-page .card .list-unstyled li {
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.about-page .card .list-unstyled li:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary-color-light);
+    transition: all 0.3s ease;
+}
+
+.about-page .card .card:hover .list-unstyled li:before {
+    transform: translateY(-50%) scale(1.5);
+    background: var(--primary-color-dark);
+}
+
+/* Card Title Styles */
+.about-page .card h3 {
+    color: var(--heading-color); /* Dynamic heading color */
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+.about-page .card h3:after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, var(--primary-color-light) 0%, var(--primary-color-dark) 100%);
+    transition: all 0.3s ease;
+}
+
+.about-page .card:hover h3:after {
+    width: 100%;
+}
+
+/* Card Text Hover Effects */
+.about-page .card-text {
+    color: var(--text-muted-color); /* Dynamic muted text color */
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.about-page .card:hover .card-text {
+    color: var(--text-color); /* Switch to main text color on hover */
+}
+
+/* Checkmark Icon Styles */
+.about-page .check-icon {
+    color: var(--success-color); /* Dynamic success color */
+    margin-right: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.about-page .card:hover .check-icon {
+    transform: scale(1.2);
+}
+
+/* Card Border Glow Effect */
+.about-page .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0.5rem;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--primary-color-light) 0%, var(--primary-color-dark) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.about-page .card:hover::before {
+    opacity: 1;
+}
+
+/* Mission Section Styles */
+.about-page .mission-section {
+    margin-top: 5rem;
+    padding: 3rem 0;
+    background: linear-gradient(to right, rgba(var(--primary-color-rgb), 0.05), rgba(var(--primary-color-dark-rgb), 0.05));
+    border-radius: 1rem;
+}
+
+/* Headings */
+h1, h2, h3, h4, h6 {
+    color: var(--text-color);
+}
+
+/* Featured Posts and Recent Posts headings */
+.container h2.mb-4 {
+    color: var(--text-color);
+}
+
+/* Muted Text */
+.card .card-text.text-muted,
+.card .card-text.text-muted small {
+    color: var(--muted-text-color); /* Use the muted text color */
+}
+
+/* Buttons */
+button,
+.btn-primary,
+.btn-secondary,
+.btn-outline-primary,
+.btn-outline-secondary {
+    background-color: var(--button-bg);
+    color: var(--button-text-color);
+    border: none;
+}
+
+button:hover,
+.btn-primary:hover,
+.btn-secondary:hover,
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover {
+    background-color: var(--button-hover-bg);
+    color: var(--button-text-color);
+}
+
+.dark-mode .bg-light {
+    background-color: #333 !important;
+    color: #fff !important;
+}
+
+
+body {
     opacity: 0;
     animation: fadeIn 1s forwards;
 }
@@ -123,17 +362,250 @@ header {
 }
 
 /* Navigation & Header */
+/* Cursor animation enhancement */
+.cursor {
+    font-weight: 300;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 6rem 0 4rem;
+    }
+    
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-section .lead {
+        font-size: 1.1rem;
+    }
+    
+    .min-vh-75 {
+        min-height: 60vh;
+    }
+}
+
+/* Add this to your CSS file */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Add this to your CSS file */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+.bg-moving-gradient {
+    background: linear-gradient(45deg, #bb3f0e, #eb2907);
+    background-size: 400% 400%;
+    animation: gradientAnimation 10s ease infinite;
+}
+
+
+/* Lazy Loading Styles */
+img[data-src] {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+}
+
+img.lazy-loaded {
+    opacity: 1;
+}
+
+/* Back to Top Button */
+#back-to-top-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--button-bg);
+    color: var(--button-text-color);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#back-to-top-btn:hover {
+    background-color: var(--button-hover-bg);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#back-to-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Ensure the button is accessible */
+#back-to-top-btn:focus {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+/* Reading Time Indicator */
+.reading-time {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--muted-text-color);
+    margin-bottom: 1rem;
+    padding: 0.25rem 0.5rem;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+.dark-mode .reading-time {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.reading-time i {
+    margin-right: 0.5rem;
+    color: var(--button-bg);
+}
+
+/* Social Sharing Buttons */
+.social-share-container {
+    margin: 2rem 0;
+    padding: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .social-share-container {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.share-heading {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.share-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--button-bg);
+    color: var(--button-text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.share-button:hover {
+    background-color: var(--button-hover-bg);
+    transform: translateY(-3px);
+    color: var(--button-text-color);
+}
+
+/* Specific colors for social platforms */
+.share-button:nth-child(1) { background-color: #3b5998; } /* Facebook */
+.share-button:nth-child(2) { background-color: #1da1f2; } /* Twitter */
+.share-button:nth-child(3) { background-color: #0077b5; } /* LinkedIn */
+.share-button:nth-child(4) { background-color: #25d366; } /* WhatsApp */
+.share-button:nth-child(5) { background-color: #777; }    /* Email */
+
+.share-button:nth-child(1):hover { background-color: #2d4373; }
+.share-button:nth-child(2):hover { background-color: #0c85d0; }
+.share-button:nth-child(3):hover { background-color: #005983; }
+.share-button:nth-child(4):hover { background-color: #1da851; }
+.share-button:nth-child(5):hover { background-color: #555; }
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Initial state: hidden and slightly translated */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Visible state: fully opaque and in position */
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+}
+/* Default Transparent Navbar */
 #navbar {
     background-color: var(--navbar-bg);
     transition: all 0.5s ease-in-out;
 }
 
-#navbar .nav-link,
-#navbar .navbar-brand,
-#navbar .nav-item > a {
-    color: black !important;
-    transition: all 0.5s ease-in-out;
+.dark-mode .form-text {
+    color: #ffffff !important;
 }
+
+/* Ensure the edit button is blue in dark mode */
+.btn-edit {
+    background-color: #007bff !important; /* Blue */
+    color: #ffffff !important;
+    border: none;
+}
+/* Optional: Hover state for edit button in dark mode */
+.btn-edit:hover {
+    background-color: #0069d9 !important;
+}
+
+.btn-newPost{
+    background-color: #ff9500d0 !important; 
+    color: #ffffff !important;
+    border: none;
+}
+.btn-newPost:hover{
+    background-color: #ff9500d0 !important; 
+}
+
 
 /* Navbar buttons in light mode */
 #navbar .btn-outline-light {
@@ -194,6 +666,7 @@ header {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
+/* ------------Posts Page Styles----------------- */
 .posts-page .card {
     border: none;
     overflow: hidden;
@@ -341,8 +814,9 @@ button:hover,
 }
 
 /* Footer */
+/* ----------- Footer Styles -------------*/
 footer {
-    background-color: #212529;
+    background-color: #212529; /* Dark background */
     color: #fff;
     padding-top: 2rem;
     padding-bottom: 2rem;
@@ -363,6 +837,7 @@ footer ul li {
 footer ul li a {
     color: #fff;
     text-decoration: none;
+    text-decoration: none !important; 
     transition: color 0.3s ease, background-color 0.3s ease, padding-left 0.2s ease;
     padding-left: 0;
 }
@@ -722,7 +1197,7 @@ footer ul li a:hover {
     footer .col-md-4 {
         margin-bottom: 1.5rem;
     }
-
+}
 /* Social Sharing Buttons */
 .social-share-container {
     margin: 2rem 0;
@@ -853,4 +1328,27 @@ footer ul li a:hover {
         font-size: 0.7rem;
     }
 }
+
+/* Hover effect with background color and slight padding */
+footer ul li a:hover {
+    color: #FF9800; /* Highlight color */
+    background-color: rgba(255, 152, 0, 0.2); /* Light orange background on hover */
+    padding-left: 5px; /* Slight padding for emphasis */
+    border-radius: 3px; /* Optional: rounded corners for a smoother look */
 }
+
+/* Social Media Icons */
+footer .fab {
+    margin-right: 0.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    footer .row {
+        text-align: center;
+    }
+    footer .col-md-4 {
+        margin-bottom: 1.5rem;
+    }
+}
+

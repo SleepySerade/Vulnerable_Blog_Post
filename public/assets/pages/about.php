@@ -141,6 +141,7 @@ error_log("About.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
 
     <script>
         // Initialize AOS
+        
         AOS.init({
             duration: 800, // Duration of animation (in milliseconds)
             once: true,    // Whether animation should happen only once
@@ -148,6 +149,7 @@ error_log("About.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
             easing: 'ease-in-out', // Easing function
             delay: 0,      // Default delay
             anchorPlacement: 'top-bottom', // Defines which position of the element regarding to window should trigger the animation
+
         });
     </script>
 </body>

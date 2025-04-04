@@ -83,14 +83,19 @@ $categories = [];
             min-height: 2rem;
         }
     </style>
+    <!-- Include Emoji Picker Library -->
+    <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/index.min.js"></script>
+    
 </head>
 <body>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/public/assets/include/navbar.php'; ?>
 
     <div class="container my-5">
-        <header class="text-center mb-5">
+        <header class="text-center mb-2">
             <h1>Create New Post</h1>
-            <p class="lead">Share your thoughts, ideas, and experiences with the world</p>
+            <p class="lead">Share your thoughts, ideas, and experiences with the world.</p>
+            <hr>
         </header>
 
         <div class="row justify-content-center">
@@ -227,11 +232,43 @@ $categories = [];
                         ['bold', 'italic', 'underline', 'strike'],
                         [{ 'list': 'ordered'}, { 'list': 'bullet' }],
                         ['link', 'image'],
+                        [{ 'color': [] }, { 'background': [] }],
                         ['clean']
                     ]
                 },
                 placeholder: 'Write your post content here...'
             });
+
+        // Insert selected emoji into Quill editor
+        emojiPicker.addEventListener('emoji-click', function (event) {
+            const emoji = event.detail.unicode;
+            const range = quill.getSelection();
+            quill.insertText(range.index, emoji);
+            emojiPicker.style.display = 'none';
+        });
+
+        // Hide emoji picker when clicking elsewhere
+        document.addEventListener('click', function (event) {
+            if (!emojiButton.contains(event.target) && !emojiPicker.contains(event.target)) {
+                emojiPicker.style.display = 'none';
+            }
+        });
+
+            // Word and character count
+            const wordCountElement = document.createElement('p');
+            wordCountElement.classList.add('text-muted', 'mt-1'); // Styling
+            wordCountElement.textContent = 'Word count: 0 | Character count: 0';
+            document.getElementById('editor').parentNode.appendChild(wordCountElement);
+
+            quill.on('text-change', function () {
+                const text = quill.getText().trim();
+                const wordCount = text ? text.split(/\s+/).length : 0;
+                const charCount = text.length;
+
+                wordCountElement.textContent = `Word count: ${wordCount} | Character count: ${charCount}`;
+            });
+
+
             
             // Fetch categories
             fetch('/backend/api/categories.php')

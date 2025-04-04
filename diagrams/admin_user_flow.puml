@@ -1,0 +1,40 @@
+@startuml Admin_User_Flow
+
+skinparam ActivityBackgroundColor LightGreen
+skinparam ActivityBorderColor DarkGreen
+skinparam ArrowColor DarkGreen
+
+title Admin User Flow - BlogVerse
+
+start
+
+:Login as Admin;
+:Access Admin Dashboard;
+
+split
+  :Manage Users;
+  :View User List;
+  :Edit/Delete Users;
+  :Grant/Revoke Admin Rights;
+split again
+  :Manage Posts;
+  :View All Posts;
+  :Edit/Delete Posts;
+  :Feature/Unfeature Posts;
+split again
+  :Manage Comments;
+  :View All Comments;
+  :Approve/Reject Comments;
+  :Delete Inappropriate Comments;
+split again
+  :Manage Categories;
+  :View All Categories;
+  :Add New Categories;
+  :Edit/Delete Categories;
+end split
+
+:Logout;
+
+stop
+
+@enduml

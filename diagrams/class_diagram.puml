@@ -1,0 +1,115 @@
+@startuml BlogVerse_Class_Diagram
+
+skinparam ClassBackgroundColor LightBlue
+skinparam ClassBorderColor DarkBlue
+skinparam ArrowColor DarkBlue
+
+title BlogVerse - Class Diagram
+
+' User-related classes
+class User {
+  +user_id: int
+  +username: string
+  +email: string
+  +password_hash: string
+  +profile_picture: string
+  +bio: text
+  +created_at: timestamp
+  +updated_at: timestamp
+  +is_active: boolean
+  +login()
+  +logout()
+  +editProfile()
+}
+
+class Admin {
+  +admin_id: int
+  +user_id: int
+  +role: string
+  +created_at: timestamp
+  +manageUsers()
+  +managePosts()
+  +manageComments()
+  +manageCategories()
+  +viewLogs()
+}
+
+' Content-related classes
+class BlogPost {
+  +post_id: int
+  +title: string
+  +content: text
+  +author_id: int
+  +category_id: int
+  +featured_image: string
+  +status: enum
+  +views_count: int
+  +created_at: timestamp
+  +updated_at: timestamp
+  +create()
+  +edit()
+  +delete()
+  +publish()
+  +archive()
+}
+
+class Category {
+  +category_id: int
+  +name: string
+  +description: text
+  +created_at: timestamp
+  +create()
+  +edit()
+  +delete()
+}
+
+class Tag {
+  +tag_id: int
+  +name: string
+  +created_at: timestamp
+  +create()
+  +edit()
+  +delete()
+}
+
+class Comment {
+  +comment_id: int
+  +post_id: int
+  +user_id: int
+  +parent_comment_id: int
+  +content: text
+  +is_approved: boolean
+  +created_at: timestamp
+  +updated_at: timestamp
+  +create()
+  +edit()
+  +delete()
+  +approve()
+  +reject()
+}
+
+class Reaction {
+  +reaction_id: int
+  +post_id: int
+  +user_id: int
+  +reaction_type: enum
+  +created_at: timestamp
+  +updated_at: timestamp
+  +create()
+  +delete()
+}
+
+' Relationships
+User "1" -- "0..1" Admin : has >
+User "1" -- "*" BlogPost : authors >
+User "1" -- "*" Comment : writes >
+User "1" -- "*" Reaction : creates >
+
+BlogPost "1" -- "*" Comment : has >
+BlogPost "*" -- "1" Category : belongs to >
+BlogPost "*" -- "*" Tag : has >
+BlogPost "1" -- "*" Reaction : receives >
+
+Comment "0..1" -- "*" Comment : parent of >
+
+@enduml

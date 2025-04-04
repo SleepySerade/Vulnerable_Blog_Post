@@ -1,0 +1,38 @@
+@startuml Public_User_Flow
+
+skinparam ActivityBackgroundColor LightSkyBlue
+skinparam ActivityBorderColor DarkBlue
+skinparam ArrowColor DarkBlue
+
+title Public User Flow - BlogVerse
+
+start
+
+:Browse Posts;
+
+split
+  :View Post Details;
+  if (Want to Comment?) then (yes)
+    if (Logged In?) then (yes)
+      :Add Comment;
+    else (no)
+      :Redirect to Login;
+    endif
+  else (no)
+    :Continue Reading;
+  endif
+split again
+  :Search/Filter Posts;
+  :View Results;
+split again
+  if (Register/Login?) then (yes)
+    :Register/Login Process;
+    :Become Member;
+  else (no)
+    :Continue as Guest;
+  endif
+end split
+
+stop
+
+@enduml
