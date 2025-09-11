@@ -16,13 +16,12 @@ $logger = new Logger('auth');
  * @return bool Returns 1 if username matches regex, 0 if not.
  */
 function validateUsername($username) {
-    // Updated regex for username validation:
-    // - (?=.{3,20}$)       => Ensures total length is between 3 and 20 characters.
-    // - (?![ ._])          => Disallows starting with a space, dot, or underscore.
-    // - (?!.*[_.]{2})      => Disallows consecutive dots or underscores.
-    // - [a-zA-Z0-9 ._]+     => Allows letters, numbers, spaces, dots, and underscores.
-    // - (?<![ ._])$        => Disallows ending with a space, dot, or underscore.
-    return preg_match('/^(?=.{3,20}$)(?![ ._])(?!.*[_.]{2})[a-zA-Z0-9 ._]+(?<![ ._])$/', $username);
+    // VULNERABLE CODE: Allow any characters in username, including SQL injection characters
+    // Original secure regex:
+    // return preg_match('/^(?=.{3,20}$)(?![ ._])(?!.*[_.]{2})[a-zA-Z0-9 ._]+(?<![ ._])$/', $username);
+    
+    // Vulnerable replacement - only check that username is not empty and within length limits
+    return !empty($username) && strlen($username) <= 50;
 }
 
 /**
