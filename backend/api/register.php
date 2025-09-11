@@ -141,23 +141,6 @@ if ($password !== $confirm_password) {
     $errors[] = "Passwords do not match";
 }
 
-// Capture the reCAPTCHA response from the form data
-$recaptcha_response = $input['recaptcha_response'] ?? ''; // Now reading from $input array
-
-// Secret key from Google reCAPTCHA
-$secret_key = '6Lc6_vgqAAAAAM6fsT3dor9dWruSg-EPL1RGQNuF'; // Replace with your secret key
-
-// Send request to Google to verify reCAPTCHA
-$recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
-$response = file_get_contents($recaptcha_url . '?secret=' . $secret_key . '&response=' . $recaptcha_response);
-$responseKeys = json_decode($response, true);
-
-// Check if reCAPTCHA verification was successful
-if (intval($responseKeys["success"]) !== 1) {
-    // If verification fails, add error to $errors array
-    $errors[] = "reCAPTCHA verification failed. Please try again.";
-}
-
 // If validation errors, return them
 if (!empty($errors)) {
     $apiLogger->warning("Validation failed: " . implode(", ", $errors));

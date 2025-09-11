@@ -51,27 +51,6 @@ $success = false;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link href="/public/assets/css/styles.css" rel="stylesheet">
-    <script src="https://www.google.com/recaptcha/api.js?onload=recaptchaOnload" async defer></script>
-    <script>
-        // Function to be called when reCAPTCHA script is loaded
-        function recaptchaOnload() {
-            // Check if dark mode is enabled
-            if (localStorage.getItem("darkMode") === "enabled") {
-                // Give reCAPTCHA a moment to render
-                setTimeout(function() {
-                    // Apply dark mode styles to reCAPTCHA
-                    const recaptchaContainer = document.querySelector('.g-recaptcha');
-                    if (recaptchaContainer) {
-                        // Force a repaint to apply the CSS filter
-                        recaptchaContainer.style.display = 'none';
-                        setTimeout(() => {
-                            recaptchaContainer.style.display = 'block';
-                        }, 50);
-                    }
-                }, 500);
-            }
-        }
-    </script>
     <style>
         /* .auth-container {
             max-width: 400px;
@@ -191,18 +170,9 @@ $success = false;
                                 <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                             </div>
                            
-                            
-                            <!-- reCAPTCHA Widget -->
-                             <div class="mb-3">
-                             <div class="g-recaptcha"
-                                  data-sitekey="6Lc6_vgqAAAAANk9Cwla3pSSE7SAaLGXra8fd0Ci"
-                                  data-callback="recaptchaCallback"></div>
-                            <div class="form-text">Please verify you're not a robot</div>
-                            </div>
-
                              <!-- Submit button -->
                             <div class="d-grid">
-                            <button type="submit" class="btn btn-primary" id="registerBtn" disabled>Register</button>
+                            <button type="submit" class="btn btn-primary" id="registerBtn">Register</button>
                              </div>                          
                         </form>
                     </div>
@@ -216,25 +186,6 @@ $success = false;
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/public/assets/js/dark-mode-check.js"></script>
-    
-    <!-- reCAPTCHA Dark Mode Handler -->
-    <script>
-        // This function will be called when reCAPTCHA is loaded
-        function recaptchaCallback() {
-            // Check if dark mode is enabled
-            if (document.body.classList.contains('dark-mode')) {
-                // Force recaptcha to redraw with dark mode styles
-                const recaptchaContainer = document.querySelector('.g-recaptcha');
-                if (recaptchaContainer) {
-                    // Small opacity change to force a repaint
-                    recaptchaContainer.style.opacity = '0.99';
-                    setTimeout(() => {
-                        recaptchaContainer.style.opacity = '1';
-                    }, 100);
-                }
-            }
-        }
-    </script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -284,15 +235,6 @@ $success = false;
                     errors.push('Passwords do not match');
                 }
                 
-                // Get the reCAPTCHA response
-                const recaptchaResponse = grecaptcha.getResponse();
-                if (recaptchaResponse.length === 0) {
-                    errors.push('Please complete the reCAPTCHA.');
-                }
-                // Add reCAPTCHA response to data object
-                if (errors.length === 0) {
-                    data.recaptcha_response = recaptchaResponse;
-                }
                 // If validation errors, display them
                 if (errors.length > 0) {
                     displayErrors(errors);
@@ -449,7 +391,7 @@ $success = false;
                 });
             }
 
-            // Function to check if all fields are filled
+            // We still want to validate that all fields are filled
             function checkFormValidity() {
                 if (
                     usernameInput.value.trim() !== "" &&
@@ -457,9 +399,9 @@ $success = false;
                     passwordInput.value.trim() !== "" &&
                     confirmPasswordInput.value.trim() !== ""
                 ) {
-                    registerBtn.disabled = false; // Enable button
+                    // Form is valid
                 } else {
-                    registerBtn.disabled = true; // Disable button
+                    // Form is invalid
                 }
             }
 
