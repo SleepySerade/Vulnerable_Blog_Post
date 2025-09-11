@@ -29,7 +29,7 @@ error_log("Index.php - User is logged in: " . ($isLoggedIn ? 'yes' : 'no'));
 
 // Initialize empty arrays for posts
 $featured_posts = [];
-$recent_posts = [];
+$recent_posts = []; 
 ?>
 
 <!DOCTYPE html>

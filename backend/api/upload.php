@@ -114,13 +114,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $file = $_FILES['image'];
         $apiLogger->debug("File upload: " . $file['name'] . " (" . $file['size'] . " bytes)");
         
-        // Validate file type
-        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-        $fileType = mime_content_type($file['tmp_name']);
+        // Validate file type - only check file extension instead of actual MIME type
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         
-        if (!in_array($fileType, $allowedTypes)) {
-            throw new Exception('Invalid file type. Allowed types: ' . implode(', ', $allowedTypes));
+        if (!in_array($extension, $allowedExtensions)) {
+            throw new Exception('Invalid file extension. Allowed extensions: ' . implode(', ', $allowedExtensions));
         }
+        
+        // Get file type but don't validate it - this introduces a vulnerability
+        $fileType = mime_content_type($file['tmp_name']);
+        $apiLogger->debug("File type detected: $fileType (not validated)");
         
         // Validate file size (max 5MB)
         $maxSize = 5 * 1024 * 1024; // 5MB
@@ -149,9 +153,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception('Uploads directory is not writable: ' . $uploadsDir);
         }
         
-        // Generate a unique filename
+        // Generate a unique filename - keep the original extension without sanitizing
         $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
         $filename = uniqid('img_') . '_' . time() . '.' . $extension;
+        
+        // This is vulnerable because we're not sanitizing the extension
+        // An attacker could upload file.php.jpg which passes the extension check
+        // but might be executed as PHP depending on server configuration
         $filepath = $uploadsDir . '/' . $filename;
         
         // Move the uploaded file

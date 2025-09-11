@@ -70,7 +70,14 @@ function validatePassword($password) {
  * @return string Sanitized string.
  */
 function sanitizeOutput($data) {
-    return htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    // VULNERABLE CODE: Only sanitize certain characters, leaving XSS vulnerabilities
+    // This function now only sanitizes quotes but leaves other dangerous characters
+    // like < and > untouched, allowing script injection
+    
+    // Original safe code: return htmlspecialchars($data, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    
+    // Vulnerable replacement that only handles quotes but not script tags
+    return str_replace(["'", '"'], ["&#39;", "&quot;"], $data);
 }
 
 /**
@@ -108,16 +115,16 @@ function login($username, $password) {
     $logger->info("Login attempt for username: " . sanitizeOutput($username));
 
     try {
-        // Prepare SQL statement to fetch user details along with the associated salt.
-        $stmt = $conn->prepare("
+        // VULNERABLE CODE: Direct string interpolation in SQL query
+        // This introduces an SQL injection vulnerability
+        $query = "
             SELECT u.user_id, u.username, u.password_hash, u.is_active, s.salt_value
             FROM users u
             JOIN user_salts s ON u.user_id = s.user_id
-            WHERE u.username = ?
-        ");
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
+            WHERE u.username = '$username'
+        ";
+        $logger->debug("Login query: $query");
+        $result = $conn->query($query);
 
         if ($result->num_rows === 1) {
             $user = $result->fetch_assoc();

