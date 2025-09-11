@@ -4,23 +4,63 @@ require_once 'utils/logger.php';
 // Initialize logger
 $logger = new Logger('database');
 
-// Load configuration from INI file - no fallback to root
-$config = @parse_ini_file('/var/www/private/db-config.ini');
+// Define possible configuration file locations
+$config_locations = [
+    '/var/www/private/db-config.ini',  // Production location (secure)
+    __DIR__ . '/../config/db-config.ini', // Alternative location
+    __DIR__ . '/../db-config.ini'      // Fallback location
+];
 
-// If INI file can't be read, throw an error
-if ($config === false) {
-    $logger->error("Failed to read database configuration file from /var/www/private/db-config.ini");
-    throw new Exception("Database configuration file not found or not readable. Please ensure the file exists and has correct permissions.");
+// Try to load configuration from one of the INI files
+$config = false;
+$loaded_file = '';
+
+foreach ($config_locations as $location) {
+    if (file_exists($location) && is_readable($location)) {
+        $config = @parse_ini_file($location);
+        if ($config !== false) {
+            $loaded_file = $location;
+            break;
+        }
+    }
 }
 
-$logger->info("Successfully loaded database configuration from INI file");
-
-// Check if all required configuration values exist
-$required_keys = ['servername', 'username', 'password', 'dbname'];
-foreach ($required_keys as $key) {
-    if (!array_key_exists($key, $config)) {
-        $logger->error("Missing required configuration key: $key in database configuration file");
-        throw new Exception("Missing required configuration key: $key in database configuration file");
+// If no INI file can be read, use default configuration
+if ($config === false) {
+    $logger->warning("Failed to read database configuration file from any location, using default values");
+    
+    // Default configuration for development
+    $config = [
+        'servername' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'dbname' => 'blog_db'
+    ];
+} else {
+    $logger->info("Successfully loaded database configuration from: $loaded_file");
+    
+    // Check if all required configuration values exist
+    $required_keys = ['servername', 'username', 'password', 'dbname'];
+    foreach ($required_keys as $key) {
+        if (!array_key_exists($key, $config)) {
+            $logger->warning("Missing required configuration key: $key, using default value");
+            
+            // If key is missing, use default value
+            switch ($key) {
+                case 'servername':
+                    $config[$key] = 'localhost';
+                    break;
+                case 'username':
+                    $config[$key] = 'root';
+                    break;
+                case 'password':
+                    $config[$key] = '';
+                    break;
+                case 'dbname':
+                    $config[$key] = 'blog_db';
+                    break;
+            }
+        }
     }
 }
 
