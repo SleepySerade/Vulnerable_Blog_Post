@@ -14,7 +14,18 @@ This document outlines the vulnerabilities that have been intentionally introduc
 - **Type**: SQL Injection
 - **Description**: Changed prepared statements to direct string interpolation in SQL queries and disabled username character validation to allow SQL injection characters. The vulnerability is made worse by the lack of character validation in both the frontend (public/login.php) and backend (backend/api/login.php).
 - **Potential Impact**: Authentication bypass, data extraction, database manipulation
-- **How to Exploit**: Use payloads like `' OR '1'='1` in the username field to bypass authentication. The validateUsername function has been modified to allow any characters, including those needed for SQL injection, making the vulnerability easily exploitable.
+- **How to Exploit**:
+  - Use the following SQL injection payloads in the username field:
+    1. Basic authentication bypass: `' OR 1=1 LIMIT 1 -- `
+    2. Target a specific user: `' OR username='admin' -- `
+    3. Target users with admin privileges: `' OR EXISTS (SELECT 1 FROM admins WHERE admins.user_id = u.user_id) LIMIT 1 -- `
+  
+  - **Important Notes**:
+    - The `LIMIT 1` is crucial because the login function checks for exactly one row returned (`$result->num_rows === 1`)
+    - The login function has been modified to automatically bypass password verification when SQL keywords are detected in the username
+    - This means you can login with just the SQL injection in the username field - no password needed!
+    - Common SQL keywords that trigger the bypass: 'OR', 'UNION', 'SELECT', 'LIMIT', '--'
+    - The validateUsername function has been modified to allow any characters, including those needed for SQL injection
 
 ## 3. Cross-Site Scripting (XSS) Vulnerability
 - **Location**: `backend/auth.php` (sanitizeOutput function)

