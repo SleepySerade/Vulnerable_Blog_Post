@@ -8,7 +8,7 @@ $logger = new Logger('database');
 $config_locations = [
     '/var/www/private/db-config.ini',  // Production location (secure)
     __DIR__ . '/../config/db-config.ini', // Alternative location
-    __DIR__ . '/../db-config.ini'      // Fallback location
+    __DIR__ . '/../db-config.ini'      // Fallback location in project root
 ];
 
 // Try to load configuration from one of the INI files
@@ -17,11 +17,17 @@ $loaded_file = '';
 
 foreach ($config_locations as $location) {
     if (file_exists($location) && is_readable($location)) {
+        $logger->info("Attempting to load database configuration from: $location");
         $config = @parse_ini_file($location);
         if ($config !== false) {
             $loaded_file = $location;
+            $logger->info("Successfully loaded database configuration from: $loaded_file");
             break;
+        } else {
+            $logger->warning("Failed to parse INI file at: $location");
         }
+    } else {
+        $logger->debug("Configuration file not found or not readable at: $location");
     }
 }
 
@@ -36,38 +42,42 @@ if ($config === false) {
         'password' => '',
         'dbname' => 'blog_db'
     ];
-} else {
-    $logger->info("Successfully loaded database configuration from: $loaded_file");
-    
-    // Check if all required configuration values exist
-    $required_keys = ['servername', 'username', 'password', 'dbname'];
-    foreach ($required_keys as $key) {
-        if (!array_key_exists($key, $config)) {
-            $logger->warning("Missing required configuration key: $key, using default value");
-            
-            // If key is missing, use default value
-            switch ($key) {
-                case 'servername':
-                    $config[$key] = 'localhost';
-                    break;
-                case 'username':
-                    $config[$key] = 'root';
-                    break;
-                case 'password':
-                    $config[$key] = '';
-                    break;
-                case 'dbname':
-                    $config[$key] = 'blog_db';
-                    break;
-            }
+}
+
+// Ensure all required configuration values exist
+$required_keys = ['servername', 'username', 'password', 'dbname'];
+$missing_keys = [];
+
+foreach ($required_keys as $key) {
+    if (!array_key_exists($key, $config)) {
+        $missing_keys[] = $key;
+        
+        // If key is missing, use default value
+        switch ($key) {
+            case 'servername':
+                $config[$key] = 'localhost';
+                break;
+            case 'username':
+                $config[$key] = 'root';
+                break;
+            case 'password':
+                $config[$key] = '';
+                break;
+            case 'dbname':
+                $config[$key] = 'blog_db';
+                break;
         }
     }
 }
 
-$logger->info("Using database: {$config['dbname']}");
+if (!empty($missing_keys)) {
+    $logger->warning("Missing required configuration keys: " . implode(', ', $missing_keys) . ". Using default values.");
+}
+
+$logger->info("Using database: {$config['dbname']} on {$config['servername']} as user: {$config['username']}");
 
 // Create connection
-$logger->info("Attempting to connect to database at {$config['servername']}");
+$logger->info("Attempting to connect to database");
 try {
     $conn = new mysqli(
         $config['servername'],
