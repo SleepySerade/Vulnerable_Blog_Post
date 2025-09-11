@@ -4,48 +4,27 @@ require_once 'utils/logger.php';
 // Initialize logger
 $logger = new Logger('database');
 
-// Try to load configuration from INI file
+// Load configuration from INI file - no fallback to root
 $config = @parse_ini_file('/var/www/private/db-config.ini');
 
-// If INI file can't be read, use default configuration
+// If INI file can't be read, throw an error
 if ($config === false) {
-    $logger->warning("Failed to read database configuration file, using default values");
-    
-    // Default configuration for development
-    $config = [
-        'servername' => 'localhost',
-        'username' => 'root',
-        'password' => '',
-        'dbname' => 'blog_db'
-    ];
-} else {
-    $logger->info("Successfully loaded database configuration from INI file");
-    
-    // Check if all required configuration values exist
-    $required_keys = ['servername', 'username', 'password'];
-    foreach ($required_keys as $key) {
-        if (!array_key_exists($key, $config)) {
-            $logger->warning("Missing required configuration key: $key, using default value");
-            
-            // If key is missing, use default value
-            switch ($key) {
-                case 'servername':
-                    $config[$key] = 'localhost';
-                    break;
-                case 'username':
-                    $config[$key] = 'root';
-                    break;
-                case 'password':
-                    $config[$key] = '';
-                    break;
-            }
-        }
-    }
-    
-    // Override dbname to ensure correct database is used
-    $config['dbname'] = 'blog_db';
-    $logger->info("Using database: {$config['dbname']}");
+    $logger->error("Failed to read database configuration file from /var/www/private/db-config.ini");
+    throw new Exception("Database configuration file not found or not readable. Please ensure the file exists and has correct permissions.");
 }
+
+$logger->info("Successfully loaded database configuration from INI file");
+
+// Check if all required configuration values exist
+$required_keys = ['servername', 'username', 'password', 'dbname'];
+foreach ($required_keys as $key) {
+    if (!array_key_exists($key, $config)) {
+        $logger->error("Missing required configuration key: $key in database configuration file");
+        throw new Exception("Missing required configuration key: $key in database configuration file");
+    }
+}
+
+$logger->info("Using database: {$config['dbname']}");
 
 // Create connection
 $logger->info("Attempting to connect to database at {$config['servername']}");
