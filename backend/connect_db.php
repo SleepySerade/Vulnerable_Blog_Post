@@ -31,15 +31,15 @@ foreach ($config_locations as $location) {
     }
 }
 
-// If no INI file can be read, use default configuration
+// If no INI file can be read, use default configuration with blog_user
 if ($config === false) {
-    $logger->warning("Failed to read database configuration file from any location, using default values");
+    $logger->warning("Failed to read database configuration file from any location, using default values with blog_user");
     
-    // Default configuration for development
+    // Default configuration for development - using blog_user instead of root
     $config = [
         'servername' => 'localhost',
-        'username' => 'root',
-        'password' => '',
+        'username' => 'blog_user',
+        'password' => 'fi8v7GTfkMVc2jiUkPt07ThxgePwcDUKpsya6jEiXRqiNLWNG0srKtP!',
         'dbname' => 'blog_db'
     ];
 }
@@ -52,16 +52,16 @@ foreach ($required_keys as $key) {
     if (!array_key_exists($key, $config)) {
         $missing_keys[] = $key;
         
-        // If key is missing, use default value
+        // If key is missing, use default value - using blog_user instead of root
         switch ($key) {
             case 'servername':
                 $config[$key] = 'localhost';
                 break;
             case 'username':
-                $config[$key] = 'root';
+                $config[$key] = 'blog_user';
                 break;
             case 'password':
-                $config[$key] = '';
+                $config[$key] = 'fi8v7GTfkMVc2jiUkPt07ThxgePwcDUKpsya6jEiXRqiNLWNG0srKtP!';
                 break;
             case 'dbname':
                 $config[$key] = 'blog_db';
@@ -71,7 +71,7 @@ foreach ($required_keys as $key) {
 }
 
 if (!empty($missing_keys)) {
-    $logger->warning("Missing required configuration keys: " . implode(', ', $missing_keys) . ". Using default values.");
+    $logger->warning("Missing required configuration keys: " . implode(', ', $missing_keys) . ". Using default values with blog_user.");
 }
 
 $logger->info("Using database: {$config['dbname']} on {$config['servername']} as user: {$config['username']}");
