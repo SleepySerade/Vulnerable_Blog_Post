@@ -80,6 +80,9 @@ require_once '../connect_db.php';
 // Include logger
 require_once '../utils/logger.php';
 
+// Include admin functions
+require_once '../admin.php';
+
 // Create logger instance
 $apiLogger = new Logger('api_upload', Logger::DEBUG);
 $apiLogger->debug("Upload API called with method: " . $_SERVER['REQUEST_METHOD']);
@@ -102,6 +105,20 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
+
+// Check if user is an admin
+$admin_check = is_admin($user_id);
+if (!$admin_check['success'] || !$admin_check['data']['is_admin']) {
+    $apiLogger->warning("Unauthorized upload attempt by non-admin user ID: $user_id");
+    echo json_encode([
+        'success' => false,
+        'message' => 'Admin access required for file uploads'
+    ]);
+    exit;
+}
+
+// Log the admin access
+$apiLogger->info("Admin user (ID: $user_id, Role: {$admin_check['data']['role']}) accessing upload functionality");
 
 // Handle POST request (file upload)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
