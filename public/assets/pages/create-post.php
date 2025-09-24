@@ -144,15 +144,6 @@ $categories = [];
                             <div class="mb-3">
                                 <label for="featuredImage" class="form-label">Featured Image</label>
                                 
-                                <!-- Image Source Toggle -->
-                                <div class="btn-group mb-3 w-100" role="group" aria-label="Image source options">
-                                    <input type="radio" class="btn-check" name="imageSourceOption" id="uploadOption" autocomplete="off" checked>
-                                    <label class="btn btn-outline-primary" for="uploadOption">Upload Image</label>
-                                    
-                                    <input type="radio" class="btn-check" name="imageSourceOption" id="urlOption" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="urlOption">Image URL</label>
-                                </div>
-                                
                                 <!-- Upload Image Option -->
                                 <div id="uploadImageSection">
                                     <div class="input-group mb-3">
@@ -163,15 +154,6 @@ $categories = [];
                                     <div id="uploadProgress" class="progress mt-2 d-none">
                                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
                                     </div>
-                                </div>
-                                
-                                <!-- Image URL Option -->
-                                <div id="imageUrlSection" class="d-none">
-                                    <div class="input-group mb-3">
-                                        <input type="url" class="form-control" id="imageUrl" placeholder="https://example.com/image.jpg">
-                                        <button class="btn btn-outline-secondary" type="button" id="previewUrlButton">Preview</button>
-                                    </div>
-                                    <div class="form-text">Enter a direct URL to an image (JPEG, PNG, GIF, or WebP).</div>
                                 </div>
                                 
                                 <input type="hidden" id="featuredImage" name="featuredImage">
@@ -340,37 +322,15 @@ $categories = [];
                 }
             });
             
-            // Image source toggle functionality
-            const uploadOption = document.getElementById('uploadOption');
-            const urlOption = document.getElementById('urlOption');
-            const uploadImageSection = document.getElementById('uploadImageSection');
-            const imageUrlSection = document.getElementById('imageUrlSection');
-            
+            // Image upload functionality
             const imageUpload = document.getElementById('imageUpload');
             const uploadButton = document.getElementById('uploadButton');
             const uploadProgress = document.getElementById('uploadProgress');
             const progressBar = uploadProgress.querySelector('.progress-bar');
             
-            const imageUrl = document.getElementById('imageUrl');
-            const previewUrlButton = document.getElementById('previewUrlButton');
-            
             const featuredImageInput = document.getElementById('featuredImage');
             const imagePreview = document.getElementById('imagePreview');
             const previewImage = imagePreview.querySelector('img');
-            
-            uploadOption.addEventListener('change', function() {
-                if (this.checked) {
-                    uploadImageSection.classList.remove('d-none');
-                    imageUrlSection.classList.add('d-none');
-                }
-            });
-            
-            urlOption.addEventListener('change', function() {
-                if (this.checked) {
-                    uploadImageSection.classList.add('d-none');
-                    imageUrlSection.classList.remove('d-none');
-                }
-            });
             
             uploadButton.addEventListener('click', function() {
                 if (!imageUpload.files.length) {
@@ -438,30 +398,7 @@ $categories = [];
                 xhr.send(formData);
             });
             
-            previewUrlButton.addEventListener('click', function() {
-                const url = imageUrl.value.trim();
-                
-                if (!url) {
-                    alert('Please enter an image URL');
-                    return;
-                }
-                
-                if (!url.match(/^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i)) {
-                    alert('Please enter a valid image URL (must end with .jpg, .jpeg, .png, .gif, or .webp)');
-                    return;
-                }
-                
-                featuredImageInput.value = url;
-                previewImage.src = url;
-                previewImage.onerror = function() {
-                    alert('Failed to load image from the provided URL. Please check the URL and try again.');
-                    imagePreview.classList.add('d-none');
-                    featuredImageInput.value = '';
-                };
-                previewImage.onload = function() {
-                    imagePreview.classList.remove('d-none');
-                };
-            });
+            // URL option removed
             
             // Handle form submission
             const postForm = document.getElementById('postForm');

@@ -91,11 +91,7 @@ $user_id = $_SESSION['user_id'];
                                 <input type="email" class="form-control" id="email" name="email" required>
                             </div>
                             
-                            <div class="mb-3">
-                                <label for="profile_picture" class="form-label">Profile Picture URL</label>
-                                <input type="url" class="form-control" id="profile_picture" name="profile_picture">
-                                <div class="form-text">Enter a URL for your profile picture. Leave empty to use default.</div>
-                            </div>
+                            <!-- Profile picture URL input removed -->
                             
                             <div class="mb-3">
                                 <label for="bio" class="form-label">Bio</label>
@@ -150,7 +146,6 @@ $user_id = $_SESSION['user_id'];
             
             const usernameInput = document.getElementById('username');
             const emailInput = document.getElementById('email');
-            const profilePictureInput = document.getElementById('profile_picture');
             const bioInput = document.getElementById('bio');
             const currentPasswordInput = document.getElementById('current_password');
             const newPasswordInput = document.getElementById('new_password');
@@ -177,16 +172,9 @@ $user_id = $_SESSION['user_id'];
                         usernameInput.value = user.username;
                         emailInput.value = user.email;
                         
-                        if (user.profile_picture) {
-                            profilePictureInput.value = user.profile_picture;
-                        }
-                        
                         if (user.bio) {
                             bioInput.value = user.bio;
                         }
-                        
-                        // Trigger profile picture preview
-                        profilePictureInput.dispatchEvent(new Event('input'));
                     } else {
                         // Show error
                         errorMessage.textContent = result.message || 'Failed to load profile data.';
@@ -225,7 +213,7 @@ $user_id = $_SESSION['user_id'];
                 // Prepare data
                 const data = {
                     email: emailInput.value,
-                    profile_picture: profilePictureInput.value,
+                    profile_picture: '', // Empty string instead of removing to maintain API compatibility
                     bio: bioInput.value
                 };
                 
@@ -350,52 +338,7 @@ $user_id = $_SESSION['user_id'];
                 return emailRegex.test(email);
             }
             
-            // Preview profile picture
-            if (profilePictureInput) {
-                profilePictureInput.addEventListener('input', function() {
-                    const url = this.value.trim();
-                    
-                    // If URL is not empty, show preview
-                    if (url) {
-                        // Check if preview already exists
-                        let preview = document.getElementById('profile-picture-preview');
-                        
-                        if (!preview) {
-                            // Create preview container
-                            preview = document.createElement('div');
-                            preview.id = 'profile-picture-preview';
-                            preview.className = 'mt-2 text-center';
-                            
-                            // Create image
-                            const img = document.createElement('img');
-                            img.className = 'img-thumbnail';
-                            img.style.maxHeight = '200px';
-                            img.alt = 'Profile Picture Preview';
-                            
-                            // Add image to preview
-                            preview.appendChild(img);
-                            
-                            // Add preview after input
-                            this.parentNode.appendChild(preview);
-                        }
-                        
-                        // Update image source
-                        const img = preview.querySelector('img');
-                        img.src = url;
-                        
-                        // Handle image load error
-                        img.onerror = function() {
-                            preview.innerHTML = '<div class="alert alert-warning">Invalid image URL</div>';
-                        };
-                    } else {
-                        // Remove preview if URL is empty
-                        const preview = document.getElementById('profile-picture-preview');
-                        if (preview) {
-                            preview.remove();
-                        }
-                    }
-                });
-            }
+            // Profile picture preview functionality removed
         });
     </script>
 </body>

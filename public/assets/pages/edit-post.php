@@ -118,15 +118,6 @@ $post = null;
                             <div class="mb-3">
                                 <label for="featuredImage" class="form-label">Featured Image</label>
                                 
-                                <!-- Image Source Toggle -->
-                                <div class="btn-group mb-3 w-100" role="group" aria-label="Image source options">
-                                    <input type="radio" class="btn-check" name="imageSourceOption" id="uploadOption" autocomplete="off" checked>
-                                    <label class="btn btn-outline-primary" for="uploadOption">Upload Image</label>
-                                    
-                                    <input type="radio" class="btn-check" name="imageSourceOption" id="urlOption" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="urlOption">Image URL</label>
-                                </div>
-                                
                                 <!-- Upload Image Option -->
                                 <div id="uploadImageSection">
                                     <div class="input-group mb-3">
@@ -137,15 +128,6 @@ $post = null;
                                     <div id="uploadProgress" class="progress mt-2 d-none">
                                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
                                     </div>
-                                </div>
-                                
-                                <!-- Image URL Option -->
-                                <div id="imageUrlSection" class="d-none">
-                                    <div class="input-group mb-3">
-                                        <input type="url" class="form-control" id="imageUrl" placeholder="https://example.com/image.jpg">
-                                        <button class="btn btn-outline-secondary" type="button" id="previewUrlButton">Preview</button>
-                                    </div>
-                                    <div class="form-text">Enter a direct URL to an image (JPEG, PNG, GIF, or WebP).</div>
                                 </div>
                                 
                                 <input type="hidden" id="featuredImage" name="featuredImage">
@@ -254,41 +236,16 @@ $post = null;
                     fetchPostData();
                 });
             
-            // Image source toggle functionality
-            const uploadOption = document.getElementById('uploadOption');
-            const urlOption = document.getElementById('urlOption');
-            const uploadImageSection = document.getElementById('uploadImageSection');
-            const imageUrlSection = document.getElementById('imageUrlSection');
-            
-            // Elements for image upload
+            // Image upload elements
             const imageUpload = document.getElementById('imageUpload');
             const uploadButton = document.getElementById('uploadButton');
             const uploadProgress = document.getElementById('uploadProgress');
             const progressBar = uploadProgress.querySelector('.progress-bar');
             
-            // Elements for image URL
-            const imageUrl = document.getElementById('imageUrl');
-            const previewUrlButton = document.getElementById('previewUrlButton');
-            
-            // Shared elements
+            // Image preview elements
             const featuredImageInput = document.getElementById('featuredImage');
             const imagePreview = document.getElementById('imagePreview');
             const previewImage = imagePreview.querySelector('img');
-            
-            // Toggle between upload and URL options
-            uploadOption.addEventListener('change', function() {
-                if (this.checked) {
-                    uploadImageSection.classList.remove('d-none');
-                    imageUrlSection.classList.add('d-none');
-                }
-            });
-            
-            urlOption.addEventListener('change', function() {
-                if (this.checked) {
-                    uploadImageSection.classList.add('d-none');
-                    imageUrlSection.classList.remove('d-none');
-                }
-            });
             
             // Handle image upload
             uploadButton.addEventListener('click', function() {
@@ -366,35 +323,7 @@ $post = null;
                 xhr.send(formData);
             });
             
-            // Handle image URL preview
-            previewUrlButton.addEventListener('click', function() {
-                const url = imageUrl.value.trim();
-                
-                if (!url) {
-                    alert('Please enter an image URL');
-                    return;
-                }
-                
-                // Basic URL validation
-                if (!url.match(/^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i)) {
-                    alert('Please enter a valid image URL (must end with .jpg, .jpeg, .png, .gif, or .webp)');
-                    return;
-                }
-                
-                // Set the URL to the hidden input
-                featuredImageInput.value = url;
-                
-                // Show image preview
-                previewImage.src = url;
-                previewImage.onerror = function() {
-                    alert('Failed to load image from the provided URL. Please check the URL and try again.');
-                    imagePreview.classList.add('d-none');
-                    featuredImageInput.value = '';
-                };
-                previewImage.onload = function() {
-                    imagePreview.classList.remove('d-none');
-                };
-            });
+            // URL option removed
             
             // Function to fetch post data
             function fetchPostData() {
@@ -423,17 +352,7 @@ $post = null;
                                 previewImage.src = post.featured_image;
                                 imagePreview.classList.remove('d-none');
                                 
-                                // If it's an external URL (not from our uploads directory)
-                                if (post.featured_image.match(/^https?:\/\//i) && !post.featured_image.includes('/uploads/')) {
-                                    // Select URL option
-                                    urlOption.checked = true;
-                                    uploadOption.checked = false;
-                                    uploadImageSection.classList.add('d-none');
-                                    imageUrlSection.classList.remove('d-none');
-                                    
-                                    // Set the URL in the input field
-                                    imageUrl.value = post.featured_image;
-                                }
+                                // External URL handling removed
                             }
                             
                             // Set content in Quill editor

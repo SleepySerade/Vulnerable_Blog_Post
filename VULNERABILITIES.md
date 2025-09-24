@@ -13,6 +13,14 @@ This document outlines the vulnerabilities that have been intentionally introduc
   3. The system will accept any file type with no validation in either the frontend or backend
   4. Access the uploaded file to execute the code
 
+## Changes Made to Restrict File Upload Functionality
+- Removed the image URL input option from post creation and editing pages
+- Removed the profile picture URL input from user profile pages
+- All file uploads must now be done through the file upload functionality, which:
+  - Is restricted to admin users only
+  - Has no file type validation
+  - Makes the system more vulnerable to malicious file uploads
+
 ## 2. SQL Injection Vulnerability
 - **Location**: `backend/auth.php` (login function)
 - **Type**: SQL Injection
