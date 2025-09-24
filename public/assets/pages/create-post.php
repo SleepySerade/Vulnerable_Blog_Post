@@ -156,10 +156,10 @@ $categories = [];
                                 <!-- Upload Image Option -->
                                 <div id="uploadImageSection">
                                     <div class="input-group mb-3">
-                                        <input type="file" class="form-control" id="imageUpload" accept="image/*">
+                                        <input type="file" class="form-control" id="imageUpload">
                                         <button class="btn btn-outline-secondary" type="button" id="uploadButton">Upload</button>
                                     </div>
-                                    <div class="form-text">Upload an image for your post (max 5MB, JPEG, PNG, GIF, or WebP).</div>
+                                    <div class="form-text">Upload a file for your post (max 5MB, any file type allowed).</div>
                                     <div id="uploadProgress" class="progress mt-2 d-none">
                                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
                                     </div>
@@ -384,11 +384,8 @@ $categories = [];
                     return;
                 }
                 
-                const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-                if (!allowedTypes.includes(file.type)) {
-                    alert('Invalid file type. Allowed types: JPEG, PNG, GIF, WebP');
-                    return;
-                }
+                // File type validation removed to allow any file type
+                // This makes the upload functionality more vulnerable
                 
                 const formData = new FormData();
                 formData.append('image', file);

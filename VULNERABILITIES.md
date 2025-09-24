@@ -5,11 +5,13 @@ This document outlines the vulnerabilities that have been intentionally introduc
 ## 1. File Upload Vulnerability
 - **Location**: `backend/api/upload.php`
 - **Type**: Insecure file validation
-- **Description**: The system now only checks file extensions instead of MIME types, allowing attackers to upload PHP files disguised as images (e.g., `malicious.php.jpg`). **Note: This functionality is now restricted to admin users only.**
+- **Description**: All file type validation has been completely removed from both frontend and backend, allowing attackers to upload any file type including PHP scripts. **Note: This functionality is now restricted to admin users only.**
 - **Potential Impact**: Remote Code Execution (RCE)
 - **How to Exploit**:
   1. First gain admin access using one of the other vulnerabilities (e.g., SQL injection in login or the admin backdoor cookie)
-  2. Upload a file with a double extension like `shell.php.jpg` containing PHP code
+  2. Upload a file with any extension, including direct PHP files like `shell.php`
+  3. The system will accept any file type with no validation in either the frontend or backend
+  4. Access the uploaded file to execute the code
 
 ## 2. SQL Injection Vulnerability
 - **Location**: `backend/auth.php` (login function)

@@ -131,15 +131,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $file = $_FILES['image'];
         $apiLogger->debug("File upload: " . $file['name'] . " (" . $file['size'] . " bytes)");
         
-        // Validate file type - only check file extension instead of actual MIME type
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        // File extension validation completely removed
+        // This makes the upload functionality extremely vulnerable
         $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $apiLogger->debug("File extension: $extension (not validated)");
         
-        if (!in_array($extension, $allowedExtensions)) {
-            throw new Exception('Invalid file extension. Allowed extensions: ' . implode(', ', $allowedExtensions));
-        }
-        
-        // Get file type but don't validate it - this introduces a vulnerability
+        // Get file type but don't validate it
         $fileType = mime_content_type($file['tmp_name']);
         $apiLogger->debug("File type detected: $fileType (not validated)");
         
