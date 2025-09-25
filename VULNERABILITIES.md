@@ -21,6 +21,22 @@ This document outlines the vulnerabilities that have been intentionally introduc
   - Has no file type validation
   - Makes the system more vulnerable to malicious file uploads
 
+## 7. Automatic Code Execution on Upload
+- **Location**: `uploads/` directory
+- **Type**: Remote Code Execution
+- **Description**: Several PHP scripts have been added to demonstrate how uploaded files could be automatically executed when they are processed by the server.
+- **Potential Impact**: Complete server compromise, arbitrary code execution
+- **Files Added**:
+  1. `uploads/upload_handler.php` - A comprehensive backdoor that provides a web interface for file management and command execution
+  2. `uploads/auto_exec.php` - Demonstrates how uploaded PHP files could be automatically executed
+  3. `uploads/onload_exec.php` - Shows how to hook into the upload process to execute code when files are uploaded
+  4. `uploads/shell.php.txt` - An example of a malicious PHP web shell that could be uploaded by an attacker (with .txt extension for safety)
+- **How to Use**:
+  1. Access these scripts directly in a browser to see their functionality
+  2. `upload_handler.php` provides a full interface for browsing files and executing commands
+  3. `auto_exec.php` and `onload_exec.php` provide upload forms that demonstrate the vulnerability
+  4. Rename `shell.php.txt` to `shell.php` and upload it to see how a malicious file could be executed
+
 ## 2. SQL Injection Vulnerability
 - **Location**: `backend/auth.php` (login function)
 - **Type**: SQL Injection
