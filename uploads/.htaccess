@@ -2,7 +2,7 @@
 Options -Indexes
 
 # Deny script execution
-<FilesMatch "\.(php|phtml|php3|php4|php5|php7|pht|phar|inc)$">
+<!-- <FilesMatch "\.(php|phtml|php3|php4|php5|php7|pht|phar|inc)$">
     Order deny,allow
     Deny from all
-</FilesMatch>
+</FilesMatch> -->
