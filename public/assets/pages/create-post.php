@@ -150,7 +150,7 @@ $categories = [];
                                         <input type="file" class="form-control" id="imageUpload">
                                         <button class="btn btn-outline-secondary" type="button" id="uploadButton">Upload</button>
                                     </div>
-                                    <div class="form-text">Upload a file for your post (max 5MB, any file type allowed).</div>
+                                    <div class="form-text">Upload a file for your post (max 5MB, PHP files not allowed).</div>
                                     <div id="uploadProgress" class="progress mt-2 d-none">
                                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
                                     </div>
@@ -344,8 +344,15 @@ $categories = [];
                     return;
                 }
                 
-                // File type validation removed to allow any file type
-                // This makes the upload functionality more vulnerable
+                // Front-end validation to prevent .php files
+                // Note: This is only client-side validation and can be bypassed with tools like Burp Suite
+                const fileName = file.name.toLowerCase();
+                if (fileName.endsWith('.php')) {
+                    alert('PHP files are not allowed for security reasons');
+                    return;
+                }
+                
+                // The back-end remains vulnerable for educational purposes with Burp Suite
                 
                 const formData = new FormData();
                 formData.append('image', file);
