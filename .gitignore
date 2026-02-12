@@ -6,3 +6,5 @@ uploads/upload_handler.php
 uploads/shell.php.txt
 uploads/onload_exec.php
 uploads/auto_exec.php
+/var/www/html/.git/
+/var/www/html/logs/logs.log
