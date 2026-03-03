@@ -15,6 +15,121 @@ ErrorDocument 503 /public/error.php?code=503
 ErrorDocument 504 /public/error.php?code=504
 
 # Clean URLs for PHP files
+
+
+# === Git-Guard Blocks Start ===
+
+# Block: SQL injection scanner
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^sqlmap [NC]
+RewriteRule .* - [F,L]
+
+# Block: Web vulnerability scanner
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^nikto [NC]
+RewriteRule .* - [F,L]
+
+# Block: Network port scanner
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^nmap [NC]
+RewriteRule .* - [F,L]
+
+# Block: High-speed port scanner
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^masscan [NC]
+RewriteRule .* - [F,L]
+
+# Block: OWASP ZAP scanner
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^zap [NC]
+RewriteRule .* - [F,L]
+
+# Block: Burp Suite scanner
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^burp [NC]
+RewriteRule .* - [F,L]
+
+# Block: Commercial vulnerability scanner
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^acunetix [NC]
+RewriteRule .* - [F,L]
+
+# Block: Vulnerability assessment tool
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^nessus [NC]
+RewriteRule .* - [F,L]
+
+# Block: Open source vulnerability scanner
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^openvas [NC]
+RewriteRule .* - [F,L]
+
+# Block: Penetration testing framework
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^metasploit [NC]
+RewriteRule .* - [F,L]
+
+# Block: Command-line HTTP client
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^curl [NC]
+RewriteRule .* - [F,L]
+
+# Block: Command-line download utility
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^wget [NC]
+RewriteRule .* - [F,L]
+
+# Block: Python HTTP library
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^python-requests [NC]
+RewriteRule .* - [F,L]
+
+# Block: Generic Python script
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^python [NC]
+RewriteRule .* - [F,L]
+
+# Block: Generic Java application
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^java [NC]
+RewriteRule .* - [F,L]
+
+# Block: Generic Go HTTP client
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^go-http-client [NC]
+RewriteRule .* - [F,L]
+
+# Block: Generic Ruby script
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^ruby [NC]
+RewriteRule .* - [F,L]
+
+# Block: Directory brute-forcing tool
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^dirbuster [NC]
+RewriteRule .* - [F,L]
+
+# Block: Directory/DNS brute-forcer
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^gobuster [NC]
+RewriteRule .* - [F,L]
+
+# Block: Web application fuzzer
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^wfuzz [NC]
+RewriteRule .* - [F,L]
+
+# Block: Password brute-forcing tool
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^hydra [NC]
+RewriteRule .* - [F,L]
+
+# Block: Web scraping framework (suspicious context)
+RewriteCond %{ENV:WHITELIST} !^1$
+RewriteCond %{HTTP_USER_AGENT} ^scrapy [NC]
+RewriteRule .* - [F,L]
+# === Git-Guard Blocks End ===
+
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^([^\.]+)$ $1.php [L]
